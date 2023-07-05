@@ -4,12 +4,15 @@ import WebAccess from "./screens/WebAccess";
 import AnomalyDetection from "./screens/AnomalyDetection";
 import WebScanning from "./screens/WebScanning";
 import Report from "./screens/Report";
+import NavbarElements from "./component/NavBarElements"
+import Title from "./component/Title";
 
-function App() {
+const App = ()=> {
   return (
     <div className='App'>
-      <h1>hello</h1>
       <BrowserRouter>
+      <Title />
+      <NavbarElements />
         <Routes>
           <Route path="/" element={<Resource />}/>
           <Route path="/webaccess" element={<WebAccess />}/>

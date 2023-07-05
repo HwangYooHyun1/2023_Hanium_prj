@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default class WebScanning {
-  render() {
-    return (
-      <div>
-        <h4>WebScanning</h4>
-      </div>
-    )
-  }
+const WebScanning = (props) => {
+  return (
+    <div>
+      <h4>WebScanning</h4>
+    </div>
+  )
 }
+
+export default WebScanning
