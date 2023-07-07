@@ -18,7 +18,7 @@ const NavBarElements = () => {
               title: '메뉴',
             },
             {
-              title: '모니터링 데시보드',
+              title: '모니터링 대시보드',
               itemId: '/dashboard',
               subNav: [
                 {
