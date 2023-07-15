@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import styled from "styled-components";
+import "./App.css";
+
 import Resource from "./screens/Resource";
 import WebAccess from "./screens/WebAccess";
 import AnomalyDetection from "./screens/AnomalyDetection";
@@ -10,36 +11,25 @@ import Sidebar1 from "./component/Sidebar1";
 import Sidebar2 from "./component/Sidebar2";
 
 
-const Center = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  `;
-
-  const Bar = styled.div`
-  top: 200px;
-  width: 17rem;
-  height: 100%;
-`;
 
 const App = ()=> {
   return (
-    <div className='App'>
+    <div className='App' >
       <BrowserRouter>
-      <Title />
-      <Center>
-        <Bar>
+      <div className='center'>
+        <div className='bar'>
+          <Title />
           <Sidebar1/>
-          <Sidebar2 />
-        </Bar>
-        <Routes>
+          <Sidebar2/>
+        </div>
+        <Routes className="dashboard">
           <Route path="/" element={<Resource />}/>
           <Route path="/webaccess" element={<WebAccess />}/>
           <Route path="/anomalydetection" element={<AnomalyDetection />}/>
           <Route path="/webscanning" element={<WebScanning />}/>
           <Route path="/report" element={<Report />}/>
         </Routes>
-        </Center>
+        </div>
       </BrowserRouter>
     </div>
   );
