@@ -1,0 +1,44 @@
+// 2023-07-07T06:16:38.141Z - took 0.028 secs
+{
+    "message": "Request failed with status code 400",
+    "name": "AxiosError",
+    "stack": "AxiosError: Request failed with status code 400\n\tat Oe (c:\\Users\\82108\\.vscode\\extensions\\bar.elasticsearch-1.0.34\\out\\extension.js:2:545243)\n\tat IncomingMessage.<anonymous> (c:\\Users\\82108\\.vscode\\extensions\\bar.elasticsearch-1.0.34\\out\\extension.js:2:554147)\n\tat IncomingMessage.emit (node:events:525:35)\n\tat endReadableNT (node:internal/streams/readable:1358:12)\n\tat process.processTicksAndRejections (node:internal/process/task_queues:83:21)",
+    "config": {
+        "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
+        },
+        "adapter": [
+            "xhr",
+            "http"
+        ],
+        "transformRequest": [
+            null
+        ],
+        "transformResponse": [
+            null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "env": {
+            "Blob": null
+        },
+        "headers": {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "Accept-Encoding": "application/json",
+            "User-Agent": "axios/1.2.0",
+            "Content-Length": "2"
+        },
+        "method": "get",
+        "baseURL": "http://43.201.117.55:9200",
+        "url": "http://43.201.117.55:9200/ml/anomaly_detectors/_search/",
+        "data": "{}"
+    },
+    "code": "ERR_BAD_REQUEST",
+    "status": 400
+}
