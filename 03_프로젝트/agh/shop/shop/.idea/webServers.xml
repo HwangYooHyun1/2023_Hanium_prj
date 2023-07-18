@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0f5ea502-8595-4e9e-8342-d680d16388eb" name="hanium">
+        <fileTransfer accessType="SFTP" host="43.201.62.244" port="22" sshConfigId="161bd4e3-2b69-4c6e-860b-293b20286fea" sshConfig="ubuntu@43.201.62.244:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
