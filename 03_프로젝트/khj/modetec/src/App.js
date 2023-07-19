@@ -23,8 +23,6 @@ const Center = styled.div`
 `;
 
 const App = ()=> {
-
-
   return (
     <div className='App'>
       <BrowserRouter>
@@ -43,7 +41,6 @@ const App = ()=> {
         </Routes>
         </Center>
       </BrowserRouter>
-    
     </div>
   );
 }
