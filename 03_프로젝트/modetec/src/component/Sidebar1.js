@@ -8,23 +8,23 @@ import Modal from './Modals/Modal';
 import ProjectModal from './Modals/ProjectModal';
 import AgentModal from './Modals/AgentModal';
 
+const Bar = styled.div`
+  font-size: 1.2rem;
+  top: 200px;
+  height: 250px;
+  width: 270px;
+`;
+
 const Center = styled.div`
   height: 1;
-  margin: 5%;
+  margin:5%;
   display: flex;
   flex-direction: row;
 `;
 
-const Bar = styled.div`
-  font-size: 1.2rem;
-  top: 200px;
-  width: 16rem;
-  height: 250px;
-`;
-
 const Title = styled.div`
-  margin: 15px;
-  font-size: 1.2rem;
+margin: 15px;
+font-size:1.2rem;
 `;
 
 const Sidebar = () => {
