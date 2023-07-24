@@ -1,0 +1,108 @@
+// 2023-07-23T11:13:00.948Z - took 0.025 secs
+{
+    "took": 1,
+    "timed_out": false,
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 10000,
+            "relation": "gte"
+        },
+        "max_score": 1,
+        "hits": [
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_data_counts",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs"
+                }
+            },
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_datafeed_timing_stats",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs"
+                }
+            },
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_model_size_stats_1689063959561",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs",
+                    "timestamp": 1689035400000
+                }
+            },
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_bucket_1689036300000_900",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs",
+                    "timestamp": 1689036300000
+                }
+            },
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_model_size_stats_1689063959569",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs",
+                    "timestamp": 1689036300000
+                }
+            },
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_bucket_1689037200000_900",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs",
+                    "timestamp": 1689037200000
+                }
+            },
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_model_plot_1689038100000_900_0_0_0",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs",
+                    "timestamp": 1689038100000
+                }
+            },
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_bucket_1689038100000_900",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs",
+                    "timestamp": 1689038100000
+                }
+            },
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_model_plot_1689039000000_900_0_0_0",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs",
+                    "timestamp": 1689039000000
+                }
+            },
+            {
+                "_index": ".ml-anomalies-shared",
+                "_id": "visitor_rate_ecs_bucket_1689039000000_900",
+                "_score": 1,
+                "_source": {
+                    "job_id": "visitor_rate_ecs",
+                    "timestamp": 1689039000000
+                }
+            }
+        ]
+    }
+}

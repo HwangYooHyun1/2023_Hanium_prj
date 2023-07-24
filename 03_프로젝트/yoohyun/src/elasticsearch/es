@@ -1,0 +1,4 @@
+GET .ml-anomalies-.write-test_ym/_search
+{
+  "_source" : ["job_id","anomaly_stamp","timestamp"]
+}
