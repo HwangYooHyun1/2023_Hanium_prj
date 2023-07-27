@@ -12,8 +12,8 @@ const Bar = styled.div`
   position: sticky;
   font-size: 1.1rem;
   top: 200px;
-  height: 100vh;
-  width: 270px;
+  width: 16.4rem;
+  height: 100%;
 `;
 
 
