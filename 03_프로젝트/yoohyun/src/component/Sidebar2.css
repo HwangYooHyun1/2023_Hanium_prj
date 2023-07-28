@@ -17,15 +17,18 @@ div.Bar{
 
 div.Bar .rmsn-item-active {
     background-color: rgb(186, 87, 87);
-  }
-  
+}
+
 div.Bar .rmsn-sub-item-active {
     background-color: rgb(186, 87, 87);
-  }
-  
+}
+
 .Bar * {
     color:rgb(237, 237, 237);
     width: 250px;
     border: none;
-    
 }
+
+div.Bar .side-navigation-panel-select-active {
+    background-color: rgb(186, 87, 87);/* 선택된 후 배경색 */
+  }

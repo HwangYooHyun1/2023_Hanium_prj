@@ -23,8 +23,8 @@ const Bar = styled.div`
 
 const Center = styled.div`
   height: 1;
-  margin:4%;
-  padding-top:10px;
+  padding-left:4%;
+  padding-top:12px;
   display: flex;
   flex-direction: row;
 `;
