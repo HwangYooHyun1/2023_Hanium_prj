@@ -1,0 +1,31 @@
+server:
+  port: 8080
+spring.jpa:
+  database: postgresql
+  #  defer-datasource-initialization: true
+  hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+  hibernate.ddl-auto: create
+  properties.hibernate.format_sql: true
+  show-sql: true
+
+  #spring.datasource:
+  #  #hikari.maximum-pool-size: 4
+  #  url: jdbc:postgresql://localhost:32769/mysns
+  #  username: postgres
+  #  password: postgres
+  #  platform: postgres
+  #  driver-class-name: org.postgresql.Driver
+#  spring.datasource:
+#    #hikari.maximum-pool-size: 4
+#    url: jdbc:postgresql://db:5432/appdb
+#    username: postgres
+#    password: example
+#    platform: postgres
+#    driver-class-name: org.postgresql.Driver
+#spring:
+#  sql:
+#    init:
+#      mode: always
+jwt:
+  key: Hanium_PROJ_APPLICATION-2022.key
+  token.expired-time-ms: 2592000000
