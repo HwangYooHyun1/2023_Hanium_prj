@@ -21,6 +21,7 @@ public class UserApiController {
     @PostMapping("/join")
     public CommonResponse<UserJoinResponse> join(@RequestBody MemberJoinRequest request) {
         UserDto user = userService.join(request.getUsername(), request.getPasswd());
+        return new CommonResponse<UserJoinResponse>();
     }
 
     @PostMapping("/login")

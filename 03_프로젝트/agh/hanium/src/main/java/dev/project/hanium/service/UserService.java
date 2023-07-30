@@ -61,8 +61,9 @@ public class UserService {
 
     //token 파싱해서 user 찾기 위한 메서드
     public UserDto loadByUserName(String username) {
-        return memberCacheRepository.getMember(username).orElseGet(() -> userRepository.findByUsername(username).map(UserDto::from).orElseThrow(()->
-                new HaniumException(ErrorCode.USER_NOT_FOUND,String.format("%s not founded",username)))
-        );
+//        return memberCacheRepository.getMember(username).orElseGet(() -> userRepository.findByUsername(username).map(UserDto::from).orElseThrow(()->
+//                new HaniumException(ErrorCode.USER_NOT_FOUND,String.format("%s not founded",username)))
+//        );
+        return new UserDto(1L, "1", "1");
     }
 }
