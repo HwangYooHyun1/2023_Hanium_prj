@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class LogAnomaly {
+public class LogAnomalyDto {
     int count;
     List<Records> records;
 }
