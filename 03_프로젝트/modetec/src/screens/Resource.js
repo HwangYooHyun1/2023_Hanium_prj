@@ -9,8 +9,8 @@ const Container = Styled.div`
 `;
 
 const Title = Styled.div`
-  padding-top: 10px;
-  padding-left: 10px;
+  padding-top: 50px;
+  padding-left: 20px;
 `;
 
 const Resource = (props) => {
