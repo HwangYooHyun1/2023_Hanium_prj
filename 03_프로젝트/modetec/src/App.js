@@ -3,7 +3,7 @@ import "./App.css";
 
 import Resource from "./screens/Resource";
 import WebAccess from "./screens/WebAccess";
-import AnomalyDetection from "./screens/AnomalyDetection";
+import AnomalyDetection from "./screens/AnomalyDetection/AnomalyDetection";
 import WebScanning from "./screens/WebScanning";
 import Report from "./screens/Report";
 import Title from "./component/Title";
@@ -14,10 +14,10 @@ import Sidebar2 from "./component/Sidebar2";
 const App = ()=> {
   return (
     <div className='App' >
+      <Title />
       <BrowserRouter>
       <div className='center'>
         <div className='bar'>
-          <Title />
           <Sidebar1/>
           <Sidebar2/>
         </div>
