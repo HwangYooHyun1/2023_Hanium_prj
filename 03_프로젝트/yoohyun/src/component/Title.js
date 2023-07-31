@@ -7,7 +7,7 @@ const Design = styled.div`
   top: 0;
   left: 0;
   height: 60px;
-  width: 250px;
+  width: 300px;
   padding:15px;
   color: white;
   z-index: 999;

@@ -1,15 +1,18 @@
 import React from 'react'
 import Styled from 'styled-components'
 
+const Margin = Styled.div`
+  margin-top:40px;
+`;
 const Container = Styled.div`
   height: 100vh; 
   width: 100vw;
-  padding-left:25px;
+  padding-left:30px;
 `;
 
 const Title = Styled.div`
   padding-top: 10px;
-  padding-left: 10px;
+  padding-left: 20px;
 `;
 
 const WebAccess = (props) => {

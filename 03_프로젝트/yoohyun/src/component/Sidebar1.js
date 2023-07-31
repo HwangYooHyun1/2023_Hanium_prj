@@ -13,7 +13,7 @@ const Bar = styled.div`
   font-size: 1.2rem;
   top: 200px;
   height: calc(100vh/3);
-  width: 250px;
+  width: 300px;
   background-color: rgb(60,60,60);
   position: fixed; /* 고정된 위치로 설정 */
   top: 60px; /* 상단에 고정 */
@@ -30,11 +30,11 @@ const Center = styled.div`
 `;
 
 const Margin = styled.div`
-  margin: 5px;
+  margin: 10px;
 `;
 const Title = styled.div`
-padding: 13px;
-font-size:1.1rem;
+padding: 20px;
+font-size:1.2rem;
 color: rgb(237, 237, 237);
 `;
 
@@ -68,10 +68,11 @@ const Sidebar = () => {
     <>
       <Bar>
         <Center>
+        <Margin />
           <button type="button" className="btn btn-danger" onClick={openProjectModal}>
-            프로젝트 +
+            프로젝트 + 
           </button>
-          <Margin></Margin>
+          <Margin />
           <button type="button" className="btn btn-danger" onClick={openAgentModal}>
             에이전트 +
           </button>
