@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @SpringBootTest
-class MlRequestServiceTest {
+class MlApiServiceTest {
     @Autowired
     MlRequestService mlRequestService;
 
@@ -23,4 +23,6 @@ class MlRequestServiceTest {
         System.out.println(visitor.getCount());
         System.out.println(lowRequest.getCount());
     }
+
+
 }

@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 @RequiredArgsConstructor
 public class MlRequestService {
+//    private final HashMap<String,Log>
     private final RestTemplate restTemplate;
     public LogAnomalyDto getMlLogData(String url) {
 //        String requestBody = "{\"record_score\": 90 , \"desc\" : true}";
@@ -17,11 +18,4 @@ public class MlRequestService {
 //        HttpEntity<String> entity = new HttpEntity<>(requestBody,headers);
         return restTemplate.getForObject(url, LogAnomalyDto.class);
     }
-
-//    public LogAnomalyDto getLogAnomalyList(String url) {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        LogAnomalyDto data = restTemplate.getForObject(url, LogAnomalyDto.class);
-//        List<Records> record = data.getRecords();
-//    }
 }
