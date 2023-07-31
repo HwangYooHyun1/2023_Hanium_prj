@@ -4,7 +4,7 @@ import Styled from 'styled-components'
 const Container = Styled.div`
   height: 100vh; 
   width: 100vw;
-  padding-left:25px;
+  padding-left:30px;
 `;
 
 const Title = Styled.div`

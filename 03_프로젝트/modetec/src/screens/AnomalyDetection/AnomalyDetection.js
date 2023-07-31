@@ -11,7 +11,7 @@ const Container = Styled.div`
 `;
 
 const Title = Styled.div`
-  padding-top: 10px;
+  padding-top: 60px;
   padding-left: 10px;
 `;
 
