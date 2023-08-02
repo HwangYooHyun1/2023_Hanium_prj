@@ -1,7 +1,7 @@
 //axios로 api불러와서 스프링에서 데이터 받아오는거
 import React from 'react';
-import MetricList from './MetricList';
-import AccessList from './AccessList';
+import MetricList from './screens/AnomalyDetection/MetricList';
+import AccessList from './screens/AnomalyDetection/AccessList';
 import Styled from "styled-components"
 
 const Container = Styled.div`
@@ -19,10 +19,13 @@ const Title = Styled.div`
 const AnomalyDetection = ({result}) => {
 
   return (
-    <Container>
-      <Title><h4>AnomalyDetection</h4></Title>
-      <iframe src="http://3.36.169.149:5601/app/dashboards#/view/92eaae60-2b6c-11ee-a0f2-110032b8cf20?embed=true&_g=(refreshInterval:(pause:!t,value:60000),time:(from:now-24h%2Fh,to:now))&_a=()&hide-filter-bar=true" height="100%" width="100%"></iframe>
-    </Container>
+    <div className = 'AnomalyDetection'>
+      <Container>
+       <Title><h4>AnomalyDetection</h4></Title>
+        <iframe src="http://3.36.169.149:5601/app/dashboards#/view/92eaae60-2b6c-11ee-a0f2-110032b8cf20?embed=true&_g=(refreshInterval:(pause:!t,value:60000),time:(from:now-24h%2Fh,to:now))&_a=()&hide-filter-bar=true" height="100%" width="100%"></iframe>
+     </Container>
+     <MetricList />
+    </div>
   );
 };
 

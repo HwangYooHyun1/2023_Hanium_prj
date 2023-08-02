@@ -3,7 +3,9 @@ import styled from "styled-components";
 
 const ResultItemBloack = styled.div``;
 
-const AccessItem = ({result}) => {     
-    const {} = article;
+const AccessItem = ({ result }) => {
+    const { } = article;
 
 }
+
+export default AccessItem;

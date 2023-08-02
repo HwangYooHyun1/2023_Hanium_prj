@@ -14,10 +14,10 @@ import Sidebar2 from "./component/Sidebar2";
 const App = ()=> {
   return (
     <div className='App' >
+      <Title />
       <BrowserRouter>
       <div className='center'>
         <div className='bar'>
-          <Title />
           <Sidebar1/>
           <Sidebar2/>
         </div>

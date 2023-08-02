@@ -11,19 +11,24 @@ const Container = Styled.div`
 `;
 
 const Title = Styled.div`
-  padding-top: 10px;
+  padding-top: 60px;
   padding-left: 10px;
 `;
 
 
-const AnomalyDetection = ({result}) => {
+const AnomalyDetection = ({ result }) => {
 
   return (
-    <Container>
-      <Title><h4>AnomalyDetection</h4></Title>
-      <iframe src="http://3.36.169.149:5601/app/dashboards#/view/92eaae60-2b6c-11ee-a0f2-110032b8cf20?embed=true&_g=(refreshInterval:(pause:!t,value:60000),time:(from:now-24h%2Fh,to:now))&_a=()&hide-filter-bar=true" height="100%" width="100%"></iframe>
-    </Container>
+    <div>
+      <Title>
+        <h4>AnomalyDetection</h4>
+      </Title>
+      
+      <MetricList />
+
+    </div>
   );
 };
 
 export default AnomalyDetection;
+
