@@ -9,6 +9,8 @@ import lombok.Setter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.*;
+
 @Getter @Setter
 public class LogAnomalyResponse {
     private int count;
@@ -21,11 +23,11 @@ public class LogAnomalyResponse {
     }
 
     private static List<LogResponseData> convertSourceIpRequest(List<Records> records){
-        return records.stream().map(LogResponseData::fromSourceIpRequest).collect(Collectors.toList());
+        return records.stream().map(LogResponseData::fromSourceIpRequest).collect(toList());
     }
 
     private static List<LogResponseData> convertStatusCode(List<Records> records) {
-        return records.stream().map(LogResponseData::fromStatus).collect(Collectors.toList());
+        return records.stream().map(LogResponseData::fromStatus).collect(toList());
     }
 
 

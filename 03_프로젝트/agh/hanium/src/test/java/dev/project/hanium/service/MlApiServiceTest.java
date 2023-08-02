@@ -1,6 +1,7 @@
 package dev.project.hanium.service;
 
 import dev.project.hanium.dto.LogAnomalyDto;
+import dev.project.hanium.dto.metric.MetricAnomalyDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,5 +25,9 @@ class MlApiServiceTest {
         System.out.println(lowRequest.getCount());
     }
 
-
+    @Test
+    public void metricAnomalyRequestTest() {
+        MetricAnomalyDto dto = mlRequestService.getMlMetricData("http://3.36.169.149:9200/_ml/anomaly_detectors/metric_anomaly/results/records");
+        dto.getRecords().stream().forEach(System.out::println);
+    }
 }

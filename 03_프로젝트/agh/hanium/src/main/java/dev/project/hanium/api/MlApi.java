@@ -1,9 +1,11 @@
 package dev.project.hanium.api;
 
 import dev.project.hanium.dto.LogAnomalyDto;
+import dev.project.hanium.dto.metric.MetricAnomalyDto;
 import dev.project.hanium.response.CommonResponse;
 import dev.project.hanium.response.LogAnomalyResponse;
 import dev.project.hanium.response.LogResponseData;
+import dev.project.hanium.response.metric.MetricAnomalyResponse;
 import dev.project.hanium.service.MlRequestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +19,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MlApi {
     private final MlRequestService mlRequestService;
+
     @GetMapping("/mlrequest")
     public CommonResponse<LogAnomalyDto> request() {
         return CommonResponse.success(mlRequestService.getMlLogData("http://3.36.169.149:9200/_ml/anomaly_detectors/source_ip_request_rate_ecs/results/records"));
     }
+
     @GetMapping("/loganomaly")
     public CommonResponse<LogAnomalyResponse> logAnomalyRequest() {
         LogAnomalyDto logAnomalyDto = mlRequestService.getMlLogData("http://3.36.169.149:9200/_ml/anomaly_detectors/source_ip_request_rate_ecs/results/records");
@@ -52,7 +56,13 @@ public class MlApi {
         result.addAll(LogAnomalyResponse.fromStatusCode(statusCodeRate).getLogResponseData());
         result.addAll(LogAnomalyResponse.fromSourceIpRequest(visitorRate).getLogResponseData());
         result.addAll(LogAnomalyResponse.fromSourceIpRequest(lowRequest).getLogResponseData());
-//        result.stream().sorted((a, b) -> (int) a.getTime() - (int) b.getTime()).collect(Collectors.toList());
+
         return CommonResponse.success(new LogAnomalyResponse(result.size(), result.stream().sorted((a, b) -> (int) a.getTime() - (int) b.getTime()).collect(Collectors.toList())));
+    }
+
+    @GetMapping("/metricanomaly")
+    public CommonResponse<MetricAnomalyResponse> metricAnomalyRequest() {
+        MetricAnomalyDto dto = mlRequestService.getMlMetricData("http://3.36.169.149:9200/_ml/anomaly_detectors/metric_anomaly/results/records");
+        return CommonResponse.success(MetricAnomalyResponse.from(dto));
     }
 }

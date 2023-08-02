@@ -1,6 +1,7 @@
 package dev.project.hanium.service;
 
 import dev.project.hanium.dto.LogAnomalyDto;
+import dev.project.hanium.dto.metric.MetricAnomalyDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,9 @@ public class MlRequestService {
         headers.setContentType(MediaType.APPLICATION_JSON);
 //        HttpEntity<String> entity = new HttpEntity<>(requestBody,headers);
         return restTemplate.getForObject(url, LogAnomalyDto.class);
+    }
+
+    public MetricAnomalyDto getMlMetricData(String url){
+        return restTemplate.getForObject(url, MetricAnomalyDto.class);
     }
 }
