@@ -13,7 +13,7 @@ import static java.util.stream.Collectors.*;
 
 @Getter @Setter
 public class MetricAnomalyResponse {
-    private int count;
+    private int count ;
     private List<MetricResponseData> metricResponseData;
 
     @Builder
