@@ -4,7 +4,7 @@ import Styled from 'styled-components'
 const Container = Styled.div`
   height: 100vh; 
   width: 100vw;
-  padding-left:30px;
+  padding-left:10px;
 `;
 
 const Title = Styled.div`
@@ -15,7 +15,7 @@ const Title = Styled.div`
 const Report = () => {
   return (
     <Container>
-        <Title>Report</Title>
+      <Title>Report</Title>
     </Container>
   )
 }
