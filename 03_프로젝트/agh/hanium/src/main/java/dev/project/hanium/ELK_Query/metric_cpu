@@ -1,0 +1,28 @@
+GET metricbeat-*/_search
+{
+  "_source": ["@timestamp", "system.cpu.total.pct","host.hostname"],
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "@timestamp": {
+              "gte": "2023-08-01T18:30:56",
+              "lte": "2023-08-01T18:45:57"
+            }
+          }
+        },
+        {
+          "term": {
+            "event.module": "system"
+          }
+        },
+        {
+          "term": {
+            "event.dataset": "system.cpu"
+          }
+        }
+      ]
+    }
+  }
+}
