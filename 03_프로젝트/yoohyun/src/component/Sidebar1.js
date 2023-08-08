@@ -12,7 +12,7 @@ const Bar = styled.div`
   font-size: 1.2rem;
   top: 200px;
   height: calc(100vh / 3);
-  width: 300px;
+  width: 260px;
   background-color: rgb(60, 60, 60);
   position: fixed;
   top: 50px;

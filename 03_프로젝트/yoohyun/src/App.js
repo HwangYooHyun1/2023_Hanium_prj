@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 
 import Resource from "./screens/Resource";
+import ResourceInfo from './screens/ResourceInfo'
 import WebAccess from "./screens/WebAccess";
 import AnomalyDetection from "./screens/AnomalyDetection/AnomalyDetection";
 import WebScanning from "./screens/WebScanning";
@@ -23,6 +24,7 @@ const App = ()=> {
         </div>
         <Routes className="dashboard">
           <Route path="/" element={<Resource />}/>
+          <Route path="/resource_info" element={<ResourceInfo />}/>
           <Route path="/webaccess" element={<WebAccess />}/>
           <Route path="/anomalydetection" element={<AnomalyDetection />}/>
           <Route path="/webscanning" element={<WebScanning />}/>

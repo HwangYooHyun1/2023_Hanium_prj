@@ -36,6 +36,12 @@ const Sidebar = () => {
             • 리소스 모니터
           </button>
           <button
+            className={`sub-nav-button ${selectedItem === '/resource_info' ? 'active' : ''}`}
+            onClick={() => handleTabClick('/resource_info')}
+          >
+            • 서버 상세 정보
+          </button>
+          <button
             className={`sub-nav-button ${selectedItem === '/webaccess' ? 'active' : ''}`}
             onClick={() => handleTabClick('/webaccess')} // Handle 웹 액세스 모니터 button click
           >
