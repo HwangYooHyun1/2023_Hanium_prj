@@ -1,62 +1,84 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import TextField from '@mui/material/TextField';
 
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  width: 80%;
-  height: 80%;
-  max-width: 500px;
-  max-height: 400px;
-  justify-content: center;
   align-items: center;
-  margin: 0 auto;
+  margin-top: 100px;
 `;
 
 const InputWrapper = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  min-width: 300px;
 `;
 
-const Label = styled.label`
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
+const CustomTextField = styled(TextField)`
   width: 100%;
-  padding: 5px;
+  min-width: 400px;
+  margin-top: 8px;
 `;
 
-const TextArea = styled.textarea`
-  width: 100%;
-  padding: 5px;
-  /* Increase the height of the textarea as needed */
-  height: 150px;
-`;
 
 const ButtonWrapper = styled.div`
+
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
+  margin-top: 25px;
+  justify-content: space-around; /* 간격을 좀 더 적게 벌림 */
 `;
 
-const Button = styled.button`
-  padding: 8px 16px;
-  background-color: yellow;
-  border: none;
-  color: #000;
+const CustomButton = styled.button`
+  font-size: 16px;
+  padding: 8px 60px;
+  border: 1px solid;
+  line-height: 1.5;
+  background-color: #0063cc;
+  color: #fff;
   cursor: pointer;
-  flex: 1;
-  margin-right: 10px;
+  border-color: #0063cc;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  text-transform: none;
+  &:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+    box-shadow: none;
+  }
+  &:active {
+    box-shadow: none;
+    background-color: #0062cc;
+    border-color: #005cbf;
+  }
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+  }
+  
 `;
 
-const SubmitButton = styled(Button)`
-  margin-right: 0;
+const CloseButton = styled.button`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: transparent;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
 `;
+
 
 const ModalContent = styled.div`
   max-height: 100%;
   overflow: auto;
 `;
+
+const AgentTitle = styled.h2`
+  font-size: 30px;
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
+  text-align: center; /* 가로 기준 가운데 정렬 */
+  `;
 
 const ProjectModal = ({ close }) => {
   const [projectName, setProjectName] = useState('');
@@ -82,23 +104,37 @@ const ProjectModal = ({ close }) => {
     close();
   };
 
+  const handleCloseModal = () => {
+    close(); // Call the close function to close the modal
+  };
+
   return (
     <FormContainer onSubmit={handleSubmit}>
-      <h2>프로젝트 등록</h2>
       <ModalContent>
+      <CloseButton onClick={handleCloseModal}>X</CloseButton>
+
+      <AgentTitle>Register Project</AgentTitle>
         <InputWrapper>
-          <Label>프로젝트 이름:</Label>
-          <Input type="text" value={projectName} onChange={handleProjectNameChange} />
+          <CustomTextField
+            type="text"
+            value={projectName}
+            onChange={handleProjectNameChange}
+            label="프로젝트 이름"
+            placeholder="프로젝트 이름을 입력하세요"
+          />
         </InputWrapper>
         <InputWrapper>
-          <Label>프로젝트 설명:</Label>
-          {/* Use the TextArea component here */}
-          <TextArea value={projectDescription} onChange={handleProjectDescriptionChange} />
+          <CustomTextField
+            value={projectDescription}
+            onChange={handleProjectDescriptionChange}
+            label="프로젝트 설명을 입력하세요"
+          multiline
+          rows={4}
+          />
         </InputWrapper>
       </ModalContent>
       <ButtonWrapper>
-        <Button type="button" onClick={handleClose}>Close</Button>
-        <SubmitButton type="submit">Next</SubmitButton>
+        <CustomButton type="submit">등록</CustomButton>
       </ButtonWrapper>
     </FormContainer>
   );
