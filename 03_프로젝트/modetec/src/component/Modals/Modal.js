@@ -15,16 +15,25 @@ const ModalContainer = styled.div`
 `;
 
 const ModalContent = styled.div`
-  width: 80%;
+  width: 60%;
   height: 80%;
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 30%;
+  max-height: 70%;
   background-color: #fff;
   border-radius: 0.3rem;
   overflow: hidden;
+  position: relative;
 `;
 
-const Modal = ({ open, children }) => {
+const LogoImage = styled.img`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 150px;
+`;
+
+
+const Modal = ({ open, onClose, children }) => {
   const [modalStyle, setModalStyle] = useState({});
 
   useEffect(() => {
@@ -45,9 +54,15 @@ const Modal = ({ open, children }) => {
     }
   }, [open]);
 
+
+
   return (
     <ModalContainer open={open}>
-      <ModalContent style={modalStyle}>{children}</ModalContent>
+      <ModalContent style={modalStyle}>
+        <LogoImage src="/image/modetec_logo2.png" alt="Logo" />
+
+        {children}
+      </ModalContent>
     </ModalContainer>
   );
 };
