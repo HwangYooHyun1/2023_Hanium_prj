@@ -20,8 +20,8 @@
 
 .Frame {
   height: 50vh;
-  width: calc(100% - 20px);
-  padding-left: 260px;
+  width: calc(100% - 10px);
+  padding-left: 230px;
 }
 
 .Title {

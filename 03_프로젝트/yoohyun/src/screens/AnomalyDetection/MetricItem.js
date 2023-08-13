@@ -21,11 +21,11 @@ const ScoreBox = styled.div`
 `;
 
 const getScoreColor = (score) => {
-  if (score >= 0 && score < 25) {
+  if (score >= 25 && score < 50) {
     return "#fddd00"; // 경미한 상태 색상 (파랑)
-  } else if (score >= 25 && score < 50) {
+  } else if (score >= 50 && score < 75) {
     return "#fba740"; // 경고 상태 색상 (노랑)
-  } else if (score >= 50 && score <= 100) {
+  } else if (score >= 57 && score <= 100) {
     return "#fe5050"; // 주요 상태 색상 (빨강)
   } else {
     return "#8bc8fb"; // 기본 색상 (흰색)

@@ -22,11 +22,11 @@ const ScoreBox = styled.div`
 
 
 const getScoreColor = (score) => {
-  if (score >= 0 && score < 25) {
+  if (score >= 25 && score < 50) {
     return "#fddd00";
-  } else if (score >= 25 && score < 50) {
+  } else if (score >= 50 && score < 75) {
     return "#fba740";
-  } else if (score >= 50 && score <= 100) {
+  } else if (score >= 75 && score <= 100) {
     return "#fe5050";
   } else {
     return "#8bc8fb";
