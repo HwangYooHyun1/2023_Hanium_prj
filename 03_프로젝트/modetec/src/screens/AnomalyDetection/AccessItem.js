@@ -22,16 +22,16 @@ const ScoreBox = styled.div`
 
 
 const getScoreColor = (score) => {
-  if (score >= 0 && score < 25) {
-    return "#5bc0de"; // 경미한 상태 색상 (파랑)
-  } else if (score >= 25 && score < 50) {
-    return "#f0ad4e"; // 경고 상태 색상 (노랑)
-  } else if (score >= 50 && score <= 100) {
-    return "#d9534f"; // 주요 상태 색상 (빨강)
+  if (score >= 25 && score < 50) {
+    return "#fddd00";
+  } else if (score >= 50 && score < 75) {
+    return "#fba740"; 
+  } else if (score >= 57 && score <= 100) {
+    return "#fe5050"; 
   } else {
-    return "#ffffff"; // 기본 색상 (흰색)
+    return "#8bc8fb"; 
   }
-};
+};;
 
 // 시간을 한국 표준 시간대로 변환하는 함수
 const convertToKST = (timestamp) => {
