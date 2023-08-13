@@ -78,7 +78,7 @@ const AnomalyDetection = (props) => {
           <h4>Anomaly Detection</h4>
         </Title>
         <div className='Frame'>
-        <iframe src="http://3.36.169.149:5601/app/dashboards#/view/9084b240-379e-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-24h%2Fh%2Cto%3Anow))&hide-filter-bar=true" height="100%" width="100%"></iframe>
+          <iframe src="http://3.36.169.149:5601/app/dashboards#/view/9084b240-379e-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-24h%2Fh%2Cto%3Anow))&hide-filter-bar=true" height="100%" width="100%"></iframe>
         </div>
         <TableList>
           <table stickyheader>

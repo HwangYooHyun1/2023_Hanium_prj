@@ -1,7 +1,7 @@
 /* Sidebar2.css */
 .title {
   background-color: rgb(34, 34, 34);
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: white;
   padding: 13px;
 }
@@ -14,7 +14,7 @@ div.Bar {
   left: 0;
   z-index: 999;
   background-color: rgb(34, 34, 34);
-  font-size: 1rem;
+  font-size: 1.1rem;
   display: flex;
   flex-direction: column;
   padding-top: 50px;

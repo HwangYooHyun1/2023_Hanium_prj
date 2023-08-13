@@ -6,7 +6,7 @@ import ResourceInfo from './screens/ResourceInfo/ResourceInfo'
 import WebAccess from "./screens/WebAccess";
 import AnomalyDetection from "./screens/AnomalyDetection/AnomalyDetection";
 import WebScanning from "./screens/WebScanning";
-import Report from "./screens/Report";
+import Report from "./screens/Report/Report";
 import Title from "./component/Title";
 import Sidebar1 from "./component/Sidebar1";
 import Sidebar2 from "./component/Sidebar2";

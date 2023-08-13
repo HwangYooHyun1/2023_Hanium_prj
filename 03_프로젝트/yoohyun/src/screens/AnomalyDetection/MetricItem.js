@@ -22,15 +22,15 @@ const ScoreBox = styled.div`
 
 const getScoreColor = (score) => {
   if (score >= 25 && score < 50) {
-    return "#fddd00"; // 경미한 상태 색상 (파랑)
+    return "#fddd00";
   } else if (score >= 50 && score < 75) {
-    return "#fba740"; // 경고 상태 색상 (노랑)
+    return "#fba740"; 
   } else if (score >= 57 && score <= 100) {
-    return "#fe5050"; // 주요 상태 색상 (빨강)
+    return "#fe5050"; 
   } else {
-    return "#8bc8fb"; // 기본 색상 (흰색)
+    return "#8bc8fb"; 
   }
-};
+};;
 
 // 시간을 한국 표준 시간대로 변환하는 함수
 const convertToKST = (timestamp) => {
@@ -50,10 +50,6 @@ const convertToKST = (timestamp) => {
 
 const MetricItem = ({ result }) => {
   const { detector, time, score, sourceIp } = result;
-  // detector 값이 "null count"인 경우 해당 TableRow를 출력하지 않음
-  if (detector === "null count") {
-    return null;
-  }
   const kstTime = convertToKST(time); // 시간 변환
   const formattedScore = score.toFixed(2);
   const scoreColor = getScoreColor(score);

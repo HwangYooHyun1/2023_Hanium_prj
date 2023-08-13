@@ -25,13 +25,13 @@ const getScoreColor = (score) => {
   if (score >= 25 && score < 50) {
     return "#fddd00";
   } else if (score >= 50 && score < 75) {
-    return "#fba740";
-  } else if (score >= 75 && score <= 100) {
-    return "#fe5050";
+    return "#fba740"; 
+  } else if (score >= 57 && score <= 100) {
+    return "#fe5050"; 
   } else {
-    return "#8bc8fb";
+    return "#8bc8fb"; 
   }
-};
+};;
 
 // 시간을 한국 표준 시간대로 변환하는 함수
 const convertToKST = (timestamp) => {

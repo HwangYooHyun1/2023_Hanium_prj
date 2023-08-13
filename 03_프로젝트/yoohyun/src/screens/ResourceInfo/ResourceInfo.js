@@ -6,7 +6,7 @@ import './RIStyle.css';
 
 const Title = Styled.div`
   padding-top: 60px;
-  padding-left: 10px;
+  padding-left: 20px;
 `;
 
 const Sidebar = Styled.div`
