@@ -4,8 +4,6 @@ import styled from "styled-components";
 const TableRow = styled.tr`
   td {
     padding: 10px;
-    padding-right: 70px;
-    padding-left: 70px;
     border: 1px inset #ccc;
     font-size:1.1rem;
     border-left: none; /* 왼쪽 선 제거 */
@@ -24,11 +22,11 @@ const getScoreColor = (score) => {
   if (score >= 25 && score < 50) {
     return "#fddd00";
   } else if (score >= 50 && score < 75) {
-    return "#fba740"; 
+    return "#fba740";
   } else if (score >= 57 && score <= 100) {
-    return "#fe5050"; 
+    return "#fe5050";
   } else {
-    return "#8bc8fb"; 
+    return "#8bc8fb";
   }
 };;
 
@@ -53,6 +51,7 @@ const MetricItem = ({ result }) => {
   const kstTime = convertToKST(time); // 시간 변환
   const formattedScore = score.toFixed(2);
   const scoreColor = getScoreColor(score);
+
   return (
     <TableRow>
       <td>{kstTime}</td>

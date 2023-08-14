@@ -22,7 +22,6 @@ const Logo = styled.img`
   margin-right: 10px;
 `;
 
-
 const Title = () => {
   return (
     <Design>
