@@ -1,0 +1,55 @@
+"size": 0,
+  "query": {
+    "bool": {
+      "filter": {
+        "range": {
+          "@timestamp": {
+            "gte": "2023-08-11T18:30:56",
+            "lte": "2023-08-11T18:30:57"
+          }
+        }
+      }
+    }
+  },
+  "aggs": {
+    "avg_cpu": {
+      "avg": {
+        "field": "system.cpu.total.pct"
+      }
+    },
+    "avg_mem":{
+      "avg": {
+        "field": "system.memory.actual.used.pct"
+      }
+    },
+    "avg_net_in":{
+      "avg": {
+        "field": "system.network.in.bytes"
+      }
+    },
+    "avg_net_out":{
+      "avg": {
+        "field": "system.network.out.bytes"
+      }
+    },
+    "max_cpu":{
+      "max": {
+        "field": "system.cpu.total.pct"   // CPU 사용량 필드명
+      }
+    },
+    "max_mem":{
+      "max": {
+        "field": "system.memory.actual.used.pct"
+      }
+    },
+    "max_net_in":{
+      "max": {
+        "field": "system.network.in.bytes"
+      }
+    },
+    "max_net_out":{
+      "max": {
+        "field": "system.network.out.bytes"
+      }
+    }
+  }

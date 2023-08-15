@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 @Getter@Setter
-@Document(indexName = ".ds-metricbeat-8.8.2-2023.07.11-000001")
+@Document(indexName = ".ds-metricbeat-8.8.2-2023.08.10-000001")
 public class MetricEntity {
     @Id
     private String id;
@@ -27,7 +27,9 @@ public class MetricEntity {
 class SystemField {
     @Field(type = FieldType.Nested)
     private CpuField cpu;
+    @Field(type = FieldType.Nested)
     private MemoryField memory;
+    @Field(type = FieldType.Nested)
     private NetworkField network;
 
     // getters and setters
