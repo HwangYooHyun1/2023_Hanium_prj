@@ -7,7 +7,7 @@ plugins {
 archivesBaseName = 'modetec'
 
 group = 'dev.project'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.3-SNAPSHOT'
 
 java {
 	sourceCompatibility = '11'
@@ -42,8 +42,15 @@ dependencies {
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+	//easy-random
+	testImplementation 'org.jeasy:easy-random-core:5.0.0'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+//test {
+//	exclude '**/*'
+//}
