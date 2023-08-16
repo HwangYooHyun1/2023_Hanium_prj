@@ -15,7 +15,6 @@ public class LogResponseData {
     public static LogResponseData fromSourceIpRequest(Records records) {
         return LogResponseData.builder()
                 .detector(records.getJob_id())
-                //TODO : Casus 가 list 인게 마음에 걸림...
                 .sourceIp(records.getOver_field_value())
                 .score(records.getRecord_score())
                 .time(records.getTimestamp())
@@ -37,5 +36,10 @@ public class LogResponseData {
         this.time = time;
         this.score = score;
         this.sourceIp = sourceIp;
+    }
+
+    @Override
+    public String toString() {
+        return "detector : " + detector + ", time : " + time + ", score : " + score + ", sourceIp : " + sourceIp;
     }
 }

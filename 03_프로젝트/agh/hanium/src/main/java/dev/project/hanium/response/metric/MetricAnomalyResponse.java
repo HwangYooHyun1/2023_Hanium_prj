@@ -18,7 +18,7 @@ public class MetricAnomalyResponse {
 
     @Builder
     public MetricAnomalyResponse(int count, List<MetricResponseData> metricResponseData) {
-        this.count = count;
+        this.count = metricResponseData.size();
         this.metricResponseData = metricResponseData;
     }
 
@@ -28,7 +28,8 @@ public class MetricAnomalyResponse {
 
     public static MetricAnomalyResponse from(MetricAnomalyDto dto) {
         return MetricAnomalyResponse.builder()
-                .count(dto.getCount())
+//                .count(dto.getCount())
+                .count(dto.getRecords().size())
                 .metricResponseData(convert(dto.getRecords()))
                 .build();
     }
