@@ -1,5 +1,6 @@
-import React from 'react';
 import styled from 'styled-components';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Design = styled.div`
   background-color: rgb(0, 0, 0);
@@ -10,23 +11,37 @@ const Design = styled.div`
   width: 100%;
   padding: 15px;
   color: white;
-  z-index: 999;
+  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: flex-start; /* 이미지를 가로 축을 기준으로 왼쪽에 배치합니다. */
 `;
 
 const Logo = styled.img`
-  height: 50px;
-  width: 200px; /* 이미지의 가로 크기를 조정합니다. */
-  margin-right: 10px;
+  height: 48px;
+  width: 200px; 
+  padding-right: 10px;
 `;
 
+const Button = styled.button`
+  border: none;
+  background-color: black;
+  height: 50px;
+  width: 200px; 
+`;
 const Title = () => {
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    navigate('/login');
+  };
+
   return (
     <Design>
-      <Logo src="/image/modetec_logo.png" alt="로고" />
-    </Design>
+      <Button onClick={handleLogoClick} >
+        <Logo src="/image/modetec_logo.png" alt="로고"></Logo>
+      </Button>
+    </Design >
   );
 };
 

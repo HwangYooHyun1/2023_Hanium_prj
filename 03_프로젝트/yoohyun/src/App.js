@@ -16,14 +16,15 @@ import Sidebar2 from "./component/Sidebar2";
 const App = () => {
   return (
     <div className='App' >
-      <Title />
       <BrowserRouter>
+        <Title />
         <div className='center'>
           <div className='bar'>
             <Sidebar1 />
             <Sidebar2 />
           </div>
           <Routes className="dashboard">
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<Resource />} />
             <Route path="/resource_info" element={<ResourceInfo />} />
             <Route path="/webaccess" element={<WebAccess />} />
