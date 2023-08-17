@@ -50,6 +50,7 @@ const convertToKST = (timestamp) => {
 const MetricItem = ({ result }) => {
   const { detector, time, score, sourceIp } = result;
   const kstTime = convertToKST(time); // 시간 변환
+
   const formattedScore = score.toFixed(2);
   const scoreColor = getScoreColor(score);
 

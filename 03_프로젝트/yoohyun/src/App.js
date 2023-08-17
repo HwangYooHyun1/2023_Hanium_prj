@@ -12,7 +12,6 @@ import Title from "./component/Title";
 import Sidebar1 from "./component/Sidebar1";
 import Sidebar2 from "./component/Sidebar2";
 
-
 const App = () => {
   return (
     <div className='App' >
