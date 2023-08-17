@@ -38,7 +38,7 @@ const Login = (props) => {
             const loginSuccess = true;
             if (loginSuccess) {
                 alert("Sign in Success!");
-                navigate('/');
+                navigate('/', { state: { userId: id } });
             }
         }
     };
