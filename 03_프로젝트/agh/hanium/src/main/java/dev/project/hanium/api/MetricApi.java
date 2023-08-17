@@ -297,7 +297,11 @@ public class MetricApi {
 
         SearchHits<MetricEntity> searchHits = elasticsearchRestTemplate.search(
                 new NativeSearchQueryBuilder()
-                        .withSourceFilter(new FetchSourceFilterBuilder().withIncludes("@timestamp", "system.cpu.total.pct", "system.memory.actual.used.pct", "host.hostname").build())
+                        .withSourceFilter(new FetchSourceFilterBuilder()
+                                .withIncludes("@timestamp",
+                                        "system.cpu.total.pct",
+                                        "system.memory.actual.used.pct",
+                                        "host.hostname").build())
                         .withQuery(searchSourceBuilder.query())
                         .build(),
                 MetricEntity.class
@@ -321,7 +325,8 @@ public class MetricApi {
 
         SearchHits<MetricEntity> searchHits = elasticsearchRestTemplate.search(
                 new NativeSearchQueryBuilder()
-                        .withSourceFilter(new FetchSourceFilterBuilder().withIncludes("@timestamp", "system.memory.actual.used.pct", "host.hostname").build())
+                        .withSourceFilter(new FetchSourceFilterBuilder()
+                                .withIncludes("@timestamp", "system.memory.actual.used.pct", "host.hostname").build())
                         .withQuery(searchSourceBuilder.query())
                         .build(),
                 MetricEntity.class
@@ -345,7 +350,8 @@ public class MetricApi {
 
         SearchHits<MetricEntity> searchHits = elasticsearchRestTemplate.search(
                 new NativeSearchQueryBuilder()
-                        .withSourceFilter(new FetchSourceFilterBuilder().withIncludes("@timestamp", "system.network.in.bytes", "system.network.out.bytes", "host.hostname").build())
+                        .withSourceFilter(new FetchSourceFilterBuilder()
+                                .withIncludes("@timestamp", "system.network.in.bytes", "system.network.out.bytes", "host.hostname").build())
                         .withQuery(searchSourceBuilder.query())
                         .build(),
                 MetricEntity.class
