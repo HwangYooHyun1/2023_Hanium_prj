@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Chip from '@mui/material/Chip';
 
 const Design = styled.div`
   background-color: rgb(0, 0, 0);
@@ -33,8 +37,25 @@ const Button = styled.button`
 const UserId = styled.div`
   position: fixed;
   right:0;
-  padding-right:30px;
+  padding-right:20px;
+  
 `;
+
+const theme = createTheme({
+  components: {
+    MuiIcon: {
+      styleOverrides: {
+        root: {
+          boxSizing: 'content-box',
+          padding: 4,
+          fontSize: '1.3rem',
+        },
+      },
+    },
+  },
+});
+
+
 const Title = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,6 +64,17 @@ const Title = () => {
     setUserId(null);
     navigate('/login');
   };
+
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://use.fontawesome.com/releases/v5.14.0/css/all.css';
+    document.head.appendChild(link);
+
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
   useEffect(() => {
     // userId 값이 변경될 때마다 Title 컴포넌트를 리렌더링
@@ -54,7 +86,27 @@ const Title = () => {
       <Button onClick={handleLogoClick} >
         <Logo src="/image/modetec_logo.png" alt="로고"></Logo>
       </Button>
-      <UserId>{userId ? `user@ ${userId}` : ' '}</UserId>
+      <UserId>
+        {userId && (
+          <Box
+            sx={{
+              '& > :not(style)': {
+                m: 1,
+              },
+            }}
+          >
+            <ThemeProvider theme={theme}>
+              <Chip
+                sx={{
+                  backgroundColor: 'rgba(128, 128, 128, 0.5)', // 불투명한 회색 배경
+                  color: 'white', // 텍스트 색상을 흰색으로 설정
+                  fontSize: '0.95rem',
+                }}
+                icon={<AccountCircleIcon color="white" />} label={`user@ ${userId}`} />
+            </ThemeProvider>
+          </Box>
+        )}
+      </UserId>
     </Design >
   );
 };
