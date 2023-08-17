@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Box from '@mui/material/Box';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 
 const Design = styled.div`
   background-color: rgb(0, 0, 0);
