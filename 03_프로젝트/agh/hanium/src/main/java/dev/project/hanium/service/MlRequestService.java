@@ -1,5 +1,6 @@
 package dev.project.hanium.service;
 
+import dev.project.hanium.domain.LogAnomaly;
 import dev.project.hanium.domain.MetricAnomaly;
 import dev.project.hanium.dto.LogAnomalyDto;
 import dev.project.hanium.dto.metric.MetricAnomalyDto;
@@ -8,6 +9,7 @@ import dev.project.hanium.exception.ErrorCode;
 import dev.project.hanium.exception.HaniumException;
 import dev.project.hanium.global.UrlStringList;
 import dev.project.hanium.repository.EmitterRepository;
+import dev.project.hanium.repository.LogAnomalyRepository;
 import dev.project.hanium.repository.MetricAnomalyRepository;
 import dev.project.hanium.response.LogAnomalyResponse;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,7 @@ public class MlRequestService {
     private final static Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
     private final RestTemplate restTemplate;
     private final MetricAnomalyRepository metricAnomalyRepository;
+    private final LogAnomalyRepository logAnomalyRepository;
     private final EmitterRepository emitterRepository;
 
 
@@ -75,29 +78,76 @@ public class MlRequestService {
 
             if(db.size() == 0) {
                 metricAnomalyRepository.saveAll(request);
-
             } else{
                 for(MetricAnomaly x : request){
                     boolean flag = false;
                     for(MetricAnomaly y : db){
-                        if((x.getDetector() == y.getDetector()) && (x.getTime() == y.getTime()) ) flag = true;
+                        if((Objects.equals(x.getDetector(), y.getDetector())) && (x.getTime() == y.getTime()) ) {
+                            flag = true;
+                            break;
+                        }
                     }
                     if(!flag) tmp.add(x);
                 }
                 metricAnomalyRepository.saveAll(tmp);
                 sendMetricAnomaly(tmp,1);
             }
-//            List<Records> list = metricAnomalyRepository.findAll().stream().map(Records::fromEntity).sorted((m1,m2) -> (int)m1.getTimestamp() - (int)m2.getTimestamp()).collect(toList());
             List<Records> list = metricAnomalyRepository.findAll()
                     .stream()
                     .map(Records::fromEntity)
                     .sorted((m1,m2) -> (int) m2.getTimestamp() - (int) m1.getTimestamp())
-//                    .sorted(comparingLong(Records::getTimestamp))
                     .collect(toList());
             return new MetricAnomalyDto(list);
         }
         return dtos;
     }
+
+//    tmp = request.stream()
+//            .filter(x -> db.stream()
+//            .noneMatch(y -> x.getDetector() == y.getDetector() && x.getTime() == y.getTime()))
+//            .collect(Collectors.toList());
+
+
+    public LogAnomalyDto saveAllDifferenceInLogData(LogAnomalyDto dtos) {
+        if(dtos.getRecords().size() != logAnomalyRepository.count()){
+            List<LogAnomaly> tmp = new ArrayList<>();
+            List<LogAnomaly> request = dtos.getRecords().stream().map(dev.project.hanium.dto.Records::toEntity).collect(toList());
+            List<LogAnomaly> db = logAnomalyRepository.findAll();
+
+            if(db.size() == 0) {
+                logAnomalyRepository.saveAll(request);
+            } else{
+                for(LogAnomaly x : request){
+                    boolean flag = false;
+                    for(LogAnomaly y : db){
+                        if((x.getDetector() == y.getDetector()) && (x.getTime() == y.getTime()) ) flag = true;
+                    }
+                    if(!flag) tmp.add(x);
+                }
+                logAnomalyRepository.saveAll(tmp);
+                sendLogAnomaly(tmp,1);
+            }
+            List<dev.project.hanium.dto.Records> list = logAnomalyRepository.findAll()
+                    .stream()
+                    .map(dev.project.hanium.dto.Records::fromEntity)
+                    .sorted((m1,m2) -> (int) m2.getTimestamp() - (int) m1.getTimestamp())
+                    .collect(toList());
+            return new LogAnomalyDto(list);
+        }
+        return dtos;
+    }
+
+    public void sendLogAnomaly(List<LogAnomaly> list, Integer userId) {
+        emitterRepository.get(userId).ifPresentOrElse(sseEmitter -> {
+            try {
+                LogAnomalyDto anomaly = new LogAnomalyDto(list.stream().map(dev.project.hanium.dto.Records::fromEntity).collect(toList()));
+                sseEmitter.send(SseEmitter.event().id("").name(ANOMALY_NAME).data(anomaly));
+            } catch (IOException e){
+                throw new HaniumException(ErrorCode.ANOMALY_CONNECT_ERROR);
+            }
+        },() -> log.info("No emitter founded")); //서버에 저장된 브라우저가 아닌 경우
+    }
+
     public void sendMetricAnomaly(List<MetricAnomaly> list, Integer userId) {
         emitterRepository.get(userId).ifPresentOrElse(sseEmitter -> {
             try {

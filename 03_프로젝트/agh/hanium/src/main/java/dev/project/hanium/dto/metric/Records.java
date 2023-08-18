@@ -39,7 +39,7 @@ public class Records {
         return Records.builder()
                 .field_name(metricAnomaly.getDetector().split(" ")[0])
                 .function(metricAnomaly.getDetector().split(" ")[1])
-                .timestamp(metricAnomaly.getTime() / 1000)
+                .timestamp(metricAnomaly.getTime())
                 .record_score(metricAnomaly.getScore())
                 .build();
     }

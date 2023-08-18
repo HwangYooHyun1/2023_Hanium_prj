@@ -2,6 +2,7 @@ package dev.project.hanium.service;
 
 import dev.project.hanium.dto.LogAnomalyDto;
 import dev.project.hanium.dto.metric.MetricAnomalyDto;
+import dev.project.hanium.fixture.MetricAnomalyDtoFixtureFactory;
 import dev.project.hanium.repository.MetricAnomalyRepository;
 import dev.project.hanium.util.DetectorMap;
 import org.junit.jupiter.api.Test;
@@ -36,5 +37,10 @@ class MlApiServiceTest {
         dto.getRecords().stream().forEach(System.out::println);
     }
 
-
+    @Test
+    public void metricAnomaliesTest() {
+        MetricAnomalyDto dto = mlRequestService.getMlMetricData("http://3.36.169.149:9200/_ml/anomaly_detectors/metric_anomaly/results/records");
+        mlRequestService.saveAllDifferenceInMetricData(MetricAnomalyDtoFixtureFactory.create(10));
+        System.out.println(metricAnomalyRepository.findAll().size());
+    }
 }

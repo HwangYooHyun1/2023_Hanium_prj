@@ -67,12 +67,12 @@ public class MlApi {
         return CommonResponse.success(new LogAnomalyResponse(result.size(), result.stream().sorted((a, b) -> (int) b.getTime() - (int) a.getTime()).collect(Collectors.toList())));
     }
 
-//    @GetMapping("/loganomaliesV2")
-//    public CommonResponse<LogAnomalyResponse> logAnomaliesRequestV2() {
-//
-//        LogAnomalyResponse requestedData = mlRequestService.getMlLogAnomalies();
-//        return CommonResponse.success(requestedData);
-//    }
+    @GetMapping("/loganomaliesV2")
+    public CommonResponse<LogAnomalyDto> logAnomaliesRequestV2() {
+
+        LogAnomalyDto requestedData = mlRequestService.saveAllDifferenceInLogData(mlRequestService.getMlLogData("http://3.36.169.149:9200/_ml/anomaly_detectors/source_ip_request_rate_ecs/results/records"));
+        return CommonResponse.success(requestedData);
+    }
 
     @GetMapping("/metricanomaly")
     public CommonResponse<MetricAnomalyResponse> metricAnomalyRequestV2() {

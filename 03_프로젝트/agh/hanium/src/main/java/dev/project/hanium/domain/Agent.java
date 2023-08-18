@@ -14,14 +14,14 @@ public class Agent extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Agent_ip")
+    @Column(name = "agent_ip")
     private String ip;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
-    @Column(name = "server_name")
+    @Column(name = "agent_name")
     private String agentName;
 
     @Column(name = "description")
@@ -36,3 +36,4 @@ public class Agent extends AuditingFields {
         this.description = description;
     }
 }
+

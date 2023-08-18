@@ -10,12 +10,13 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     defer-datasource-initialization: true
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: create
     open-in-view: false
     show-sql: true
     properties:
       hibernate.format_sql: true
       hibernate.default_batch_fetch_size: 100
+    database-platform: org.hibernate.dialect.MySQL8Dialect
   elasticsearch:
     cluster:
       initial-master-nodes: ip-172-31-43-166

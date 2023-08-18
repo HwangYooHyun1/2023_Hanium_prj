@@ -1,12 +1,16 @@
 package dev.project.hanium.dto;
 
+import dev.project.hanium.domain.LogAnomaly;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class Records{
     private String job_id;
     private String result_type;
@@ -24,4 +28,32 @@ public class Records{
     private List<Cause> causes;
     private List<Influencer> influencers;
     private List<String> source_address;
+
+    @Builder
+    public Records(String job_id, String result_type, double probability, double record_score, double initial_record_score, long bucket_span, int detector_index, boolean is_interim, long timestamp, String function, String function_description, String over_field_name, String over_field_value, List<Cause> causes, List<Influencer> influencers, List<String> source_address) {
+        this.job_id = job_id;
+        this.result_type = result_type;
+        this.probability = probability;
+        this.record_score = record_score;
+        this.initial_record_score = initial_record_score;
+        this.bucket_span = bucket_span;
+        this.detector_index = detector_index;
+        this.is_interim = is_interim;
+        this.timestamp = timestamp;
+        this.function = function;
+        this.function_description = function_description;
+        this.over_field_name = over_field_name;
+        this.over_field_value = over_field_value;
+        this.causes = causes;
+        this.influencers = influencers;
+        this.source_address = source_address;
+    }
+
+    public LogAnomaly toEntity() {
+        return LogAnomaly.builder().build();
+    }
+
+    public static Records fromEntity(LogAnomaly logAnomaly) {
+        return Records.builder().build();
+    }
 }

@@ -13,12 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ProjectApi {
     private final ProjectService projectService;
-
     @PostMapping("/projects/new")
     public CommonResponse<Void> createGroup(@RequestBody CreateProjectRequest createProjectRequest) {
         projectService.create(ProjectDto.fromCreate(createProjectRequest));
         return CommonResponse.success();
     }
-
-
 }
