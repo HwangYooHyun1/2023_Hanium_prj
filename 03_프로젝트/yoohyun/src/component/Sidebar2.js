@@ -8,6 +8,7 @@ const Sidebar = () => {
   const [selectedItem, setSelectedItem] = useState(location.pathname);
   const [showSubNav, setShowSubNav] = useState(false);
 
+
   const handleTabClick = (itemId) => {
     setSelectedItem(itemId);
     if (itemId === '/' || itemId === '/webaccess' || itemId === '/resource_info') {
@@ -22,8 +23,10 @@ const Sidebar = () => {
     <div className='Bar'>
       <div className='title'>MENU</div>
       <button
-        className={`nav-button ${selectedItem === '/' || selectedItem === '/webaccess' ? 'active' : ''}`}
-        onClick={() => handleTabClick('/')} // Handle 모니터링 대시보드 button click
+        className={`nav-button ${selectedItem === '/' || selectedItem === '/resource_info' || selectedItem === '/webaccess' || showSubNav ? 'active' : ''}`}
+        onClick={() => {
+          setShowSubNav(!showSubNav);
+        }}
         style={{ textAlign: 'left' }}
       >
         Monitoring Dashboard

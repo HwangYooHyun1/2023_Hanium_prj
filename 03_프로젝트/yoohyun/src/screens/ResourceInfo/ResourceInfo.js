@@ -19,7 +19,7 @@ const Sidebar = Styled.div`
   position: fixed;
   left: 260px;
   top: 90px;
-  bottom: 0;
+  bottom: 5px;
 `;
 
 const ContentWrapper = Styled.div`

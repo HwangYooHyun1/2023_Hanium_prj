@@ -11,7 +11,7 @@ const Title = Styled.div`
   display: flex;
   align-items: center;
   padding-top: 60px;
-  padding-left: 10px;
+  padding-left: 20px;
 `;
 
 const RefreshButton = Styled.button`

@@ -10,7 +10,7 @@ import './Style.css';
 const Title = Styled.div`
   display: fixed;
   padding-top: 60px;
-  padding-left: 260px;
+  padding-left: 270px;
 `;
 
 const TableList = Styled.div`
