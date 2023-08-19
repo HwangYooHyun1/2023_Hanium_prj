@@ -32,11 +32,12 @@ const Center = styled.div`
 const Button = styled.button`
   width: 100%; /* 버튼들이 가로로 늘어나도록 100% 너비 지정 */
   margin: 5px; /* 버튼들 사이에 약간의 간격 추가 */
+  font-size: 1.1rem;
 `;
 
 const Title = styled.div`
-  padding: 13px;
-  font-size: 1.1rem;
+  padding: 11px;
+  font-size: 1.2rem;
   color: rgb(237, 237, 237);
 `;
 
@@ -72,14 +73,14 @@ const Sidebar = () => {
         <Center>
           {/* Button 스타일드 컴포넌트를 버튼들에 적용 */}
           <Button type="button" className="btn btn-danger" onClick={openProjectModal}>
-            프로젝트 +
+            Project +
           </Button>
           <Button type="button" className="btn btn-danger" onClick={openAgentModal}>
-            에이전트 +
+            Agent +
           </Button>
         </Center>
         <Title>
-          <a>프로젝트 목록</a>
+          <a>PROJECT LIST</a>
         </Title>
         <Navigation
           onSelect={({ itemId }) => {

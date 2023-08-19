@@ -25,7 +25,7 @@ const TableList = Styled.div`
 const TableHead = Styled.thead`
   th {
     background-color: #ffffff;
-    font-size: 1.1rem;
+    font-size: 1rem;
     position: sticky;
     z-index: 998;
     top: 0;
@@ -45,18 +45,20 @@ const AnomalyDetection = (props) => {
   const [combinedData, setCombinedData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 6;
 
   useEffect(() => {
     const fetchCombinedData = async () => {
       try {
+        console.log('Anomaly Detection Fetching data...');
         const metricResponse = await axios.get('http://52.79.201.187:8080/metricanomaly');
         const accessResponse = await axios.get('http://52.79.201.187:8080/loganomalies');
 
         const metricData = metricResponse.data.info.metricResponseData.map(item => ({ ...item, type: 'metric' }));
         const accessData = accessResponse.data.info.logResponseData.map(item => ({ ...item, type: 'access' }));
-        const combinedData = metricData.concat(accessData);
+        const combinedData = metricData.concat(accessData).filter(item => item.score > 3);
         combinedData.sort((a, b) => b.time - a.time);
+
 
         setCombinedData(combinedData);
       } catch (error) {
@@ -66,6 +68,12 @@ const AnomalyDetection = (props) => {
     };
 
     fetchCombinedData();
+    const interval = setInterval(fetchCombinedData, 5000);
+
+    return () => {
+      clearInterval(interval);
+    };
+
   }, []);
 
   const handlePageChange = (event, value) => {
@@ -84,7 +92,7 @@ const AnomalyDetection = (props) => {
     <div className='AnomalyDetection'>
       <div className='Container'>
         <Title>
-          <h4>Anomaly Detection</h4>
+          <h5>Anomaly Detection</h5>
         </Title>
         <div className='Frame'>
           <iframe src="http://3.36.169.149:5601/app/dashboards#/view/9084b240-379e-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-24h%2Fh%2Cto%3Anow))&hide-filter-bar=true" height="100%" width="100%"></iframe>
@@ -93,9 +101,9 @@ const AnomalyDetection = (props) => {
           <table stickyheader='true'>
             <TableHead>
               <tr>
-                <th style={{ paddingRight: '210px', paddingLeft: '10px' }}>Timestamp</th>
-                <th style={{ paddingRight: '260px', paddingLeft: '10px' }}>Detector</th>
-                <th style={{ paddingRight: '210px', paddingLeft: '10px' }}>Source IP</th>
+                <th style={{ paddingRight: '260px', paddingLeft: '10px' }}>Timestamp</th>
+                <th style={{ paddingRight: '330px', paddingLeft: '10px' }}>Detector</th>
+                <th style={{ paddingRight: '180px', paddingLeft: '10px' }}>Source IP | State code</th>
                 <th style={{ paddingLeft: '10px' }}>Score</th>
                 <th style={{ paddingRight: '40px' }}> </th>
               </tr>
@@ -128,3 +136,15 @@ const AnomalyDetection = (props) => {
 };
 
 export default AnomalyDetection;
+
+function arraysEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+  return true;
+}

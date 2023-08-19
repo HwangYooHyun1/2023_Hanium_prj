@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../component/UserContext';
 
 const WelcomeText = styled.div`
   font-weight: 700;
@@ -28,6 +29,7 @@ const RedButton = styled(Button)`
 
 const Login = (props) => {
     const navigate = useNavigate();
+    const { setUserId } = useUser();
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
 
@@ -38,7 +40,8 @@ const Login = (props) => {
             const loginSuccess = true;
             if (loginSuccess) {
                 alert("Sign in Success!");
-                navigate('/', { state: { userId: id } });
+                setUserId(id);
+                navigate('/');
             }
         }
     };

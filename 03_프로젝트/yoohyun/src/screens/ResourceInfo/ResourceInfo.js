@@ -69,7 +69,7 @@ export const ResourceInfo = (props) => {
   return (
     <div className='rContainer'>
       <Title>
-        <h5>서버 상세 정보 모니터</h5>
+        <h5>Server Details Info</h5>
       </Title>
       <div className='rCenter' style={{ position: 'relative' }}>
         {isSidebarOpen && (

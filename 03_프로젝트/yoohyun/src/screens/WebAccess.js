@@ -38,7 +38,7 @@ const WebAccess = (props) => {
     <Container>
 
       <Title>
-        <h5>웹 액세스 모니터</h5>
+        <h5>Web Access Monitor</h5>
         <RefreshButton onClick={handleRefreshClick}>새로고침</RefreshButton>
       </Title>
       {/* iframe 내부에 key prop을 사용하여 새로고침 이벤트를 감지하고 iframe을 다시 로드합니다. */}

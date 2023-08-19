@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useUser } from './UserContext';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -57,9 +58,9 @@ const theme = createTheme({
 
 
 const Title = () => {
+  const { userId, setUserId } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
-  const [userId, setUserId] = useState(location.state?.userId);
   const handleLogoClick = () => {
     setUserId(null);
     navigate('/login');
@@ -77,7 +78,7 @@ const Title = () => {
   }, []);
 
   useEffect(() => {
-    // userId 값이 변경될 때마다 Title 컴포넌트를 리렌더링
+    //userId 값이 변경될 때마다 Title 컴포넌트를 리렌더링
     setUserId(location.state?.userId);
   }, [location.state?.userId]);
 

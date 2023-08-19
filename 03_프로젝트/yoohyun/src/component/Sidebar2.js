@@ -10,7 +10,7 @@ const Sidebar = () => {
 
   const handleTabClick = (itemId) => {
     setSelectedItem(itemId);
-    if (itemId === '/' || itemId === '/webaccess') {
+    if (itemId === '/' || itemId === '/webaccess' || itemId === '/resource_info') {
       setShowSubNav(true);
     } else {
       setShowSubNav(false);
@@ -20,52 +20,62 @@ const Sidebar = () => {
 
   return (
     <div className='Bar'>
-      <div className='title'>메뉴</div>
+      <div className='title'>MENU</div>
       <button
         className={`nav-button ${selectedItem === '/' || selectedItem === '/webaccess' ? 'active' : ''}`}
         onClick={() => handleTabClick('/')} // Handle 모니터링 대시보드 button click
+        style={{ textAlign: 'left' }}
       >
-        모니터링 대시보드
+        Monitoring Dashboard
       </button>
       {showSubNav && (
         <div className='sub-nav'>
           <button
             className={`sub-nav-button ${selectedItem === '/' ? 'active' : ''}`}
             onClick={() => handleTabClick('/')} // Handle 리소스 모니터 button click
+            style={{ textAlign: 'left', textIndent: '15px' }}
+
           >
-            • 리소스 모니터
+            • Resource Monitor
           </button>
           <button
             className={`sub-nav-button ${selectedItem === '/resource_info' ? 'active' : ''}`}
             onClick={() => handleTabClick('/resource_info')}
+            style={{ textAlign: 'left', textIndent: '15px' }}
+
           >
-            • 서버 상세 정보
+            • Server Details Info
           </button>
           <button
             className={`sub-nav-button ${selectedItem === '/webaccess' ? 'active' : ''}`}
             onClick={() => handleTabClick('/webaccess')} // Handle 웹 액세스 모니터 button click
+            style={{ textAlign: 'left', textIndent: '15px' }}
+
           >
-            • 웹 액세스 모니터
+            • Web Access Monitor
           </button>
         </div>
       )}
       <button
         className={`nav-button ${selectedItem === '/anomalydetection' ? 'active' : ''}`}
         onClick={() => handleTabClick('/anomalydetection')} // Handle 이상탐지 button click
+        style={{ textAlign: 'left' }}
       >
-        이상탐지
+        Anomaly Detection
       </button>
       <button
         className={`nav-button ${selectedItem === '/webscanning' ? 'active' : ''}`}
         onClick={() => handleTabClick('/webscanning')} // Handle 웹 취약점 스캐닝 button click
+        style={{ textAlign: 'left' }}
       >
-        웹 취약점 스캐닝
+        Web Vulnerability Scanning
       </button>
       <button
         className={`nav-button ${selectedItem === '/report' ? 'active' : ''}`}
         onClick={() => handleTabClick('/report')} // Handle 보고서 button click
+        style={{ textAlign: 'left' }}
       >
-        보고서
+        Report
       </button>
     </div>
   );

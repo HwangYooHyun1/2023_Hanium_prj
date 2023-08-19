@@ -3,9 +3,9 @@ import styled from "styled-components";
 
 const TableRow = styled.tr`
   td {
-    padding: 10px;
+    padding: 5px;
     border: 1px inset #ccc;
-    font-size: 1.1rem;
+    font-size: 1rem;
     border-left: none;
     border-right: none;
   }
@@ -15,7 +15,7 @@ const ScoreBox = styled.div`
   width: 20px;
   height: 20px;
   margin: 0 auto;
-  border: 0.5px solid #000;
+  border: none;
   background-color: ${(props) => getScoreColor(props.score)};
 `;
 
