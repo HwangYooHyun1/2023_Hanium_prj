@@ -18,11 +18,11 @@ const ModalContainer = styled.div`
 `;
 
 const ModalContent = styled.div`
-  width: 80%;
+  width: 70%;
   height: 95%;
   max-width: 80%;
   padding: 7px;
-  background-color: #fff;
+  background-color: rgb(248, 250, 253);
   border-radius: 0.3rem;
   overflow: auto;
   position: relative;
@@ -33,6 +33,13 @@ const CloseButton = styled(CloseIcon)`
   top: 5px;
   right: 5px;
   margin: 7px;
+`;
+
+const DataBox = styled.div`
+  background-color : #fff;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const DetailModal = ({ open, onClose, data }) => {
@@ -83,10 +90,14 @@ const DetailModal = ({ open, onClose, data }) => {
       <ModalContainer open={open}>
         <ModalContent>
           <CloseButton onClick={onClose} />
-          <Typography variant="h6">{detector}의 상세 정보</Typography>
-          <Typography>Time: {new Date(time).toLocaleString()}</Typography>
-          <Typography>Score: {score.toFixed(2)}</Typography>
-          <Typography>Source IP: {sourceIp !== null ? sourceIp : "N/A"}</Typography>
+          <Typography variant="h5" style={{ padding: '10px', fontWeight: 'bold' }}>Details of {detector}</Typography>
+          <DataBox>
+            <Typography style={{ paddingBottom: '3px', fontWeight: 'bold', borderBottom: '1px solid #ccc' }}>Selected anomaly detection data information</Typography>
+            <Typography style={{ padding: '5px 0', paddingTop: '10px' }}>Detector : {detector}</Typography>
+            <Typography style={{ padding: '5px 0' }}>Time : {new Date(time).toLocaleString()}</Typography>
+            <Typography style={{ padding: '5px 0' }}>Score : {score.toFixed(2)}</Typography>
+            <Typography style={{ padding: '5px 0', paddingBottom: '10px' }}>Source IP : {sourceIp !== null ? sourceIp : "N/A"}</Typography>
+          </DataBox>
           {renderIframe()}
         </ModalContent>
       </ModalContainer>
