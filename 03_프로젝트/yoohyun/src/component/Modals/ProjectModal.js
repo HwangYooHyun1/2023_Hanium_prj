@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
+import CloseIcon from '@mui/icons-material/Close';
 
 const FormContainer = styled.form`
   display: flex;
@@ -57,10 +58,11 @@ const CustomButton = styled.button`
   
 `;
 
-const CloseButton = styled.button`
+const CloseButton = styled(CloseIcon)`
   position: absolute;
   top: 5px;
   right: 5px;
+  margin: 7px;
   background-color: transparent;
   border: none;
   font-size: 30px;
@@ -111,9 +113,9 @@ const ProjectModal = ({ close }) => {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <ModalContent>
-      <CloseButton onClick={handleCloseModal}>X</CloseButton>
+        <CloseButton onClick={handleCloseModal} />
 
-      <AgentTitle>Register Project</AgentTitle>
+        <AgentTitle>Register Project</AgentTitle>
         <InputWrapper>
           <CustomTextField
             type="text"
@@ -128,8 +130,8 @@ const ProjectModal = ({ close }) => {
             value={projectDescription}
             onChange={handleProjectDescriptionChange}
             label="프로젝트 설명을 입력하세요"
-          multiline
-          rows={4}
+            multiline
+            rows={4}
           />
         </InputWrapper>
       </ModalContent>

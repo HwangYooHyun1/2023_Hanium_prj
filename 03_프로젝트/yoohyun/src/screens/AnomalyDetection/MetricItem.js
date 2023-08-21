@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import IconButton from '@mui/material/IconButton';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import DetailModal from "./DetailModal";
 
 const TableRow = styled.tr`
   td {
@@ -31,11 +34,29 @@ const getScoreColor = (score) => {
   }
 };
 
+const StyledIconButton = styled(IconButton)`
+&& {
+  padding: 3px;
+  /* Add other styles as needed */
+}
+`;
+
 const MetricItem = ({ result }) => {
   const { detector, time, score, sourceIp } = result;
   const kstTime = new Date(time).toLocaleString();
   const formattedScore = score.toFixed(2);
   const scoreColor = getScoreColor(score);
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
+
+  const openDetailModal = () => {
+    console.log("Opening detail modal");
+    setDetailModalOpen(true);
+  };
+
+  const closeDetailModal = () => {
+    console.log("Closing detail modal");
+    setDetailModalOpen(false);
+  };
 
   return (
     <TableRow>
@@ -46,6 +67,16 @@ const MetricItem = ({ result }) => {
       <td>
         <ScoreBox score={score} style={{ backgroundColor: scoreColor }} />
       </td>
+      <td>
+        <StyledIconButton onClick={openDetailModal}>
+          <BarChartIcon />
+        </StyledIconButton>
+
+      </td>
+      {detailModalOpen && (
+        <DetailModal open={detailModalOpen} onClose={closeDetailModal} data={result} />
+      )}
+
     </TableRow>
   );
 };

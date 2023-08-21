@@ -47,6 +47,7 @@ const AnomalyDetection = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
+
   useEffect(() => {
     const fetchCombinedData = async () => {
       try {
@@ -105,6 +106,7 @@ const AnomalyDetection = (props) => {
                 <th style={{ paddingRight: '330px', paddingLeft: '10px' }}>Detector</th>
                 <th style={{ paddingRight: '180px', paddingLeft: '10px' }}>Source IP | State code</th>
                 <th style={{ paddingLeft: '10px' }}>Score</th>
+                <th style={{ paddingRight: '0px' }}> </th>
                 <th style={{ paddingRight: '40px' }}> </th>
               </tr>
             </TableHead>
@@ -137,14 +139,3 @@ const AnomalyDetection = (props) => {
 
 export default AnomalyDetection;
 
-function arraysEqual(arr1, arr2) {
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-  for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i] !== arr2[i]) {
-      return false;
-    }
-  }
-  return true;
-}

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-
+import CloseIcon from '@mui/icons-material/Close';
 
 const FormContainer = styled.form`
   display: flex;
@@ -48,10 +48,11 @@ const CustomButton = styled.button`
   }
 `;
 
-const CloseButton = styled.button`
+const CloseButton = styled(CloseIcon)`
   position: absolute;
   top: 5px;
   right: 5px;
+  margin: 7px;
   background-color: transparent;
   border: none;
   font-size: 30px;
@@ -103,7 +104,7 @@ const AgentModal = ({ close }) => {
 
   return (
     <FormContainer onSubmit={handleSubmit}>
-              <CloseButton onClick={handleCloseModal}>X</CloseButton>
+      <CloseButton onClick={handleCloseModal} />
       <AgentTitle>Agent Project</AgentTitle>
       <InputWrapper>
         <CustomTextField
