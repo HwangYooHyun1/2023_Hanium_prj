@@ -49,6 +49,10 @@ const AccessItem = ({ result }) => {
   const scoreColor = getScoreColor(score);
   const [detailModalOpen, setDetailModalOpen] = useState(false);
 
+  const year = new Date(time).getFullYear();
+  const month = new Date(time).getMonth() + 1; // Months are zero-based
+  const day = new Date(time).getDate();
+
   const openDetailModal = () => {
     console.log("Opening detail modal");
     setDetailModalOpen(true);
@@ -72,10 +76,15 @@ const AccessItem = ({ result }) => {
         <StyledIconButton onClick={openDetailModal}>
           <BarChartIcon />
         </StyledIconButton>
-
       </td>
       {detailModalOpen && (
-        <DetailModal open={detailModalOpen} onClose={closeDetailModal} data={result} />
+        <DetailModal 
+        open={detailModalOpen}
+        onClose={closeDetailModal} 
+        data={result}
+        year={year}
+        month={month}
+        day={day} />
       )}
 
     </TableRow>

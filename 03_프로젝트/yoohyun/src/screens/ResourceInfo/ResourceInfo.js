@@ -69,7 +69,7 @@ export const ResourceInfo = (props) => {
   return (
     <div className='rContainer'>
       <Title>
-        <h5>Server Details Info</h5>
+        <h5 style={{ fontWeight: 'bold' }}>Server Details Info</h5>
       </Title>
       <div className='rCenter' style={{ position: 'relative' }}>
         {isSidebarOpen && (

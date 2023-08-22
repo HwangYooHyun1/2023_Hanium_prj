@@ -42,9 +42,21 @@ const DataBox = styled.div`
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
-const DetailModal = ({ open, onClose, data }) => {
+const DetailModal = ({ open, onClose, data, year, month, day }) => {
   const { detector, time, score, sourceIp } = data;
 
+  //{*1주일 전 일자 
+  // Create a new Date object based on the year, month, and day
+  const currentDate = new Date(year, month, day); // Months are zero-based
+  // Calculate the date 7 days ago
+  const sevenDaysAgo = new Date(currentDate);
+  sevenDaysAgo.setDate(currentDate.getDate() - 7);
+
+  // Extract the year, month, and day from the calculated date
+  const sevenDaysAgoYear = sevenDaysAgo.getFullYear();
+  const sevenDaysAgoMonth = sevenDaysAgo.getMonth() + 1;
+  const sevenDaysAgoDay = sevenDaysAgo.getDate();
+  //*}
   const prevOpenRef = React.useRef(open);
 
   React.useEffect(() => {
@@ -56,6 +68,7 @@ const DetailModal = ({ open, onClose, data }) => {
       prevOpenRef.current = open;
     }
   }, [open]);
+
 
   const renderIframe = () => {
     if (detector === "system.cpu.total.pct high_mean" || detector === "system.memory.total.pct high_mean" || detector === "system.disk.total.pct high_mean" || detector === "system.network.out.bytes high_mean") {
