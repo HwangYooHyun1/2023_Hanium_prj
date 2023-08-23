@@ -42,3 +42,11 @@ div.Bar {
   background-color: rgb(186, 87, 87);
   /* 원하는 클릭 시 배경색으로 변경하세요 */
 }
+
+.sub-nav-button.active {
+  background-color: rgb(120, 120, 120);
+}
+
+.sub-nav-button:hover {
+  background-color: rgb(120, 120, 120);
+}

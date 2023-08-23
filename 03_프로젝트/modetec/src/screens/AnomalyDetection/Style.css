@@ -6,7 +6,8 @@
 
   height: 100vh;
   width: 100vw;
-  padding-left: 30px;
+  padding-left: 10px;
+  padding-right:10px;
 }
 
 .Center {

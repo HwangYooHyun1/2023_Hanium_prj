@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import MetricItem from './AccessItem';
+import AccessItem from './AccessItem';
 
 const AccessList = () => {
   const [result, setResult] = useState([]);
@@ -36,7 +36,7 @@ const AccessList = () => {
   return (
     <div className='results'>
       {result.map((result) => (
-        <MetricItem result={result} />
+        <AccessItem result={result} />
       ))}
     </div>
   );

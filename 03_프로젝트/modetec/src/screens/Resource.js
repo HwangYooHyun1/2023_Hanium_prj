@@ -1,29 +1,24 @@
 import React, { useState } from 'react';
 import Styled from 'styled-components';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import InfoIcon from '@mui/icons-material/Info';
 
 const Container = Styled.div`
   height: 100vh; 
   width: 100vw;
-  padding-left:10px;
-
 `;
 
 const Title = Styled.div`
   display: flex;
   align-items: center;
-  padding-top: 60px;
-  padding-left: 10px;
+  padding-top: 50px;
+  padding-left: 20px;
 `;
 
-const RefreshButton = Styled.button`
-  margin-left: 10px;
-  padding: 5px 10px;
-  font-size: 12px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+const RefreshButton = Styled(RefreshIcon)`
+  margin-top: 5px;
+  margin-left : 8px;
+  
 `;
 
 const Resource = (props) => {
@@ -38,13 +33,14 @@ const Resource = (props) => {
   return (
     <Container>
       <Title>
-        <h5>리소스 모니터</h5>
-        <RefreshButton onClick={handleRefreshClick}>새로고침</RefreshButton>
+        <h5 style={{ fontWeight: 'bold', marginTop: '10px' }}>Resource Monitor</h5>
+        <RefreshButton sx={{ fontSize: 28 }} onClick={handleRefreshClick} />
       </Title>
       {/* iframe 내부에 key prop을 사용하여 새로고침 이벤트를 감지하고 iframe을 다시 로드합니다. */}
       <iframe
         key={reload ? 'reload' : 'normal'}
-        src="http://3.36.169.149:5601/app/dashboards#/view/459f45d0-3788-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-24h%2Fh%2Cto%3Anow))&hide-filter-bar=true"        width="100%"
+        src="http://3.36.169.149:5601/app/dashboards#/view/459f45d0-3788-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-24h%2Fh%2Cto%3Anow))&hide-filter-bar=true"
+        width="100%"
         height="100%"
       ></iframe>
 
