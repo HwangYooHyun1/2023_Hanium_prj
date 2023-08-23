@@ -23,6 +23,7 @@ public class EmitterRepository {
 
     public Optional<SseEmitter> get(Integer userId) {
         final String key = getKey(userId);
+        log.info("Get sseEmitter {}",userId);
         return Optional.ofNullable(emitterMap.get(key));
     }
 

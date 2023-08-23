@@ -22,6 +22,12 @@ public class LogAnomalyResponse {
         this.logResponseData = logResponseData;
     }
 
+    public static LogAnomalyResponse fromDto(LogAnomalyDto dto) {
+        return LogAnomalyResponse.builder()
+                .count(dto.getCount())
+                .logResponseData(dto.getRecords().stream().map(LogResponseData::fromRecords).collect(toList()))
+                .build();
+    }
     private static List<LogResponseData> convertSourceIpRequest(List<Records> records){
         return records.stream().map(LogResponseData::fromSourceIpRequest).collect(toList());
     }
@@ -29,8 +35,6 @@ public class LogAnomalyResponse {
     private static List<LogResponseData> convertStatusCode(List<Records> records) {
         return records.stream().map(LogResponseData::fromStatus).collect(toList());
     }
-
-
     public static LogAnomalyResponse fromSourceIpRequest(LogAnomalyDto dto) {
         if(dto.getCount() == 0) return LogAnomalyResponse.builder()
                 .count(0)
