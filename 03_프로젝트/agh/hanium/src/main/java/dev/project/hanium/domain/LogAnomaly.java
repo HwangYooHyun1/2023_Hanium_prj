@@ -24,7 +24,6 @@ public class LogAnomaly {
     @Column(nullable = false)
     private double score;
 
-    @Column(nullable = false)
     private String sourceIp;
 
     @Builder
@@ -36,4 +35,8 @@ public class LogAnomaly {
         this.sourceIp = sourceIp;
     }
 
+    @Override
+    public String toString() {
+        return "detector : " + detector + ", sourceIp : " + sourceIp;
+    }
 }

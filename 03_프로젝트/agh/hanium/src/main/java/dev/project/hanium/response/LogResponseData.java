@@ -30,6 +30,15 @@ public class LogResponseData {
                 .build();
     }
 
+    public static LogResponseData fromRecords(Records records){
+        return LogResponseData.builder()
+                .detector(records.getJob_id())
+                .time(records.getTimestamp())
+                .score(records.getRecord_score())
+                .sourceIp(records.getOver_field_name())
+                .build();
+    }
+
     @Builder
     public LogResponseData (String detector, long time, double score, String sourceIp) {
         this.detector = detector;

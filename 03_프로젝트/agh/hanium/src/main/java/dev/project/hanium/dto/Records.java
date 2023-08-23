@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -50,10 +51,25 @@ public class Records{
     }
 
     public LogAnomaly toEntity() {
-        return LogAnomaly.builder().build();
+        return LogAnomaly.builder()
+                .detector(job_id)
+                .time(timestamp)
+                .sourceIp(Objects.equals(job_id, "Nginx access status code rate") ?  getInfluencers().get(0).getInfluencer_field_values().get(0) : over_field_value)
+                .score(record_score)
+                .build();
     }
 
     public static Records fromEntity(LogAnomaly logAnomaly) {
-        return Records.builder().build();
+        return Records.builder()
+                .job_id(logAnomaly.getDetector())
+                .timestamp(logAnomaly.getTime())
+                .over_field_name(logAnomaly.getSourceIp())
+                .record_score(logAnomaly.getScore())
+                .build();
+    }
+
+    @Override
+    public String toString() {
+        return "detector : " + job_id + ", sourceIp : " + over_field_value + ", score" + record_score + ", time : " + timestamp + " , " + getInfluencers().get(0).getInfluencer_field_values().get(0);
     }
 }
