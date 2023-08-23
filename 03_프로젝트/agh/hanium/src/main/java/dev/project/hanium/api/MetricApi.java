@@ -37,9 +37,8 @@ public class MetricApi {
 
     @PostMapping("/getmetrics")
     public CommonResponse<Object> getMetrics(@RequestBody RequestDate request){
-        String date=request.getDate();
-        String startDate=date+"T00:00:00";
-        String endDate=date+"T23:59:59";
+        String startDate=request.getStartDate()+"T00:00:00";
+        String endDate= request.getEndDate()+"T23:59:59";
 
         Query query = new Query();
         QueryBool bool = new QueryBool();

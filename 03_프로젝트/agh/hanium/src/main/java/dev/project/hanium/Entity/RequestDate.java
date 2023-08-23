@@ -5,5 +5,6 @@ import lombok.Setter;
 
 @Getter@Setter
 public class RequestDate {
-    private String date;
+    private String startDate;
+    private String endDate;
 }
