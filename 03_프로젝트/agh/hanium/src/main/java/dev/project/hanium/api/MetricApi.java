@@ -16,7 +16,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.support.InterceptingHttpAccessor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -161,7 +160,7 @@ public class MetricApi {
 
     @PostMapping("/getmetricsAnomaly")
     public CommonResponse<Object> getMetricsAnomaly(@RequestBody RequestDate request){
-        String date=request.getDate();
+        String date=request.getStartDate();
         String startDate=date;
         String endDate=date;
 
