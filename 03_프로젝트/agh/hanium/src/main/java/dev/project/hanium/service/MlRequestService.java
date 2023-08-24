@@ -149,13 +149,20 @@ public class MlRequestService {
                 logAnomalyRepository.saveAll(request);
                 sendLogAnomaly(request,1);
             } else{
-                for(LogAnomaly x : request){
-                    boolean flag = false;
-                    for(LogAnomaly y : db){
-                        if((Objects.equals(x.getDetector(), y.getDetector())) && (x.getTime() == y.getTime()) ) flag = true;
-                    }
-                    if(!flag) tmp.add(x);
-                }
+//                for(LogAnomaly x : request){
+//                    boolean flag = false;
+//                    for(LogAnomaly y : db){
+//                        if ((Objects.equals(x.getDetector(), y.getDetector())) && (x.getTime() == y.getTime())) {
+//                            flag = true;
+//                            break;
+//                        }
+//                    }
+//                    if(!flag) tmp.add(x);
+//                }
+                tmp = request.stream()
+                        .filter(x -> db.stream()
+                                .noneMatch(y -> Objects.equals(x.getDetector(), y.getDetector()) && x.getTime() == y.getTime()))
+                        .collect(Collectors.toList());
                 logAnomalyRepository.saveAll(tmp);
                 sendLogAnomaly(tmp,1);
             }
