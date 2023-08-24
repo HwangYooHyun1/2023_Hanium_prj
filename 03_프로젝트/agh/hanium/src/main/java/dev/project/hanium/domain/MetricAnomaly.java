@@ -1,16 +1,20 @@
 package dev.project.hanium.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.TimeZone;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class MetricAnomaly {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,16 +23,21 @@ public class MetricAnomaly {
     private String detector;
 
     @Column(nullable = false)
-    private long  time;
+    private LocalDateTime time;
 
     @Column(nullable = false)
     private double score;
 
     @Builder
-    public MetricAnomaly(Long id, String detector, long time, double score) {
+    public MetricAnomaly(Long id, String detector, LocalDateTime time, double score) {
         this.id = id;
         this.detector = detector;
         this.time = time;
         this.score = score;
+    }
+
+    public static LocalDateTime getTimestampToDate(long unixTimestamp) {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(unixTimestamp),
+                TimeZone.getDefault().toZoneId());
     }
 }

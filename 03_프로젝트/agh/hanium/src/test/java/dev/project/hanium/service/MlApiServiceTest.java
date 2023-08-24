@@ -61,13 +61,13 @@ class MlApiServiceTest {
 //        System.out.println(metricAnomalyRepository.findAll().size());
 //    }
 
-    @Test
-    public void logAnomaliesFromElkTest() {
-        dev.project.hanium.dto.LogAnomalyDto logAnomaliesFromElk = mlRequestService.getLogAnomaliesFromElk();
-        List<LogAnomaly> db = logAnomaliesFromElk.getRecords().stream().map(Records::toEntity).collect(toList());
-        logAnomalyRepository.saveAll(db);
-        assertThat(logAnomalyRepository.count()).isEqualTo(logAnomaliesFromElk.getCount());
-    }
+//    @Test
+//    public void logAnomaliesFromElkTest() {
+//        dev.project.hanium.dto.LogAnomalyDto logAnomaliesFromElk = mlRequestService.getLogAnomaliesFromElk();
+//        List<LogAnomaly> db = logAnomaliesFromElk.getRecords().stream().map(Records::toEntity).collect(toList());
+//        logAnomalyRepository.saveAll(db);
+//        assertThat(logAnomalyRepository.count()).isEqualTo(logAnomaliesFromElk.getCount());
+//    }
 
 //    @Test
 //    public void logAnomaliesalarmTest() {

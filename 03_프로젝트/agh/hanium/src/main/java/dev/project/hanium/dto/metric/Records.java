@@ -31,16 +31,16 @@ public class Records {
         return MetricAnomaly.builder()
                 .detector(field_name + " " + function)
                 .score(record_score)
-                .time(timestamp)
+                .time(MetricAnomaly.getTimestampToDate(timestamp))
                 .build();
     }
 
-    public static Records fromEntity(MetricAnomaly metricAnomaly){
-        return Records.builder()
-                .field_name(metricAnomaly.getDetector().split(" ")[0])
-                .function(metricAnomaly.getDetector().split(" ")[1])
-                .timestamp(metricAnomaly.getTime())
-                .record_score(metricAnomaly.getScore())
-                .build();
-    }
+//    public static Records fromEntity(MetricAnomaly metricAnomaly){
+//        return Records.builder()
+//                .field_name(metricAnomaly.getDetector().split(" ")[0])
+//                .function(metricAnomaly.getDetector().split(" ")[1])
+//                .timestamp(metricAnomaly.getTime())
+//                .record_score(metricAnomaly.getScore())
+//                .build();
+//    }
 }

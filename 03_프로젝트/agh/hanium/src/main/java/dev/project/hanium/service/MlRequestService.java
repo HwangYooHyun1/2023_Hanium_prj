@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.*;
@@ -86,14 +88,12 @@ public class MlRequestService {
                 metricAnomalyRepository.saveAll(tmp);
                 sendMetricAnomaly(tmp,1);
             }
-            List<Records> list = metricAnomalyRepository.findAll()
-                    .stream()
-                    .map(Records::fromEntity)
-                    .sorted((m1,m2) -> (int) m2.getTimestamp() - (int) m1.getTimestamp())
-                    .collect(toList());
-//            return new MetricAnomalyDto(list);
+//            List<Records> list = metricAnomalyRepository.findAll()
+//                    .stream()
+//                    .map(Records::fromEntity)
+//                    .sorted((m1,m2) -> (int) m2.getTimestamp() - (int) m1.getTimestamp())
+//                    .collect(toList());
         }
-//        return dtos;
     }
 
 //    tmp = request.stream()
@@ -101,6 +101,42 @@ public class MlRequestService {
 //            .noneMatch(y -> x.getDetector() == y.getDetector() && x.getTime() == y.getTime()))
 //            .collect(Collectors.toList());
 
+//    @Scheduled(fixedDelay = 10000, initialDelay = 10000)
+//    public void saveAllDifferenceInData(Repository repository, Function<Repository, Long> countFunction,
+//                                        Supplier<Dto> dtoSupplier, Function<Dto, List<Entity>> entityMappingFunction,
+//                                        Consumer<List<Entity>> saveFunction, Consumer<List<Entity>> sendFunction) {
+//
+//        Dto dtos = dtoSupplier.get();
+//        if (dtos.getRecords().size() != countFunction.apply(repository)) {
+//            List<Entity> tmp = new ArrayList<>();
+//            List<Entity> request = dtos.getRecords().stream().map(entityMappingFunction).collect(toList());
+//            List<Entity> db = repository.findAll();
+//
+//            if (db.size() == 0) {
+//                repository.saveAll(request);
+//                saveFunction.accept(request);
+//            } else {
+//                for (Entity x : request) {
+//                    boolean flag = false;
+//                    for (Entity y : db) {
+//                        if ((Objects.equals(x.getDetector(), y.getDetector())) && (x.getTime() == y.getTime())) {
+//                            flag = true;
+//                            break;
+//                        }
+//                    }
+//                    if (!flag) tmp.add(x);
+//                }
+//                repository.saveAll(tmp);
+//                saveFunction.accept(tmp);
+//            }
+//
+//            List<Dto.Records> list = repository.findAll()
+//                    .stream()
+//                    .map(Dto.Records::fromEntity)
+//                    .sorted((m1, m2) -> (int) m2.getTimestamp() - (int) m1.getTimestamp())
+//                    .collect(toList());
+//        }
+//    }
 
     @Scheduled(fixedDelay = 10000,initialDelay = 10000)
     public void saveAllDifferenceInLogData() {
@@ -124,21 +160,17 @@ public class MlRequestService {
                 sendLogAnomaly(tmp,1);
             }
 
-            List<dev.project.hanium.dto.Records> list = logAnomalyRepository.findAll()
-                    .stream()
-                    .map(dev.project.hanium.dto.Records::fromEntity)
-                    .sorted((m1,m2) -> (int) m2.getTimestamp() - (int) m1.getTimestamp())
-                    .collect(toList());
-//            return new dev.project.hanium.dto.LogAnomalyDto(list);
+//            List<dev.project.hanium.dto.Records> list = logAnomalyRepository.findAll()
+//                    .stream()
+//                    .map(dev.project.hanium.dto.Records::fromEntity)
+//                    .sorted((m1,m2) -> (int) m2.getTimestamp() - (int) m1.getTimestamp())
+//                    .collect(toList());
         }
-
-//        return dtos;
     }
 
     public void sendLogAnomaly(List<LogAnomaly> list, Integer userId) {
         emitterRepository.get(userId).ifPresentOrElse(sseEmitter -> {
             try {
-//                dev.project.hanium.dto.LogAnomalyDto anomaly = new dev.project.hanium.dto.LogAnomalyDto(list.stream().map(dev.project.hanium.dto.Records::fromEntity).collect(toList()));
                 List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromLogEntity).collect(toList());
                 sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomaly));
             } catch (IOException e){

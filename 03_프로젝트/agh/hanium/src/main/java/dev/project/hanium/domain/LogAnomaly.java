@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.util.TimeZone;
 
 @Entity
 @Getter @Setter
@@ -19,7 +22,7 @@ public class LogAnomaly {
     private String detector;
 
     @Column(nullable = false)
-    private long time;
+    private LocalDateTime time;
 
     @Column(nullable = false)
     private double score;
@@ -27,7 +30,7 @@ public class LogAnomaly {
     private String sourceIp;
 
     @Builder
-    public LogAnomaly(Long id, String detector, long time, double score,String sourceIp) {
+    public LogAnomaly(Long id, String detector, LocalDateTime time, double score,String sourceIp) {
         this.id = id;
         this.detector = detector;
         this.time = time;
@@ -35,8 +38,9 @@ public class LogAnomaly {
         this.sourceIp = sourceIp;
     }
 
-    @Override
-    public String toString() {
-        return "detector : " + detector + ", sourceIp : " + sourceIp;
+    public static LocalDateTime getTimestampToDate(long unixTimestamp) {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(unixTimestamp),
+                TimeZone.getDefault().toZoneId());
     }
+
 }
