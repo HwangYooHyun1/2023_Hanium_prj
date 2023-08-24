@@ -53,20 +53,20 @@ public class Records{
     public LogAnomaly toEntity() {
         return LogAnomaly.builder()
                 .detector(job_id)
-                .time(timestamp)
+                .time(LogAnomaly.getTimestampToDate(timestamp))
                 .sourceIp(Objects.equals(job_id, "Nginx access status code rate") ?  getInfluencers().get(0).getInfluencer_field_values().get(0) : over_field_value)
                 .score(record_score)
                 .build();
     }
 
-    public static Records fromEntity(LogAnomaly logAnomaly) {
-        return Records.builder()
-                .job_id(logAnomaly.getDetector())
-                .timestamp(logAnomaly.getTime())
-                .over_field_name(logAnomaly.getSourceIp())
-                .record_score(logAnomaly.getScore())
-                .build();
-    }
+//    public static Records fromEntity(LogAnomaly logAnomaly) {
+//        return Records.builder()
+//                .job_id(logAnomaly.getDetector())
+//                .timestamp((logAnomaly.getTime()))
+//                .over_field_name(logAnomaly.getSourceIp())
+//                .record_score(logAnomaly.getScore())
+//                .build();
+//    }
 
     @Override
     public String toString() {
