@@ -7,24 +7,16 @@ import MetricItem from './MetricItem';
 import AccessItem from './AccessItem';
 import './Style.css';
 
-const Title = Styled.div`
-  display: fixed;
-  padding-top: 60px;
-  padding-left: 270px;
-`;
 
 const TableList = Styled.div`
-  background-color: rgb(248, 250, 253);
   height: 33vh; 
   display: flex;
-  padding-left: 260px;
   justify-content: center;
   overflow: auto;
 `;
 
 const TableHead = Styled.thead`
   th {
-    background-color: #ffffff;
     font-size: 1rem;
     position: sticky;
     z-index: 998;
@@ -38,7 +30,16 @@ const TableHead = Styled.thead`
 const TableBody = Styled.tbody`
   padding-top: 40px;
   padding-bottom: 100px;
-  background-color: rgb(248, 250, 253);
+  background-color: white;
+`;
+
+const TableContainer = Styled.div`
+  margin-left: 250px;
+  margin-right: 15px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  background-color : white;
+  box-shadow: 1px 4px 6px rgba(0, 0, 0, 0.2);
 `;
 
 const AnomalyDetection = (props) => {
@@ -92,46 +93,48 @@ const AnomalyDetection = (props) => {
   return (
     <div className='AnomalyDetection'>
       <div className='Container'>
-        <Title>
-          <h5 style={{ fontWeight: 'bold'}}>Anomaly Detection</h5>
-        </Title>
+        <div className='Title'>
+          <h5 style={{ fontWeight: 'bold' }}>Anomaly Detection</h5>
+        </div>
         <div className='Frame'>
           <iframe src="http://3.36.169.149:5601/app/dashboards#/view/9084b240-379e-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-24h%2Fh%2Cto%3Anow))&hide-filter-bar=true" height="100%" width="100%"></iframe>
         </div>
-        <TableList>
-          <table stickyheader='true'>
-            <TableHead>
-              <tr>
-                <th style={{ paddingRight: '260px', paddingLeft: '10px' }}>Timestamp</th>
-                <th style={{ paddingRight: '330px', paddingLeft: '10px' }}>Detector</th>
-                <th style={{ paddingRight: '180px', paddingLeft: '10px' }}>Source IP | State code</th>
-                <th style={{ paddingLeft: '10px' }}>Score</th>
-                <th style={{ paddingRight: '0px' }}> </th>
-                <th style={{ paddingRight: '40px' }}> </th>
-              </tr>
-            </TableHead>
-            <TableBody>
-              {currentPageData.map((dataItem, index) => (
-                <React.Fragment key={index}>
-                  {dataItem.type === 'metric' && dataItem.score >= 25 ? (
-                    <MetricItem result={dataItem} />
-                  ) : (
-                    <AccessItem result={dataItem} />
-                  )}
-                </React.Fragment>
-              ))}
-            </TableBody>
-          </table>
-        </TableList>
-        <Stack direction="row" justifyContent="center" alignItems="center" mt={2} style={{ paddingLeft: '260px' }}>
-          <Pagination
-            count={Math.ceil(combinedData.length / itemsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-            variant="rounded"
-            shape="rounded"
-          />
-        </Stack>
+        <TableContainer>
+          <TableList>
+            <table stickyheader='true'>
+              <TableHead>
+                <tr>
+                  <th style={{ paddingRight: '250px', paddingLeft: '5px' }}>Timestamp</th>
+                  <th style={{ paddingRight: '350px', paddingLeft: '5px' }}>Detector</th>
+                  <th style={{ paddingRight: '190px', paddingLeft: '5px' }}>Source IP | State code</th>
+                  <th style={{ paddingLeft: '5px' }}>Score</th>
+                  <th style={{ paddingRight: '0px' }}> </th>
+                  <th style={{ paddingRight: '50px' }}> </th>
+                </tr>
+              </TableHead>
+              <TableBody>
+                {currentPageData.map((dataItem, index) => (
+                  <React.Fragment key={index}>
+                    {dataItem.type === 'metric' && dataItem.score >= 25 ? (
+                      <MetricItem result={dataItem} />
+                    ) : (
+                      <AccessItem result={dataItem} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </TableBody>
+            </table>
+          </TableList>
+          <Stack direction="row" justifyContent="center" alignItems="center" mt={2}>
+            <Pagination
+              count={Math.ceil(combinedData.length / itemsPerPage)}
+              page={currentPage}
+              onChange={handlePageChange}
+              variant="rounded"
+              shape="rounded"
+            />
+          </Stack>
+        </TableContainer>
       </div>
     </div>
   );

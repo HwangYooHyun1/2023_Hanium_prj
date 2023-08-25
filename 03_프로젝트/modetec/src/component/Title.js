@@ -12,9 +12,8 @@ const Design = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  height: 50px;
+  height: 34px;
   width: 100%;
-  padding: 15px;
   color: white;
   z-index: 1001;
   display: flex;
@@ -23,16 +22,17 @@ const Design = styled.div`
 `;
 
 const Logo = styled.img`
-  height: 48px;
-  width: 200px; 
-  padding-right: 10px;
+  height: 33px;
+  width: 140px; 
+  margin-left: 10px;
 `;
 
 const Button = styled.button`
   border: none;
   background-color: black;
-  height: 50px;
-  width: 200px; 
+  height: 30px;
+  width: 120px; 
+  margin-bottom: 6px;
 `;
 
 const UserId = styled.div`

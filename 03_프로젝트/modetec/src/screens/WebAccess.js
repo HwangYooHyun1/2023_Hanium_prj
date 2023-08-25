@@ -12,8 +12,8 @@ const Container = Styled.div`
 const Title = Styled.div`
   display: flex;
   align-items: center;
-  margin-top: 50px;
-  padding-left: 20px;
+  margin-top: 30px;
+  padding-left: 10px;
 `;
 
 const RefreshButton = Styled(RefreshIcon)`

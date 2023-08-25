@@ -7,7 +7,7 @@
   height: 100vh;
   width: 100vw;
   padding-left: 10px;
-  padding-right:10px;
+  padding-right: 10px;
 }
 
 .Center {
@@ -20,15 +20,15 @@
 }
 
 .Frame {
-  height: 50vh;
-  width: calc(100% - 20px);
-  padding-left: 260px;
+  height: 49vh;
+  width: calc(100% - 5px);
+  padding-left: 245px;
 }
 
 .Title {
   display: fixed;
-  padding-top: 60px;
-  padding-left: 270px;
+  padding-top: 40px;
+  padding-left: 245px;
 }
 
 .Padding {
