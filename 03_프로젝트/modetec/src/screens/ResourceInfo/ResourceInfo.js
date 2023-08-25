@@ -2,32 +2,33 @@ import React, { useState, useEffect } from 'react';
 import Styled from 'styled-components';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import './RIStyle.css';
 
 const Title = Styled.div`
-  padding-top: 60px;
-  padding-left: 20px;
+  padding-top: 40px;
+  padding-left: 10px;
 `;
-
 const Sidebar = Styled.div`
-  width: 250px;
+  width: 230px;
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
   position: fixed;
-  left: 260px;
-  top: 90px;
-  bottom: 5px;
+  left: 250px;
+  top: 75px;
+  bottom: 10px;
 `;
 
 const ContentWrapper = Styled.div`
   position: absolute;
   top: 0;
-  left: ${props => props.isSidebarOpen ? '260px' : '50px'};
+  left: ${props => props.isSidebarOpen ? '240px' : '55px'};
   right: 0;
   bottom: 0;
+  overflow: hidden;
 `;
 
 export const ResourceInfo = (props) => {
@@ -72,9 +73,16 @@ export const ResourceInfo = (props) => {
         <h5 style={{ fontWeight: 'bold' }}>Server Details Info</h5>
       </Title>
       <div className='rCenter' style={{ position: 'relative' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ paddingLeft: '200px', paddingTop: '340px' }}>
+            <FeedbackIcon color='disabled' sx={{ fontSize: 40 }} />
+          </div>
+          <h4 style={{ paddingLeft: '200px', paddingTop: '10px', color: 'grey' }}>Click a server in the list</h4>
+        </div>
+
         {isSidebarOpen && (
           <Sidebar>
-            <div className='CloseSidebarButton' onClick={toggleSidebar} style={{ paddingLeft: '220px' }}>
+            <div className='CloseSidebarButton' onClick={toggleSidebar} style={{ paddingLeft: '205px' }}>
               <FontAwesomeIcon icon={faAngleLeft} />
             </div>
             <h5 style={{ padding: '15px' }}>Server List</h5>
@@ -86,7 +94,7 @@ export const ResourceInfo = (props) => {
           </Sidebar>
         )}
         {!isSidebarOpen && (
-          <button className='OpenSidebarButton' onClick={toggleSidebar}>
+          <button className='OpenSidebarButton' onClick={toggleSidebar} style={{ top: '75px', bottom: '10px' }}>
             <FontAwesomeIcon icon={faAngleRight} />
           </button>
         )}

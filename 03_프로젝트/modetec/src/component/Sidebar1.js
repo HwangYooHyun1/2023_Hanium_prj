@@ -6,16 +6,20 @@ import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import Modal from './Modals/Modal';
 import ProjectModal from './Modals/ProjectModal';
 import AgentModal from './Modals/AgentModal';
-import './Sidebar1.css';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 
 const Bar = styled.div`
   font-size: 1.2rem;
   top: 200px;
   height: calc(100vh / 3);
-  width: 260px;
+  width: 240px;
   background-color: rgb(60, 60, 60);
   position: fixed;
-  top: 50px;
+  top: 30px;
   left: 0;
   z-index: 999;
 `;
@@ -29,15 +33,15 @@ const Center = styled.div`
   justify-content: center; /* 버튼들을 수평 방향으로 가운데 정렬 */
 `;
 
-const Button = styled.button`
-  width: 100%; /* 버튼들이 가로로 늘어나도록 100% 너비 지정 */
-  margin: 5px; /* 버튼들 사이에 약간의 간격 추가 */
-  font-size: 1.1rem;
-`;
+/*const Button = styled.button`
+  //width: 100%; /* 버튼들이 가로로 늘어나도록 100% 너비 지정 */
+// margin: 5px; /* 버튼들 사이에 약간의 간격 추가 */
+// font-size: 0.9rem;
+//`;
 
 const Title = styled.div`
   padding: 11px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: rgb(237, 237, 237);
 `;
 
@@ -72,12 +76,37 @@ const Sidebar = () => {
       <Bar>
         <Center>
           {/* Button 스타일드 컴포넌트를 버튼들에 적용 */}
-          <Button type="button" className="btn btn-danger" onClick={openProjectModal}>
-            Project +
-          </Button>
-          <Button type="button" className="btn btn-danger" onClick={openAgentModal}>
-            Agent +
-          </Button>
+          <Stack direction="row" spacing={0.6}>
+            <Button variant="contained"
+              className="btn btn-danger"
+              onClick={openProjectModal}
+              sx={{
+                width: '113px',
+                backgroundColor: 'rgb(210, 50, 50)', 
+                color: 'white',  
+                '&:hover': {
+                  backgroundColor: 'rgb(190, 50, 50)',  // 마우스 호버 시 배경색 변경
+                },
+              }}
+              startIcon={<CreateNewFolderIcon />} >
+              PROJECT
+            </Button>
+            <Button
+              variant="contained"
+              className="btn btn-danger"
+              onClick={openAgentModal}
+              sx={{
+                width: '110px', 
+                backgroundColor: 'rgb(210, 50, 50)',  
+                color: 'white', 
+                '&:hover': {
+                  backgroundColor: 'rgb(190, 50, 50)',  // 마우스 호버 시 배경색 변경
+                },
+              }}
+              endIcon={<PlaylistAddIcon />}>
+              AGENT
+            </Button>
+          </Stack>
         </Center>
         <Title>
           <a>PROJECT LIST</a>

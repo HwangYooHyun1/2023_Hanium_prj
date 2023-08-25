@@ -4,11 +4,6 @@
     position: relative;
 }
 
-.Title {
-    padding-top: 60px;
-    padding-left: 10px;
-}
-
 .rCenter {
     height: 100vh;
     padding-top: 5px;
@@ -40,7 +35,7 @@
     width: 40px;
     border: none;
     position: fixed;
-    left: 270px;
+    left: 250px;
     bottom: 0;
     top: 90px;
     background-color: white;
