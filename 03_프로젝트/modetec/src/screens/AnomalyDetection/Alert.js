@@ -16,11 +16,19 @@ const getScoreColor = (score) => {
 };
 
 const App = () => {
-    useEffect(() => {
-        const eventSource = new EventSource('http://localhost:8080/swagger-ui/index.html#/ml-api/subscribe');
 
-        eventSource.addEventListener('ANOMALY', event => {
-            console.log('Received event:', event);
+    useEffect(() => {
+        const eventSource = new EventSource('http://52.79.201.187:8080/anomaly/subscribe');
+        eventSource.onopen = () => {
+            console.log('SSE connection opened.');
+        };
+
+        eventSource.onerror = () => {
+            console.error('SSE connection failed.');
+        };
+
+        eventSource.onmessage = event => {
+            console.log('Received message:', event.data);
             const eventData = JSON.parse(event.data);
             const { detector, score } = eventData;
 
@@ -33,7 +41,7 @@ const App = () => {
                 closeButton: false,
                 style: { backgroundColor: scoreColor },
             });
-        });
+        };
         return () => {
             eventSource.close();
         };

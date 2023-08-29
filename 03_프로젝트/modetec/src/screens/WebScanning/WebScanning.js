@@ -43,11 +43,9 @@ export const WebScanning = () => {
       .then(data => {
         const infoMap = data.info.map;
         const newItems = Object.keys(infoMap).map(key => {
-          const url = `http://3.36.169.149:5601/app/dashboards#/view/aa4a4aa0-379e-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(time:(from:now-24h%2Fh,to:now))&_a=(filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'metricbeat-*',key:host.hostname,negate:!f,params:(query:${infoMap[key]}),type:phrase),query:(match_phrase:(host.hostname:${infoMap[key]})))))&hide-filter-bar=true`;
           return {
             name: key,
             nameValue: infoMap[key],
-            url: url,
           };
         });
         setItemList(newItems);
