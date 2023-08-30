@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-
 import { UserProvider } from "./component/UserContext";
 import Login from "./screens/Login/Login"
 import Resource from "./screens/Resource";
@@ -36,6 +35,7 @@ const App = () => {
             </Routes>
           </div>
         </UserProvider>
+        <div className="alert-container" style={{ zIndex: 9999 }}><Alert /></div>
       </BrowserRouter>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const getScoreColor = (score) => {
     if (score >= 25 && score < 50) {
@@ -19,21 +20,31 @@ const Alert = () => {
         console.log('SSE connection opened.'); // 연결 성공 로그
     };
     eventSource.addEventListener("ANOMALY", event => {
-        console.log('Received event:', event.data);
-        const eventData = JSON.parse(event.data);
-        const { detector, score } = eventData;
+        try {
+            const eventData = JSON.parse(event.data);
+            if (Array.isArray(eventData)) {
+                // 빈 배열인 경우 아무 작업하지 않음
+                return;
+            }
 
-        const scoreColor = getScoreColor(score);
-        const message = `An abnormality has been detected\ndetector: ${detector}\nscore: ${score}`;
+            const { detector, score } = eventData;
+            const scoreColor = getScoreColor(score);
+            const message = `An abnormality has been detected\ndetector: ${detector}\nscore: ${score}`;
 
-        toast(message, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeButton: false,
-            style: { backgroundColor: scoreColor },
-        });
-    })
+            toast(message, {
+                position: "top-center",
+                autoClose: 4000,
+                hideProgressBar: false,
+                closeButton: false,
+                progressClassName: "custom-toast-progress",
+                progressStyle: {
+                    height: "5px",
+                },
+            });
+        } catch (error) {
+            console.error('Error parsing event data:', error);
+        }
+    });
 
     eventSource.onerror = () => {
         console.log('SSE Error:');
@@ -42,18 +53,7 @@ const Alert = () => {
 
     return (
         <div className="App">
-            <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-            />
+            <ToastContainer theme="dark" />
         </div>
     );
 };
