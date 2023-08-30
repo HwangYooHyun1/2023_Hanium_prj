@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
+import React from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
 const getScoreColor = (score) => {
     if (score >= 25 && score < 50) {
@@ -15,37 +13,32 @@ const getScoreColor = (score) => {
     }
 };
 
-const App = () => {
+const Alert = () => {
+    const eventSource = new EventSource("http://52.79.201.187:8080/anomaly/subscribe");
+    eventSource.onopen = () => {
+        console.log('SSE connection opened.'); // 연결 성공 로그
+    };
+    eventSource.addEventListener("ANOMALY", event => {
+        console.log('Received event:', event.data);
+        const eventData = JSON.parse(event.data);
+        const { detector, score } = eventData;
 
-    useEffect(() => {
-        const eventSource = new EventSource('http://52.79.201.187:8080/anomaly/subscribe');
-        eventSource.onopen = () => {
-            console.log('SSE connection opened.');
-        };
+        const scoreColor = getScoreColor(score);
+        const message = `An abnormality has been detected\ndetector: ${detector}\nscore: ${score}`;
 
-        eventSource.onerror = () => {
-            console.error('SSE connection failed.');
-        };
+        toast(message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeButton: false,
+            style: { backgroundColor: scoreColor },
+        });
+    })
 
-        eventSource.onmessage = event => {
-            console.log('Received message:', event.data);
-            const eventData = JSON.parse(event.data);
-            const { detector, score } = eventData;
-
-            const scoreColor = getScoreColor(score);
-            const message = `An abnormality has been detected\ndetector: ${detector}\nscore: ${score}`;
-            toast(message, {
-                position: "top-center",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeButton: false,
-                style: { backgroundColor: scoreColor },
-            });
-        };
-        return () => {
-            eventSource.close();
-        };
-    }, []);
+    eventSource.onerror = () => {
+        console.log('SSE Error:');
+        eventSource.close();
+    };
 
     return (
         <div className="App">
@@ -65,4 +58,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default Alert;

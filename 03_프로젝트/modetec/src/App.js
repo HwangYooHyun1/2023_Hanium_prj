@@ -12,6 +12,7 @@ import Report from "./screens/Report/Report";
 import Title from "./component/Title";
 import Sidebar1 from "./component/Sidebar1";
 import Sidebar2 from "./component/Sidebar2";
+import Alert from "./screens/AnomalyDetection/Alert"
 
 const App = () => {
   return (

@@ -1,5 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import Styled from 'styled-components'
+import React, { useState, useEffect } from 'react';
+import Styled from 'styled-components';
+import Loading from '../../component/Loading';
+import TableContainer from '@mui/material/TableContainer';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const Container = Styled.div`
     background-color: white;
@@ -14,53 +27,10 @@ const Container = Styled.div`
     left: 495px;
 `;
 
-const Table = ({ data }) => {
-    return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Vulnerability</th>
-                    <th>Description</th>
-                    <th>Purpose</th>
-                    <th>Security Threat</th>
-                    <th>Purpose</th>
-                    <th>Status</th>
-
-                    {/* 추가적인 항목들의 헤더도 추가 가능 */}
-                </tr>
-            </thead>
-            <tbody>
-                {Array.isArray(data) ? (
-                    // data가 배열인 경우
-                    data.map((item, index) => (
-                        <tr key={index}>
-                            <td>{item.vulnerability}</td>
-                            <td>{item.description}</td>
-                            <td>{item.purpose}</td>
-                            <td>{item.security_threat}</td>
-                            <td>{item.content}</td>
-                            <td>{item.status}</td>
-                            {/* 추가적인 항목들도 여기에 추가 */}
-                        </tr>
-                    ))
-                ) : (
-                    // data가 배열이 아닌 경우 (객체 등)
-                    <tr>
-                        <td>{data}</td>
-                        {/* 추가적인 항목들도 여기에 추가 */}
-                    </tr>
-                )}
-            </tbody>
-        </table>
-    );
-};
-
 export const ItemPage = ({ selectedItem }) => {
-    const [responseData, setResponseData] = useState(() => {
-        // 세션 스토리지에서 데이터 가져오기
-        const storedData = sessionStorage.getItem(selectedItem);
-        return storedData ? JSON.parse(storedData) : [];
-    });
+    const [loading, setLoading] = useState(true);
+    const [responseData, setResponseData] = useState([]);
+
     const convertIP = (ip) => {
         const ipMap = {
             'ip-172-31-12-240': '43.201.117.55',
@@ -69,16 +39,9 @@ export const ItemPage = ({ selectedItem }) => {
         return ipMap[ip];
     };
 
-    useEffect(() => {
-        // selectedItem이 변경될 때마다 responseData를 초기화
-        setResponseData([]);
-    }, [selectedItem]);
-
     const handleSendData = () => {
-        console.log('Sending data...'); // 추가된 로그
-        const convertedIP = convertIP(selectedItem);
-        console.log('Converted IP:', convertedIP);
-
+        setLoading(true);
+        const convertedIP = convertIP(selectedItem.nameValue);
         fetch('http://210.110.39.163:8080/vulnerabilties', {
             method: 'POST',
             headers: {
@@ -90,22 +53,96 @@ export const ItemPage = ({ selectedItem }) => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Response from server:', data);
-                setResponseData(data); // 받은 데이터를 상태로 저장
+                setResponseData(data);
+                sessionStorage.setItem(selectedItem.nameValue, JSON.stringify(data));
             })
             .catch(error => {
                 console.error('Error sending data:', error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
-
     };
+
+    useEffect(() => {
+        setLoading(true);
+        const storedData = sessionStorage.getItem(selectedItem.nameValue);
+        if (storedData) {
+            setResponseData(JSON.parse(storedData));
+            setLoading(false);
+        } else {
+            handleSendData();
+        }
+    }, [selectedItem.nameValue]);
 
     return (
         <Container>
-            <h4>{selectedItem}</h4>
-            <button onClick={handleSendData}>Scanning Start</button>
-            <Table data={responseData} />
-        </Container>
-    )
-}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <h5 style={{ padding: '15px', margin: '0' }}>Scanning results of {selectedItem.name}({selectedItem.nameValue})</h5>
+                <button onClick={handleSendData} style={{ marginRight: '10px' }}>Scanning Start</button>
+            </div>
+            {loading ? (
+                <Loading />
+            ) : (
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow style={{ backgroundColor: '#f2f2f2' }}>
+                                <TableCell style={{ width: '440px', paddingLeft: '40px', fontWeight: 'bold', fontSize: '16px' }}>Vulnerability</TableCell>
+                                <TableCell style={{ width: '690px', fontWeight: 'bold', fontSize: '16px' }}>Content</TableCell>
+                                <TableCell style={{ paddingRight: '200px', fontWeight: 'bold', fontSize: '16px' }}>Status</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {responseData.map((item, index) => (
+                                <React.Fragment key={index}>
+                                    <TableRow>
+                                        <TableCell colSpan={4}>
+                                            <Accordion>
+                                                <AccordionSummary
+                                                    expandIcon={<ExpandMoreIcon />}
+                                                    aria-controls={`panel-content-${index}`}
+                                                    id={`panel-header-${index}`}
+                                                >
+                                                    <Typography>
+                                                        <TableRow>
+                                                            <TableCell style={{ width: '400px', fontWeight: 'bold' }}>{item.vulnerability}</TableCell>
+                                                            <TableCell style={{ width: '700px', fontWeight: 'bold' }}>{item.content}</TableCell>
+                                                            <TableCell style={{ width: '200px', fontWeight: 'bold', backgroundColor: item.status === 'Risk' ? 'rgba(255, 30, 30, 0.8)' : 'rgba(80, 190, 80, 0.8)' }}>{item.status}</TableCell>
+                                                        </TableRow>
+                                                    </Typography>
+                                                </AccordionSummary>
+                                                <AccordionDetails>
+                                                    <TableHead>
+                                                        <h5> </h5>
+                                                        <Typography style={{ fontWeight: 'bold' }}>More Info about {item.vulnerability}</Typography>
+                                                        <h5> </h5>
+                                                        <TableRow>
+                                                            <TableCell style={{ fontWeight: 'bold' }}>Description</TableCell>
+                                                            <TableCell style={{ fontWeight: 'bold' }}>Purpose</TableCell>
+                                                            <TableCell style={{ fontWeight: 'bold' }}>Security Threat</TableCell>
+                                                        </TableRow>
+                                                    </TableHead>
+                                                    <TableBody>
+                                                        <TableRow>
+                                                            <TableCell style={{ width: '400px', fontWeight: 'bold' }}>{item.description}</TableCell>
+                                                            <TableCell style={{ width: '500px', fontWeight: 'bold' }}>{item.purpose}</TableCell>
+                                                            <TableCell style={{ width: '400px', fontWeight: 'bold' }}>{item.security_threat}</TableCell>
+                                                        </TableRow>
+                                                    </TableBody>
+                                                </AccordionDetails>
+                                            </Accordion>
+                                        </TableCell>
+                                    </TableRow>
+                                </React.Fragment>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            )
+            }
+        </Container >
+    );
+};
 
 export default ItemPage;

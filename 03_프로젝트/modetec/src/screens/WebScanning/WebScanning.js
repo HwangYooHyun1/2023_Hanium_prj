@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import './WSStyle.css';
 import ItemPage from './ItemPage';
@@ -76,7 +75,7 @@ export const WebScanning = () => {
         </Sidebar>
 
         <ContentWrapper>
-          {selectedItem && <ItemPage selectedItem={selectedItem.nameValue} />}
+          {selectedItem && <ItemPage selectedItem={selectedItem} />}
         </ContentWrapper>
       </div>
     </div >
