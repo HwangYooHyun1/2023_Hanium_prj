@@ -9,6 +9,7 @@ const Title = Styled.div`
   padding-top: 40px;
   padding-left: 10px;
 `;
+
 const Sidebar = Styled.div`
   width: 230px;
   background-color: white;

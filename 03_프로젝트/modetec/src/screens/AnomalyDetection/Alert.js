@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
+import './AlertStyle.css'
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 const getScoreColor = (score) => {
     if (score >= 25 && score < 50) {
@@ -15,46 +16,75 @@ const getScoreColor = (score) => {
     }
 };
 
-const App = () => {
-    useEffect(() => {
-        const eventSource = new EventSource('http://localhost:8080/swagger-ui/index.html#/ml-api/subscribe');
-
-        eventSource.addEventListener('ANOMALY', event => {
-            console.log('Received event:', event);
+const Alert = () => {
+    const [scoreColor, setScoreColor] = useState("#8bc8fb");
+    const eventSource = new EventSource("http://52.79.201.187:8080/anomaly/subscribe");
+    eventSource.onopen = () => {
+        console.log('SSE connection opened.'); // 연결 성공 로그
+    };
+    eventSource.addEventListener("ANOMALY", event => {
+        try {
             const eventData = JSON.parse(event.data);
-            const { detector, score } = eventData;
+            if (Array.isArray(eventData)) {
+                // 빈 배열인 경우 아무 작업하지 않음
+                return;
+            }
 
+            const { detector, score } = eventData;
             const scoreColor = getScoreColor(score);
-            const message = `An abnormality has been detected\ndetector: ${detector}\nscore: ${score}`;
+            setScoreColor(scoreColor);
+
+            const messageStyle = {
+                whiteSpace: 'pre-line'
+            };
+
+            const message = (
+                <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                    <WarningAmberIcon className="custom-toast-icon" />
+                    <div>
+                        <strong>An abnormality has been detected!</strong><br />
+                        detector: {detector}<br />
+                        score: {score}
+                    </div>
+                </div>
+            );
+
+
             toast(message, {
+                bodyStyle: messageStyle,
                 position: "top-center",
-                autoClose: 2000,
+                autoClose: 6000,
                 hideProgressBar: false,
-                closeButton: false,
-                style: { backgroundColor: scoreColor },
+                closeButton: true,
+                hideProgressBar: false,
+                progressClassName: "custom-toast-progress",
+                progressStyle: {
+                    height: '5px',
+                    backgroundColor: scoreColor
+                }
             });
-        });
-        return () => {
-            eventSource.close();
-        };
-    }, []);
+        } catch (error) {
+            console.error('Error parsing event data:', error);
+        }
+    });
+
+    eventSource.onerror = () => {
+        console.log('SSE Error:');
+        eventSource.close();
+    };
 
     return (
         <div className="App">
             <ToastContainer
-                position="top-center"
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
+                progressClassName="custom-toast-progress"
+                style={{
+                    width: '500px',
+                    '--custom-toast-color': scoreColor
+                }}
                 theme="light"
-            />
+                bodyClassName="custom-toast-body" />
         </div>
     );
 };
 
-export default App;
+export default Alert;

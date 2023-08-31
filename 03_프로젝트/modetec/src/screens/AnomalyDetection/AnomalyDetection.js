@@ -115,7 +115,7 @@ const AnomalyDetection = (props) => {
               <TableBody>
                 {currentPageData.map((dataItem, index) => (
                   <React.Fragment key={index}>
-                    {dataItem.type === 'metric' && dataItem.score >= 25 ? (
+                    {dataItem.type === 'metric' && dataItem.score >= 3 ? (
                       <MetricItem result={dataItem} />
                     ) : (
                       <AccessItem result={dataItem} />

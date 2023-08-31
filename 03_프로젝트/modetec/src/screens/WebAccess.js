@@ -6,7 +6,6 @@ import InfoIcon from '@mui/icons-material/Info';
 const Container = Styled.div`
   height: 100vh; 
   width: 100vw;
-
 `;
 
 const Title = Styled.div`

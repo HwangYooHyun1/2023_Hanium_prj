@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-
 import { UserProvider } from "./component/UserContext";
 import Login from "./screens/Login/Login"
 import Resource from "./screens/Resource";
@@ -12,6 +11,7 @@ import Report from "./screens/Report/Report";
 import Title from "./component/Title";
 import Sidebar1 from "./component/Sidebar1";
 import Sidebar2 from "./component/Sidebar2";
+import Alert from "./screens/AnomalyDetection/Alert"
 
 const App = () => {
   return (
@@ -35,6 +35,7 @@ const App = () => {
             </Routes>
           </div>
         </UserProvider>
+        <div className="alert-container" style={{ zIndex: 9999 }}><Alert /></div>
       </BrowserRouter>
     </div>
   );

@@ -52,6 +52,7 @@ const AccessItem = ({ result }) => {
   const year = new Date(time).getFullYear();
   const month = new Date(time).getMonth() + 1; // Months are zero-based
   const day = new Date(time).getDate();
+  const hour = new Date(time).getHours();
 
   const openDetailModal = () => {
     console.log("Opening detail modal");
@@ -78,13 +79,14 @@ const AccessItem = ({ result }) => {
         </StyledIconButton>
       </td>
       {detailModalOpen && (
-        <DetailModal 
-        open={detailModalOpen}
-        onClose={closeDetailModal} 
-        data={result}
-        year={year}
-        month={month}
-        day={day} />
+        <DetailModal
+          open={detailModalOpen}
+          onClose={closeDetailModal}
+          data={result}
+          year={year}
+          month={month}
+          day={day}
+          hour={hour} />
       )}
 
     </TableRow>

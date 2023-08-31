@@ -45,18 +45,21 @@ const DataBox = styled.div`
 const DetailModal = ({ open, onClose, data, year, month, day }) => {
   const { detector, time, score, sourceIp } = data;
 
-  //{*1주일 전 일자 
-  // Create a new Date object based on the year, month, and day
-  const currentDate = new Date(year, month, day); // Months are zero-based
-  // Calculate the date 7 days ago
+  const today = new Date();
+  const koreanTime = new Date(today.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  const formattedDate = koreanTime.toISOString().substring(0, 10);
+
+  console.log('formattedDate:', formattedDate)
+  const currentDate = new Date(year, month - 1, day);
   const sevenDaysAgo = new Date(currentDate);
   sevenDaysAgo.setDate(currentDate.getDate() - 7);
 
-  // Extract the year, month, and day from the calculated date
-  const sevenDaysAgoYear = sevenDaysAgo.getFullYear();
-  const sevenDaysAgoMonth = sevenDaysAgo.getMonth() + 1;
-  const sevenDaysAgoDay = sevenDaysAgo.getDate();
-  //*}
+  const formattedToday = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+  const formattedSevenDaysAgo = `${sevenDaysAgo.getFullYear()}-${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}-${sevenDaysAgo.getDate().toString().padStart(2, '0')}`;
+
+  console.log("formattedToday:", formattedToday);
+  console.log("formattedSevenDaysAgo:", formattedSevenDaysAgo);
+
   const prevOpenRef = React.useRef(open);
 
   React.useEffect(() => {
@@ -69,33 +72,29 @@ const DetailModal = ({ open, onClose, data, year, month, day }) => {
     }
   }, [open]);
 
-
   const renderIframe = () => {
     if (detector === "system.cpu.total.pct high_mean" || detector === "system.memory.total.pct high_mean" || detector === "system.disk.total.pct high_mean" || detector === "system.network.out.bytes high_mean") {
-      return (<iframe src="http://3.36.169.149:5601/app/dashboards#/view/8c8249f0-3f4b-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!f%2Cvalue%3A30000)%2Ctime%3A(from%3Anow-7d%2Fd%2Cto%3Anow))&hide-filter-bar=true"
-        height="100%" width="100%"></iframe>)
+      return (
+        <iframe src={`http://3.36.169.149:5601/app/dashboards#/view/8c8249f0-3f4b-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3A'${formattedSevenDaysAgo}T15%3A00%3A00.000Z'%2Cto%3A'${formattedToday}T15%3A00%3A00.000Z'))&show-time-filter=true&hide-filter-bar=true`}
+          height="100%" width="100%"
+        ></iframe>)
     }
     else if (detector === "Nginx access status code rate") {
-      return (<iframe src="http://3.36.169.149:5601/app/dashboards#/view/27a9c2e0-3fed-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!f%2Cvalue%3A30000)%2Ctime%3A(from%3Anow-7d%2Fd%2Cto%3Anow))&hide-filter-bar=true"
-        height="100%" width="100%" ></iframe>
-      )
+      return (<iframe src={`http://3.36.169.149:5601/app/dashboards#/view/27a9c2e0-3fed-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3A'${formattedSevenDaysAgo}T15%3A00%3A00.000Z'%2Cto%3A'${formattedToday}T15%3A00%3A00.000Z'))&show-time-filter=true&hide-filter-bar=true`}
+        height="100%" width="100%"></iframe>)
     }
     else if (detector === "Nginx access source IP high dc URL") {
-      return (<iframe src="http://3.36.169.149:5601/app/dashboards#/view/dd71f990-3fec-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!f%2Cvalue%3A30000)%2Ctime%3A(from%3Anow-7d%2Fd%2Cto%3Anow))&hide-filter-bar=true"
-        height="100%" width="100%"></iframe>
-      );
+      return (<iframe src={`http://3.36.169.149:5601/app/dashboards#/view/dd71f990-3fec-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval:(pause:!t,value:60000),time:(from:'${formattedSevenDaysAgo}T15:00:00.000Z',to:'${formattedToday}T15%3A00%3A00.000Z'))&_a=()&show-time-filter=true&hide-filter-bar=true`}
+        height="100%" width="100%"></iframe>)
     }
     else if (detector === "Nginx access source IP high count") {
-      return (<iframe src="http://3.36.169.149:5601/app/dashboards#/view/5b012490-3f4c-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!f%2Cvalue%3A30000)%2Ctime%3A(from%3Anow-7d%2Fd%2Cto%3Anow))&hide-filter-bar=true"
+      return (<iframe src={`http://3.36.169.149:5601/app/dashboards#/view/5b012490-3f4c-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3A'${formattedSevenDaysAgo}T15%3A00%3A00.000Z'%2Cto%3A'${formattedToday}T15%3A00%3A00.000Z'))&show-time-filter=true&hide-filter-bar=true`}
         height="100%" width="100%"></iframe>
       );
     }
     else if (detector === "Nginx access visitor rate") {
-      return (<iframe src="http://3.36.169.149:5601/app/dashboards#/view/a243dea0-3fed-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!f%2Cvalue%3A30000)%2Ctime%3A(from%3Anow-7d%2Fd%2Cto%3Anow))&hide-filter-bar=true"
-        height="100%" width="100%"></iframe>
-      );
+      return null;
     }
-    return null;
   }
 
   return (
@@ -103,7 +102,7 @@ const DetailModal = ({ open, onClose, data, year, month, day }) => {
       <ModalContainer open={open}>
         <ModalContent>
           <CloseButton onClick={onClose} />
-          <Typography variant="h5" style={{ padding: '10px', fontWeight: 'bold' }}>Details of {detector}</Typography>
+          <Typography variant="h5" style={{ padding: '8px', fontWeight: 'bold' }}>Details of {detector}</Typography>
           <DataBox>
             <Typography style={{ paddingBottom: '3px', fontWeight: 'bold', borderBottom: '1px solid #ccc' }}>Selected anomaly detection data information</Typography>
             <Typography style={{ padding: '5px 0', paddingTop: '10px' }}>Detector : {detector}</Typography>
@@ -111,7 +110,7 @@ const DetailModal = ({ open, onClose, data, year, month, day }) => {
             <Typography style={{ padding: '5px 0' }}>Score : {score.toFixed(2)}</Typography>
             <Typography style={{ padding: '5px 0', paddingBottom: '10px' }}>Source IP : {sourceIp !== null ? sourceIp : "N/A"}</Typography>
           </DataBox>
-          {renderIframe()}
+          <div style={{ height: '100vh', border: 'none', overflow: 'hidden' }}>{renderIframe()}</div>
         </ModalContent>
       </ModalContainer>
     </Modal>

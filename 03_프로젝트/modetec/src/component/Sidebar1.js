@@ -13,7 +13,6 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
 const Bar = styled.div`
-  font-size: 1.2rem;
   top: 200px;
   height: calc(100vh / 3);
   width: 240px;
@@ -81,7 +80,7 @@ const Sidebar = () => {
               className="btn btn-danger"
               onClick={openProjectModal}
               sx={{
-                width: '113px',
+                width: '110px',
                 backgroundColor: 'rgb(210, 50, 50)', 
                 color: 'white',  
                 '&:hover': {
@@ -96,7 +95,7 @@ const Sidebar = () => {
               className="btn btn-danger"
               onClick={openAgentModal}
               sx={{
-                width: '110px', 
+                width: '108px', 
                 backgroundColor: 'rgb(210, 50, 50)',  
                 color: 'white', 
                 '&:hover': {

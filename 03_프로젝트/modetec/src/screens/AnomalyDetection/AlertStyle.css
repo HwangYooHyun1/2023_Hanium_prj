@@ -1,0 +1,20 @@
+/* CustomAlert.css */
+.custom-toast-progress::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 5px;
+    background-color: var(--custom-toast-color);
+}
+
+.custom-toast-body {
+    display: flex;
+    align-items: center;
+}
+
+.custom-toast-icon {
+    margin-right: 10px;
+    color: var(--custom-toast-color);
+}
