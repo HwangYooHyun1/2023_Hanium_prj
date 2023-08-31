@@ -3,6 +3,7 @@ package dev.project.hanium.api;
 import dev.project.hanium.ELK_Query.*;
 import dev.project.hanium.Entity.MetricEntity;
 import dev.project.hanium.Entity.RequestDate;
+import dev.project.hanium.dto.MetricsResultDto;
 import dev.project.hanium.response.CommonResponse;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -70,7 +70,7 @@ public class MetricApi {
         Avg_NetOut avg_net_out = new Avg_NetOut();
         Avg_ avg4 = new Avg_();
         avg4.setField("system.network.out.bytes");
-        avg_net_out.setAvg(avg3);
+        avg_net_out.setAvg(avg4);
 
         Max_Cpu max_cpu = new Max_Cpu();
         Max_ max1 = new Max_();
@@ -144,25 +144,35 @@ public class MetricApi {
         Double maxNetOutValue=(Double)maxNetOut.get("value");
         // 결과로 필요한 데이터 반환
 
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("avg_net_in",  String.format("%.2f", avgNetInValue/1000000));
-        resultMap.put("max_net_in", String.format("%.2f", maxNetInValue/1000000));
-        resultMap.put("avg_net_out", String.format("%.2f", avgNetOutValue/1000000));
-        resultMap.put("max_net_out", String.format("%.2f", maxNetOutValue/1000000));
-        resultMap.put("avg_cpu", String.format("%.2f", avgCpuValue*100));
-        resultMap.put("max_cpu", String.format("%.2f", maxCpuValue*100));
-        resultMap.put("avg_mem", String.format("%.2f", avgMemValue*100));
-        resultMap.put("max_mem", String.format("%.2f", maxMemValue*100));
+        MetricsResultDto metricsResultDTO = new MetricsResultDto();
+        metricsResultDTO.setAvgNetIn(String.format("%.2f", avgNetInValue / 1000000));
+        metricsResultDTO.setMaxNetIn(String.format("%.2f", maxNetInValue / 1000000));
+        metricsResultDTO.setAvgNetOut(String.format("%.2f", avgNetOutValue / 1000000));
+        metricsResultDTO.setMaxNetOut(String.format("%.2f", maxNetOutValue / 1000000));
+        metricsResultDTO.setAvgCpu(String.format("%.2f", avgCpuValue * 100));
+        metricsResultDTO.setMaxCpu(String.format("%.2f", maxCpuValue * 100));
+        metricsResultDTO.setAvgMem(String.format("%.2f", avgMemValue * 100));
+        metricsResultDTO.setMaxMem(String.format("%.2f", maxMemValue * 100));
 
 
-        return CommonResponse.success(resultMap);
+        return CommonResponse.success(metricsResultDTO);
     }
 
     @PostMapping("/getmetricsAnomaly")
     public CommonResponse<Object> getMetricsAnomaly(@RequestBody RequestDate request){
         String date=request.getStartDate();
+
+        String second_s = date.substring(date.length() - 2);
+        int second_i = Integer.parseInt(second_s); // 문자열을 정수로 변환
+        int result = second_i + 10; // 10을 더함
+
+        String newSecond_s = String.valueOf(result); // 정수를 문자열로 변환
+        if (newSecond_s.length() == 1) {
+            newSecond_s = "0" + newSecond_s; // 결과가 한 자리 숫자라면 앞에 0을 붙임
+        }
+
         String startDate=date;
-        String endDate=date;
+        String endDate = date.substring(0, date.length() - 2) + newSecond_s;
 
         Query query = new Query();
         QueryBool bool = new QueryBool();
@@ -195,7 +205,7 @@ public class MetricApi {
         Avg_NetOut avg_net_out = new Avg_NetOut();
         Avg_ avg4 = new Avg_();
         avg4.setField("system.network.out.bytes");
-        avg_net_out.setAvg(avg3);
+        avg_net_out.setAvg(avg4);
 
         Max_Cpu max_cpu = new Max_Cpu();
         Max_ max1 = new Max_();
@@ -269,18 +279,21 @@ public class MetricApi {
         Double maxNetOutValue=(Double)maxNetOut.get("value");
         // 결과로 필요한 데이터 반환
 
-        Map<String, Object> resultMap = new HashMap<>();
-        resultMap.put("avg_net_in",  String.format("%.2f", avgNetInValue/1000000));
-//        resultMap.put("max_net_in", String.format("%.2f", maxNetInValue/1000000));
-        resultMap.put("avg_net_out", String.format("%.2f", avgNetOutValue/1000000));
-//        resultMap.put("max_net_out", String.format("%.2f", maxNetOutValue/1000000));
-        resultMap.put("avg_cpu", String.format("%.2f", avgCpuValue*100));
-//        resultMap.put("max_cpu", String.format("%.2f", maxCpuValue*100));
-        resultMap.put("avg_mem", String.format("%.2f", avgMemValue*100));
-//        resultMap.put("max_mem", String.format("%.2f", maxMemValue*100));
+        MetricsResultDto metricsResultDTO = new MetricsResultDto();
+
+//        metricsResultDTO.setAvgNetIn(String.format("%.2f", avgNetInValue / 1000000));
+        metricsResultDTO.setMaxNetIn(String.format("%.2f", maxNetInValue / 1000000));
+//        metricsResultDTO.setAvgNetOut(String.format("%.2f", avgNetOutValue / 1000000));
+        metricsResultDTO.setMaxNetOut(String.format("%.2f", maxNetOutValue / 1000000));
+//        metricsResultDTO.setAvgCpu(String.format("%.2f", avgCpuValue * 100));
+        metricsResultDTO.setMaxCpu(String.format("%.2f", maxCpuValue * 100));
+//        metricsResultDTO.setAvgMem(String.format("%.2f", avgMemValue * 100));
+        metricsResultDTO.setMaxMem(String.format("%.2f", maxMemValue * 100));
 
 
-        return CommonResponse.success(resultMap);
+        return CommonResponse.success(metricsResultDTO);
+
+
     }
 
     @GetMapping("/getMetricCPUdata")

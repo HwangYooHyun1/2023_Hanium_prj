@@ -20,6 +20,7 @@ public class VulnerabiltiesApi {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(userUrl, headers);
+
         ResponseEntity<String> responseEntity = restTemplate.exchange(flaskServerUrl, HttpMethod.POST, requestEntity, String.class);
 
         return new ResponseEntity<>(responseEntity.getBody(), HttpStatus.OK);
