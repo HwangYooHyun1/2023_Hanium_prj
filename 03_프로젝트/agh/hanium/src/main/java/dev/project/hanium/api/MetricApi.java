@@ -271,13 +271,13 @@ public class MetricApi {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("avg_net_in",  String.format("%.2f", avgNetInValue/1000000));
-        resultMap.put("max_net_in", String.format("%.2f", maxNetInValue/1000000));
+//        resultMap.put("max_net_in", String.format("%.2f", maxNetInValue/1000000));
         resultMap.put("avg_net_out", String.format("%.2f", avgNetOutValue/1000000));
-        resultMap.put("max_net_out", String.format("%.2f", maxNetOutValue/1000000));
+//        resultMap.put("max_net_out", String.format("%.2f", maxNetOutValue/1000000));
         resultMap.put("avg_cpu", String.format("%.2f", avgCpuValue*100));
-        resultMap.put("max_cpu", String.format("%.2f", maxCpuValue*100));
+//        resultMap.put("max_cpu", String.format("%.2f", maxCpuValue*100));
         resultMap.put("avg_mem", String.format("%.2f", avgMemValue*100));
-        resultMap.put("max_mem", String.format("%.2f", maxMemValue*100));
+//        resultMap.put("max_mem", String.format("%.2f", maxMemValue*100));
 
 
         return CommonResponse.success(resultMap);
