@@ -1,11 +1,20 @@
-/* custom-toast-progress.css */
-.custom-toast-progress {
-    background-color: transparent; /* Remove rainbow background */
-    height: 4px;
+/* CustomAlert.css */
+.custom-toast-progress::after {
+    content: '';
     position: absolute;
-    bottom: 0;
     left: 0;
+    bottom: 0;
     width: 100%;
-    z-index: 9999; /* Make sure it's on top of everything */
-    transition: width 0.5s ease; /* Add a transition effect */
+    height: 5px;
+    background-color: var(--custom-toast-color);
+}
+
+.custom-toast-body {
+    display: flex;
+    align-items: center;
+}
+
+.custom-toast-icon {
+    margin-right: 10px;
+    color: var(--custom-toast-color);
 }

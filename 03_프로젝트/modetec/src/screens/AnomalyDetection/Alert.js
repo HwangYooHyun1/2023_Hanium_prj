@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './AlertStyle.css'
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 const getScoreColor = (score) => {
     if (score >= 25 && score < 50) {
@@ -15,6 +17,7 @@ const getScoreColor = (score) => {
 };
 
 const Alert = () => {
+    const [scoreColor, setScoreColor] = useState("#8bc8fb");
     const eventSource = new EventSource("http://52.79.201.187:8080/anomaly/subscribe");
     eventSource.onopen = () => {
         console.log('SSE connection opened.'); // 연결 성공 로그
@@ -29,17 +32,36 @@ const Alert = () => {
 
             const { detector, score } = eventData;
             const scoreColor = getScoreColor(score);
-            const message = `An abnormality has been detected\ndetector: ${detector}\nscore: ${score}`;
+            setScoreColor(scoreColor);
+
+            const messageStyle = {
+                whiteSpace: 'pre-line'
+            };
+
+            const message = (
+                <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                    <WarningAmberIcon className="custom-toast-icon" />
+                    <div>
+                        <strong>An abnormality has been detected!</strong><br />
+                        detector: {detector}<br />
+                        score: {score}
+                    </div>
+                </div>
+            );
+
 
             toast(message, {
+                bodyStyle: messageStyle,
                 position: "top-center",
-                autoClose: 4000,
+                autoClose: 6000,
                 hideProgressBar: false,
-                closeButton: false,
+                closeButton: true,
+                hideProgressBar: false,
                 progressClassName: "custom-toast-progress",
                 progressStyle: {
-                    height: "5px",
-                },
+                    height: '5px',
+                    backgroundColor: scoreColor
+                }
             });
         } catch (error) {
             console.error('Error parsing event data:', error);
@@ -53,7 +75,14 @@ const Alert = () => {
 
     return (
         <div className="App">
-            <ToastContainer theme="dark" />
+            <ToastContainer
+                progressClassName="custom-toast-progress"
+                style={{
+                    width: '500px',
+                    '--custom-toast-color': scoreColor
+                }}
+                theme="light"
+                bodyClassName="custom-toast-body" />
         </div>
     );
 };

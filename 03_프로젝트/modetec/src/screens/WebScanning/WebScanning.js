@@ -23,12 +23,16 @@ const Sidebar = Styled.div`
 `;
 
 const ContentWrapper = Styled.div`
-  position: absolute;
-  top: 0;
-  left: 240px; /* Always open, so set to a fixed value */
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 75px;
+  left: 480px; 
+  right: 20px;
+  bottom: 10px;
+  overflow: auto;
+  margin-left: 10px;
 `;
 
 export const WebScanning = () => {
@@ -66,7 +70,7 @@ export const WebScanning = () => {
         </div>
 
         <Sidebar>
-          <h5 style={{ padding: '15px' }}>Server List</h5>
+          <h5 style={{ padding: '15px', paddingTop: '40px' }}>Server List</h5>
           {itemList.map(item => (
             <div className='AccordionButton' key={item.name} onClick={() => setSelectedItem(item)}>
               {item.name} <br /> ({item.nameValue})
