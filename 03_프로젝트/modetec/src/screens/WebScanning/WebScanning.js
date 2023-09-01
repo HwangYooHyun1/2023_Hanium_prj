@@ -20,6 +20,7 @@ const Sidebar = Styled.div`
   left: 250px;
   top: 75px;
   bottom: 10px;
+  z-index: 1000;
 `;
 
 const ContentWrapper = Styled.div`

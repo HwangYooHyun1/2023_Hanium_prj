@@ -5,17 +5,16 @@ import Stack from '@mui/material/Stack';
 import LinearProgress from '@mui/material/LinearProgress';
 
 export const Background = styled.div`
-position: absolute;
-width: 100%;
-height: 100%;
-top: 0;
-left: 0;
-background: rgba(248, 250, 253, 0.7); /* Semi-transparent background */
-z-index: 998;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background: rgba(248, 250, 253, 0.7); /* Semi-transparent background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
 `;
 
 export const LoadingText = styled.div`

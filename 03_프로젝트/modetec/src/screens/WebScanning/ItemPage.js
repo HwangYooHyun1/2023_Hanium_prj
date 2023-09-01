@@ -14,6 +14,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
 import { styled } from "@mui/material/styles";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import Tooltip from '@mui/material/Tooltip';
 
 const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -34,14 +36,22 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const Container = Styled.div`
+    width:100%;
+    height:100%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     background-color: white;
-    overflow-y: auto;
+    overflow-y: hidden;
     position: absolute;
+    
 `;
 
 export const ItemPage = ({ selectedItem }) => {
+    const [tooltipOpen, setTooltipOpen] = useState(false);
     const [loading, setLoading] = useState(true);
     const [responseData, setResponseData] = useState([]);
+    const [buttonText, setButtonText] = useState('Start Scanning');
 
     const convertIP = (ip) => {
         const ipMap = {
@@ -73,6 +83,7 @@ export const ItemPage = ({ selectedItem }) => {
             })
             .finally(() => {
                 setLoading(false);
+                setButtonText('Restart Scanning');
             });
     };
 
@@ -91,12 +102,14 @@ export const ItemPage = ({ selectedItem }) => {
         <Container>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h5 style={{ fontWeight: 'bold', padding: '15px', margin: '0' }}>Scanning results of {selectedItem.name}({selectedItem.nameValue})</h5>
-                <button onClick={handleSendData} style={{ marginRight: '10px' }}>Scanning Start</button>
+                <Tooltip title={<Typography style={{ fontSize: 16 }}>{buttonText}</Typography>} open={tooltipOpen} onClose={() => setTooltipOpen(false)} onOpen={() => setTooltipOpen(true)}>
+                    <RestartAltIcon onClick={handleSendData} style={{ marginRight: '20px' }} sx={{ fontSize: 30 }} />
+                </Tooltip>
             </div>
             {loading ? (
                 <Loading />
             ) : (
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} style={{ height: '100%', overflow: 'auto' }}>
                     <Table style={{ marginTop: '16px', marginLeft: '30px', width: '95%' }}>
                         <TableHead>
                             <TableRow style={{ backgroundColor: '#f5f5f5' }}>
