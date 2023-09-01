@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter@Setter
-public class MetricsResultDto {
+public class MetricsResultDateDto {
     private String avgNetIn;
     private String maxNetIn;
     private String avgNetOut;
