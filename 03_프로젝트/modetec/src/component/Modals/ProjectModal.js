@@ -82,9 +82,11 @@ const AgentTitle = styled.h2`
   text-align: center; /* 가로 기준 가운데 정렬 */
   `;
 
-const ProjectModal = ({ close }) => {
+const ProjectModal = ({ close, addContentToList, contentList }) => {
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
+  const [enteredContent, setEnteredContent] = useState('');
+
 
   const handleProjectNameChange = (e) => {
     setProjectName(e.target.value);
@@ -96,9 +98,18 @@ const ProjectModal = ({ close }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Perform project registration logic
 
-    // Proceed to the next step
+    if (projectName.trim() !== '') {
+      const newContent = {
+        projectName,
+        projectDescription,
+      };
+      addContentToList([...contentList, newContent]);
+    }
+    // 입력 필드를 초기화합니다.
+    setProjectName('');
+    setProjectDescription('');
+    // 모달을 닫습니다.
     close();
   };
 

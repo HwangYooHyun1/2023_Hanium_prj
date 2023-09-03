@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { Navigation } from 'react-minimal-side-navigation';
+import { Link } from 'react-router-dom';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import Modal from './Modals/Modal';
 import ProjectModal from './Modals/ProjectModal';
@@ -22,7 +22,19 @@ const Bar = styled.div`
   left: 0;
   z-index: 999;
 `;
+const ContentListContainer = styled.div`
+  max-height: 200px; 
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 8px; 
+  }
 
+  /* 스크롤바의 색상 설정 */
+  &::-webkit-scrollbar-thumb {
+    background-color: #888; 
+    border-radius: 4px; 
+  }
+`;
 const Center = styled.div`
   height: 1;
   margin: 4%;
@@ -48,6 +60,7 @@ const Sidebar = () => {
   const [projectModalOpen, setProjectModalOpen] = useState(false);
   const [agentModalOpen, setAgentModalOpen] = useState(false);
   const navigate = useNavigate();
+  const [contentList, setContentList] = useState([]);
 
   const openProjectModal = () => {
     setProjectModalOpen(true);
@@ -81,8 +94,8 @@ const Sidebar = () => {
               onClick={openProjectModal}
               sx={{
                 width: '110px',
-                backgroundColor: 'rgb(210, 50, 50)', 
-                color: 'white',  
+                backgroundColor: 'rgb(210, 50, 50)',
+                color: 'white',
                 '&:hover': {
                   backgroundColor: 'rgb(190, 50, 50)',  // 마우스 호버 시 배경색 변경
                 },
@@ -95,9 +108,9 @@ const Sidebar = () => {
               className="btn btn-danger"
               onClick={openAgentModal}
               sx={{
-                width: '108px', 
-                backgroundColor: 'rgb(210, 50, 50)',  
-                color: 'white', 
+                width: '108px',
+                backgroundColor: 'rgb(210, 50, 50)',
+                color: 'white',
                 '&:hover': {
                   backgroundColor: 'rgb(190, 50, 50)',  // 마우스 호버 시 배경색 변경
                 },
@@ -110,16 +123,23 @@ const Sidebar = () => {
         <Title>
           <a>PROJECT LIST</a>
         </Title>
-        <Navigation
-          onSelect={({ itemId }) => {
-            navigate(itemId);
-          }}
-          items={[]}
-        />
+        <ContentListContainer>
+          {contentList.length > 0 && (
+            <ul>
+              {contentList.map((item, index) => (
+                <li key={index} style={{ color: 'white' }}>
+                  <Link to="/resource" style={{ textDecoration: 'none', color: 'white' }}>
+                    <strong >{item.projectName}</strong> : {item.projectDescription}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </ContentListContainer>
       </Bar>
 
       <Modal open={projectModalOpen} close={closeProjectModal} header="프로젝트 등록">
-        <ProjectModal close={handleNextStep} />
+        <ProjectModal close={handleNextStep} addContentToList={setContentList} contentList={contentList} />
       </Modal>
 
       <Modal open={agentModalOpen} close={closeAgentModal} header="에이전트 등록">
