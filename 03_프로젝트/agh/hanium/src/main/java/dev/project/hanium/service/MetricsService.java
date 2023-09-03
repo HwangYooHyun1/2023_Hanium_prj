@@ -4,7 +4,6 @@ import dev.project.hanium.ELK_Query.*;
 import dev.project.hanium.Entity.RequestDate;
 import dev.project.hanium.dto.MetricResultAnomalyDto;
 import dev.project.hanium.dto.MetricsResultDateDto;
-import dev.project.hanium.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,9 +18,10 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class MetricsService {
+    MetricsResultDateDto metricsResultDateDto;
+    MetricResultAnomalyDto metricResultAnomalyDto;
 
-
-    public CommonResponse<MetricsResultDateDto> getMetrics(RequestDate request) {
+    public MetricsResultDateDto getMetrics(RequestDate request) {
         String startDate = request.getStartDate() + "T00:00:00";
         String endDate = request.getEndDate() + "T23:59:59";
 
@@ -130,19 +130,19 @@ public class MetricsService {
         Double maxNetOutValue = (Double) maxNetOut.get("value");
         // 결과로 필요한 데이터 반환
 
-        MetricsResultDateDto metricsResultDTO = new MetricsResultDateDto();
-        metricsResultDTO.setAvgNetIn(String.format("%.2f", avgNetInValue / 1000000));
-        metricsResultDTO.setMaxNetIn(String.format("%.2f", maxNetInValue / 1000000));
-        metricsResultDTO.setAvgNetOut(String.format("%.2f", avgNetOutValue / 1000000));
-        metricsResultDTO.setMaxNetOut(String.format("%.2f", maxNetOutValue / 1000000));
-        metricsResultDTO.setAvgCpu(String.format("%.2f", avgCpuValue * 100));
-        metricsResultDTO.setMaxCpu(String.format("%.2f", maxCpuValue * 100));
-        metricsResultDTO.setAvgMem(String.format("%.2f", avgMemValue * 100));
-        metricsResultDTO.setMaxMem(String.format("%.2f", maxMemValue * 100));
 
-        return CommonResponse.success(metricsResultDTO);
+        metricsResultDateDto.setAvgNetIn(String.format("%.2f", avgNetInValue / 1000000));
+        metricsResultDateDto.setMaxNetIn(String.format("%.2f", maxNetInValue / 1000000));
+        metricsResultDateDto.setAvgNetOut(String.format("%.2f", avgNetOutValue / 1000000));
+        metricsResultDateDto.setMaxNetOut(String.format("%.2f", maxNetOutValue / 1000000));
+        metricsResultDateDto.setAvgCpu(String.format("%.2f", avgCpuValue * 100));
+        metricsResultDateDto.setMaxCpu(String.format("%.2f", maxCpuValue * 100));
+        metricsResultDateDto.setAvgMem(String.format("%.2f", avgMemValue * 100));
+        metricsResultDateDto.setMaxMem(String.format("%.2f", maxMemValue * 100));
+
+        return metricsResultDateDto;
     }
-    public CommonResponse<MetricResultAnomalyDto> getMetricsAnomaly(RequestDate request) {
+    public MetricResultAnomalyDto getMetricsAnomaly(RequestDate request) {
         String date = request.getStartDate();
 
         String second_s = date.substring(date.length() - 2);
@@ -231,16 +231,16 @@ public class MetricsService {
         Double maxNetOutValue = (Double) maxNetOut.get("value");
 
         // 결과로 필요한 데이터 반환
-        MetricResultAnomalyDto metricsResultDTO = new MetricResultAnomalyDto();
-        metricsResultDTO.setNetIn(String.format("%.2f", maxNetInValue / 1000000));
-        metricsResultDTO.setNetOut(String.format("%.2f", maxNetOutValue / 1000000));
-        metricsResultDTO.setCpu(String.format("%.2f", maxCpuValue * 100));
-        metricsResultDTO.setMem(String.format("%.2f", maxMemValue * 100));
 
-        return CommonResponse.success(metricsResultDTO);
+        metricResultAnomalyDto.setNetIn(String.format("%.2f", maxNetInValue / 1000000));
+        metricResultAnomalyDto.setNetOut(String.format("%.2f", maxNetOutValue / 1000000));
+        metricResultAnomalyDto.setCpu(String.format("%.2f", maxCpuValue * 100));
+        metricResultAnomalyDto.setMem(String.format("%.2f", maxMemValue * 100));
+
+        return metricResultAnomalyDto;
     }
 
-    public CommonResponse<MetricResultAnomalyDto> getMetricsForDate(LocalDateTime time) {
+    public MetricResultAnomalyDto getMetricsForDate(LocalDateTime time) {
 
         String date=time.toString().split("\\.")[0];
 
