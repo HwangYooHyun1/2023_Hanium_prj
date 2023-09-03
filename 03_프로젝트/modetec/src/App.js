@@ -12,6 +12,7 @@ import Title from "./component/Title";
 import Sidebar1 from "./component/Sidebar1";
 import Sidebar2 from "./component/Sidebar2";
 import Alert from "./screens/AnomalyDetection/Alert"
+import Main from "./screens/Main"
 
 const App = () => {
   return (
@@ -25,8 +26,9 @@ const App = () => {
               <Sidebar2 />
             </div>
             <Routes className="dashboard">
+              <Route path="/" element={<Main />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Resource />} />
+              <Route path="/resource" element={<Resource />} />
               <Route path="/resource_info" element={<ResourceInfo />} />
               <Route path="/webaccess" element={<WebAccess />} />
               <Route path="/anomalydetection" element={<AnomalyDetection />} />

@@ -39,7 +39,7 @@ const Sidebar = () => {
         <div className='sub-nav'>
           <button
             className={`sub-nav-button ${selectedItem === '/' ? 'active' : ''}`}
-            onClick={() => handleTabClick('/')} // Handle 리소스 모니터 button click
+            onClick={() => handleTabClick('/resource')} // Handle 리소스 모니터 button click
             style={{ textAlign: 'left', textIndent: '20px' }}
 
           >
