@@ -17,8 +17,8 @@ class ReportServiceTest {
 
     @Test
     public void reportsTest() {
-        LocalDateTime startDate = LocalDateTime.parse("2023-08-20" + "T00:00:00");
-        LocalDateTime endDate = LocalDateTime.parse("2023-08-20" + "T23:59:59");
+        LocalDateTime startDate = LocalDateTime.parse("2023-09-02" + "T00:00:00");
+        LocalDateTime endDate = LocalDateTime.parse("2023-09-02" + "T23:59:59");
         List<ReportDto> reports = reportService.reports(startDate, endDate);
         reports.stream().forEach(System.out::println);
     }

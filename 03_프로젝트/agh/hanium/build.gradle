@@ -8,7 +8,7 @@ archivesBaseName = 'modetec'
 
 group = 'dev.project'
 
-version = '0.0.9-SNAPSHOT'
+version = '0.1.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '11'
