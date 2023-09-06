@@ -19,9 +19,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MetricsService {
 
-    public MetricsResultDateDto getMetrics(String  request) {
-        String startDate = request + "T00:00:00";
-        String endDate = request + "T23:59:59";
+    public MetricsResultDateDto getMetrics(RequestDate request) {
+        String startDate = request.getStartDate() + "T00:00:00";
+        String endDate = request.getEndDate() + "T23:59:59";
 
         Query query = new Query();
         QueryBool bool = new QueryBool();
