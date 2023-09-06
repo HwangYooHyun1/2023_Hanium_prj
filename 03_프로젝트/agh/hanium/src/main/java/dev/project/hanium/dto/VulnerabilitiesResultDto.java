@@ -3,6 +3,7 @@ package dev.project.hanium.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 public class VulnerabilitiesResultDto {
