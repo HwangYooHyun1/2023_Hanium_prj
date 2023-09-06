@@ -118,27 +118,31 @@ const AgentModal = ({ close }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!selectedProject || !ip || !name) {
       setErrorMessage('값을 입력하세요!');
       return;
     }
-
+  
     const requestData = {
       ip,
       projectName: selectedProject,
       agentName: name,
       description,
     };
-
+  
     try {
       const response = await axios.post("http://52.79.201.187:8080/projects/new", requestData);
-
+  
       if (response.status === 200) {
         const responseData = response.data;
         console.log('등록 서버 응답 데이터:', responseData);
 
+        
+  
         if (responseData.returnCode === 'SUCCESS') {
+          // 등록이 성공했을 때 한글로 알림을 표시합니다.
+          window.alert(`프로젝트 : '${selectedProject}'\n에이전트 : '${name}'\n등록이 완료되었습니다!`);
           console.log('프로젝트 등록 성공');
         } else {
           console.error('프로젝트 등록 실패');
@@ -149,10 +153,9 @@ const AgentModal = ({ close }) => {
     } catch (error) {
       console.error('POST 요청 오류:', error);
     }
-
+  
     close();
   };
-
   const handleCloseModal = () => {
     close();
   };
@@ -181,7 +184,7 @@ const AgentModal = ({ close }) => {
           type="text"
           value={ip}
           onChange={handleIPChange}
-          label="IP 주소를 입력하세요"
+          label="IP 주소를 '-'를 사용하여 입력하세요"
         />
       </InputWrapper>
       <InputWrapper>

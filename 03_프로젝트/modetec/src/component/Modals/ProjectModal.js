@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 import Axios from 'axios'; // Axios를 가져오기
 
+
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -22,7 +23,9 @@ const CustomTextField = styled(TextField)`
   margin-top: 8px;
 `;
 
+
 const ButtonWrapper = styled.div`
+
   display: flex;
   justify-content: center;
   width: 100%;
@@ -54,6 +57,7 @@ const CustomButton = styled.button`
   &:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
   }
+  
 `;
 
 const CloseButton = styled(CloseIcon)`
@@ -67,6 +71,7 @@ const CloseButton = styled(CloseIcon)`
   cursor: pointer;
 `;
 
+
 const ModalContent = styled.div`
   max-height: 100%;
   overflow: auto;
@@ -77,12 +82,13 @@ const AgentTitle = styled.h2`
   margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
   text-align: center; /* 가로 기준 가운데 정렬 */
-`;
+  `;
 
-const ProjectModal = ({ close }) => {
+const ProjectModal = ({ close, addContentToList, contentList }) => {
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
 
   const handleProjectNameChange = (e) => {
     setProjectName(e.target.value);
@@ -94,22 +100,34 @@ const ProjectModal = ({ close }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!projectName || !projectDescription) {
       setErrorMessage('값을 입력하세요!');
       return;
     }
-
+  
     try {
       const response = await Axios.post("http://52.79.201.187:8080/projects/new", {
         projectName,
         projectDescription,
       });
-
+      if (projectName.trim() !== '') {
+        const newContent = {
+          projectName,
+          projectDescription,
+        };
+        addContentToList([...contentList, newContent]);
+        console.log('사이드바 전달 데이터', newContent);
+      }
+      
+  
       console.log('프로젝트 서버 응답 데이터:', response.data);
-
+  
       if (response.status === 200) {
         console.log('프로젝트 등록 성공');
+        // 입력 필드를 초기화합니다.
+        setProjectName('');
+        setProjectDescription('');
         close(); // 모달 닫기
       } else {
         console.error('프로젝트 등록 실패');
@@ -119,14 +137,16 @@ const ProjectModal = ({ close }) => {
     }
   };
 
+ 
   const handleCloseModal = () => {
-    close(); // 모달 닫기
+    close(); // Call the close function to close the modal
   };
 
   return (
     <FormContainer onSubmit={handleSubmit}>
       <ModalContent>
         <CloseButton onClick={handleCloseModal} />
+
         <AgentTitle>Register Project</AgentTitle>
         <InputWrapper>
           <CustomTextField
@@ -146,7 +166,6 @@ const ProjectModal = ({ close }) => {
             rows={4}
           />
         </InputWrapper>
-        <p style={{ color: 'red' }}>{errorMessage}</p>
       </ModalContent>
       <ButtonWrapper>
         <CustomButton type="submit">등록</CustomButton>
