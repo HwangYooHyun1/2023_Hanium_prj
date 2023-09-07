@@ -22,9 +22,5 @@ public class VulnerabilitiesApi {
         // Flask 서버로 요청 보내기
         return CommonResponse.success(vulnerabilityService.saveResult(url));
     }
-    @PostMapping("/vulnerabilitiesReport")
-    public CommonResponse<List<VulnerabilitiesResultDto>> getData(@RequestBody String  url) throws JsonProcessingException {
 
-        return CommonResponse.success(vulnerabilityService.getResult(url));
-    }
 }
