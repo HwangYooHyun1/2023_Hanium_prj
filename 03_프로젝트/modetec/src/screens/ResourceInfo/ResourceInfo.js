@@ -30,7 +30,8 @@ const ContentWrapper = Styled.div`
   right: 0;
   bottom: 0;
   overflow: hidden;
-`;
+  `;
+
 
 export const ResourceInfo = (props) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -40,11 +41,16 @@ export const ResourceInfo = (props) => {
   useEffect(() => {
     // 아이템 목록을 가져오는 비동기 로직을 작성하고 itemList 상태 업데이트
     fetch('http://52.79.201.187:8080/agents')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        }
+        return response.json();
+      })
       .then(data => {
         const infoMap = data.info.map;
         const newItems = Object.keys(infoMap).map(key => {
-          const url = `http://3.36.169.149:5601/app/dashboards#/view/aa4a4aa0-379e-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(time:(from:now-24h%2Fh,to:now))&_a=(filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'metricbeat-*',key:host.hostname,negate:!f,params:(query:${infoMap[key]}),type:phrase),query:(match_phrase:(host.hostname:${infoMap[key]})))))&hide-filter-bar=true`;
+          const url = `http://3.36.169.149:5601/app/dashboards#/view/aa4a4aa0-379e-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval:(pause:!f,value:60000),time:(from:now-1h,to:now))&_a=(filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'metricbeat-*',key:host.hostname,negate:!f,params:(query:${infoMap[key]}),type:phrase),query:(match_phrase:(host.hostname:${infoMap[key]})))))&show-time-filter=true&hide-filter-bar=true`;
           return {
             name: key,
             nameValue: infoMap[key],
@@ -62,18 +68,24 @@ export const ResourceInfo = (props) => {
 
   const renderIframe = () => {
     if (selectedItem) {
-      return <iframe src={selectedItem.url} height="100%" width="100%"></iframe>;
+      return <iframe src={selectedItem.url}
+        height="100%"
+        width="100%"
+        style={{
+          marginTop: '30px',
+          position: 'relative'
+        }}></iframe>;
     }
     return null;
   };
 
 
   return (
-    <div className='rContainer'>
-      <Title>
-        <h5 style={{ fontWeight: 'bold' }}>Server Details Info</h5>
-      </Title>
-      <div className='rCenter' style={{ position: 'relative' }}>
+    <div className='riCenter'>
+      <div className='riContainer'>
+        <Title>
+          <h5 style={{ fontWeight: 'bold' }}>Server Details Info</h5>
+        </Title>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <div style={{ paddingLeft: '200px', paddingTop: '340px' }}>
             <FeedbackIcon color='disabled' sx={{ fontSize: 40 }} />

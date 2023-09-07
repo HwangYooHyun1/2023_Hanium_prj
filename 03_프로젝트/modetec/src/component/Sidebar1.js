@@ -44,12 +44,6 @@ const Center = styled.div`
   justify-content: center; /* 버튼들을 수평 방향으로 가운데 정렬 */
 `;
 
-/*const Button = styled.button`
-  //width: 100%; /* 버튼들이 가로로 늘어나도록 100% 너비 지정 */
-// margin: 5px; /* 버튼들 사이에 약간의 간격 추가 */
-// font-size: 0.9rem;
-//`;
-
 const Title = styled.div`
   padding: 11px;
   font-size: 1.1rem;
@@ -87,7 +81,6 @@ const Sidebar = () => {
     <>
       <Bar>
         <Center>
-          {/* Button 스타일드 컴포넌트를 버튼들에 적용 */}
           <Stack direction="row" spacing={0.6}>
             <Button variant="contained"
               className="btn btn-danger"
