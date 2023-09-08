@@ -64,7 +64,8 @@ export const ItemPage = ({ selectedItem }) => {
     const handleSendData = () => {
         setLoading(true);
         const convertedIP = convertIP(selectedItem.nameValue);
-        fetch('http://210.110.39.163:8080/vulnerabilties', {
+        console.log('Converted IP:', convertedIP); // 로그 추가
+        fetch('http://52.79.201.187:8080/vulnerabilities', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,8 +74,14 @@ export const ItemPage = ({ selectedItem }) => {
                 url: convertedIP
             }),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('Response Data:', data); // 로그 추가
                 setResponseData(data);
                 sessionStorage.setItem(selectedItem.nameValue, JSON.stringify(data));
             })
@@ -86,6 +93,8 @@ export const ItemPage = ({ selectedItem }) => {
                 setButtonText('Restart Scanning');
             });
     };
+
+
 
     useEffect(() => {
         setLoading(true);
@@ -134,8 +143,8 @@ export const ItemPage = ({ selectedItem }) => {
                                                     >
                                                         <Typography >
                                                             <TableRow>
-                                                                <TableCell style={{ width: '350px', fontWeight: 'bold' }}>{item.vulnerability}</TableCell>
-                                                                <TableCell style={{ width: '650px', fontWeight: 'bold' }}>{item.content}</TableCell>
+                                                                <TableCell style={{ width: '350px', fontWeight: 'bold' }}>{item.info.vulnerability}</TableCell>
+                                                                <TableCell style={{ width: '650px', fontWeight: 'bold' }}>{item.info.content}</TableCell>
                                                                 <TableCell style={{
                                                                     width: '200px',
                                                                     fontWeight: 'bold',
@@ -145,7 +154,7 @@ export const ItemPage = ({ selectedItem }) => {
                                                                             ? 'rgba(80, 190, 80, 0.8)'
                                                                             : 'transparent'
                                                                 }}>
-                                                                    {item.status}
+                                                                    {item.info.status}
                                                                 </TableCell>
                                                             </TableRow>
                                                         </Typography>
@@ -153,7 +162,7 @@ export const ItemPage = ({ selectedItem }) => {
                                                     <AccordionDetails>
                                                         <TableHead>
                                                             <h5> </h5>
-                                                            <Typography style={{ fontWeight: 'bold' }}>More Info about {item.vulnerability}</Typography>
+                                                            <Typography style={{ fontWeight: 'bold' }}>More Info about {item.info.vulnerability}</Typography>
                                                             <h5> </h5>
                                                             <TableRow>
                                                                 <TableCell style={{ fontWeight: 'bold' }}>Description</TableCell>
@@ -163,9 +172,9 @@ export const ItemPage = ({ selectedItem }) => {
                                                         </TableHead>
                                                         <TableBody>
                                                             <TableRow>
-                                                                <TableCell style={{ width: '400px', fontWeight: 'bold' }}>{item.description}</TableCell>
-                                                                <TableCell style={{ width: '500px', fontWeight: 'bold' }}>{item.purpose}</TableCell>
-                                                                <TableCell style={{ width: '400px', fontWeight: 'bold' }}>{item.security_threat}</TableCell>
+                                                                <TableCell style={{ width: '400px', fontWeight: 'bold' }}>{item.info.description}</TableCell>
+                                                                <TableCell style={{ width: '500px', fontWeight: 'bold' }}>{item.info.purpose}</TableCell>
+                                                                <TableCell style={{ width: '400px', fontWeight: 'bold' }}>{item.info.security_threat}</TableCell>
                                                             </TableRow>
                                                         </TableBody>
                                                     </AccordionDetails>
