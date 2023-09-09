@@ -22,7 +22,7 @@ public class MetricAnomalyResponse {
     }
 
     private static List<MetricResponseData> convert(List<Records> records) {
-        return records.stream().map(MetricResponseData::from).sorted((m1,m2) -> (int)m1.getTime() - (int)m2.getTime()).collect(toList());
+        return records.stream().map(MetricResponseData::from).sorted((m1,m2) -> (int)m2.getTime() - (int)m1.getTime()).collect(toList());
     }
 
     public static MetricAnomalyResponse from(MetricAnomalyDto dto) {

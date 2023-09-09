@@ -8,7 +8,7 @@ archivesBaseName = 'modetec'
 
 group = 'dev.project'
 
-version = '0.1.1-SNAPSHOT'
+version = '0.1.4-SNAPSHOT'
 
 java {
 	sourceCompatibility = '11'
@@ -52,6 +52,6 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-//test {
-//	exclude '**/*'
-//}
+test {
+	exclude '**/*'
+}
