@@ -24,8 +24,8 @@ public class MetricApi {
         return CommonResponse.success(response);
     }
 
-    @PostMapping("/getmetrics")
-    public CommonResponse<Object> getMetrics(@RequestBody RequestDate request) {
+    @GetMapping("/getmetrics")
+    public CommonResponse<Object> getMetrics(@ModelAttribute RequestDate request) {
         MetricsResultDateDto response = metricsService.getMetrics(request);
         return CommonResponse.success(response);
     }

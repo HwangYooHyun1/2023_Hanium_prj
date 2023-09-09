@@ -3,6 +3,7 @@ package dev.project.hanium.service;
 import dev.project.hanium.domain.LogAnomaly;
 import dev.project.hanium.domain.MetricAnomaly;
 import dev.project.hanium.dto.LogAnomalyDto;
+import dev.project.hanium.dto.ReportDto;
 import dev.project.hanium.dto.metric.MetricAnomalyDto;
 import dev.project.hanium.dto.metric.Records;
 import dev.project.hanium.exception.ErrorCode;
@@ -114,8 +115,9 @@ public class MlRequestService {
     public void sendLogAnomaly(List<LogAnomaly> list, Integer userId) {
         emitterRepository.get(userId).ifPresentOrElse(sseEmitter -> {
             try {
-                List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromLogEntity).collect(toList());
-                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomaly));
+//                List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromLogEntity).collect(toList());
+                List<AnomalyAlarm> anomalyList = list.stream().sorted(Comparator.comparing(LogAnomaly::getTime).reversed()).map(AnomalyAlarm::fromLogEntity).collect(toList());
+                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomalyList.get(0)));
             } catch (IOException e){
                 throw new HaniumException(ErrorCode.ANOMALY_CONNECT_ERROR);
             }
@@ -125,8 +127,8 @@ public class MlRequestService {
     public void sendMetricAnomaly(List<MetricAnomaly> list, Integer userId) {
         emitterRepository.get(userId).ifPresentOrElse(sseEmitter -> {
             try {
-                List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromMetricEntity).collect(toList());
-                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomaly));
+                List<AnomalyAlarm> anomalyList = list.stream().sorted(Comparator.comparing(MetricAnomaly::getTime).reversed()).map(AnomalyAlarm::fromMetricEntity).collect(toList());
+                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomalyList.get(0)));
             } catch (IOException e){
                 throw new HaniumException(ErrorCode.ANOMALY_CONNECT_ERROR);
             }
@@ -138,7 +140,6 @@ public class MlRequestService {
         emitterRepository.save(userId,sseEmitter);
         sseEmitter.onCompletion(() -> emitterRepository.delete(userId));
         sseEmitter.onTimeout(() -> emitterRepository.delete(userId));
-
         try {
             sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data("connect completed"));
         } catch (IOException exception) {

@@ -10,6 +10,7 @@ public class HaniumException extends RuntimeException{
     private String message;
 
     public HaniumException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
         this.errorCode = errorCode;
         this.message = null;
     }
@@ -19,6 +20,6 @@ public class HaniumException extends RuntimeException{
         if (message == null) {
             return errorCode.getMessage();
         }
-        return String.format("%s, %s", errorCode.getMessage(), message);
+        return String.format("%s. %s", errorCode.getMessage(), message);
     }
 }

@@ -13,7 +13,8 @@ public enum ErrorCode {
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Token is Invalid"),
     POST_NOT_FOUND(HttpStatus.NOT_FOUND,"Post is not founded" ),
     INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "Permission is invalid"),
-    ANOMALY_CONNECT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"Connection error!") ;
+    ANOMALY_CONNECT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"Connection error!"),
+    DUPLICATED_PROJECT_NAME(HttpStatus.CONFLICT, "Project Name is duplicated");
 
     private final HttpStatus status;
     private final String message;
