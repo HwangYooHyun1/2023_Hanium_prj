@@ -115,9 +115,9 @@ public class MlRequestService {
     public void sendLogAnomaly(List<LogAnomaly> list, Integer userId) {
         emitterRepository.get(userId).ifPresentOrElse(sseEmitter -> {
             try {
-//                List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromLogEntity).collect(toList());
-                List<AnomalyAlarm> anomalyList = list.stream().sorted(Comparator.comparing(LogAnomaly::getTime).reversed()).map(AnomalyAlarm::fromLogEntity).collect(toList());
-                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomalyList.get(0)));
+                List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromLogEntity).collect(toList());
+//                List<AnomalyAlarm> anomalyList = list.stream().sorted(Comparator.comparing(LogAnomaly::getTime).reversed()).map(AnomalyAlarm::fromLogEntity).collect(toList());
+                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomaly.get(0)));
             } catch (IOException e){
                 throw new HaniumException(ErrorCode.ANOMALY_CONNECT_ERROR);
             }
@@ -127,8 +127,9 @@ public class MlRequestService {
     public void sendMetricAnomaly(List<MetricAnomaly> list, Integer userId) {
         emitterRepository.get(userId).ifPresentOrElse(sseEmitter -> {
             try {
-                List<AnomalyAlarm> anomalyList = list.stream().sorted(Comparator.comparing(MetricAnomaly::getTime).reversed()).map(AnomalyAlarm::fromMetricEntity).collect(toList());
-                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomalyList.get(0)));
+                List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromMetricEntity).collect(toList());
+//                List<AnomalyAlarm> anomalyList = list.stream().sorted(Comparator.comparing(MetricAnomaly::getTime).reversed()).map(AnomalyAlarm::fromMetricEntity).collect(toList());
+                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomaly.get(0)));
             } catch (IOException e){
                 throw new HaniumException(ErrorCode.ANOMALY_CONNECT_ERROR);
             }
