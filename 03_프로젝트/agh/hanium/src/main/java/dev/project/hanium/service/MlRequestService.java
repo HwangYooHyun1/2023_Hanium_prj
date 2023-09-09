@@ -154,15 +154,16 @@ public class MlRequestService {
 
         dev.project.hanium.dto.LogAnomalyDto result = new dev.project.hanium.dto.LogAnomalyDto(new ArrayList<>());
         for(dev.project.hanium.dto.LogAnomalyDto x : collect) result.getRecords().addAll(x.getRecords());
-
         result.setCount(result.getRecords().size());
+
         Map<String,String> detectorMap = DetectorMap.getDetectorMap();
         List<dev.project.hanium.dto.Records> records = result.getRecords();
+
         for (int i = 0; i < records.size(); i++) {
             String detector = records.get(i).getJob_id();
             records.get(i).setJob_id(detectorMap.get(detector));
         }
-        records.stream().sorted((l1,l2) -> (int)l2.getTimestamp() - (int)l1.getTimestamp());
+//        List<dev.project.hanium.dto.Records> tmp = records.stream().sorted((l1, l2) -> (int) l2.getTimestamp() - (int) l1.getTimestamp()).collect(toList());
 
         return result;
     }
