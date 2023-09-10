@@ -15,7 +15,7 @@ import java.util.TimeZone;
 @Setter
 @NoArgsConstructor
 @ToString
-public class MetricAnomaly {
+public class MetricAnomaly implements AnomalyEntity{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -39,5 +39,15 @@ public class MetricAnomaly {
     public static LocalDateTime getTimestampToDate(long unixTimestamp) {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(unixTimestamp),
                 TimeZone.getDefault().toZoneId());
+    }
+
+    @Override
+    public double score() {
+        return getScore();
+    }
+
+    @Override
+    public String detector() {
+        return getDetector();
     }
 }
