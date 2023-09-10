@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
+import Axios from 'axios'; // Axios를 가져오기
+
 
 const FormContainer = styled.form`
   display: flex;
@@ -85,7 +87,7 @@ const AgentTitle = styled.h2`
 const ProjectModal = ({ close, addContentToList, contentList }) => {
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
-  const [enteredContent, setEnteredContent] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
 
   const handleProjectNameChange = (e) => {
@@ -96,27 +98,46 @@ const ProjectModal = ({ close, addContentToList, contentList }) => {
     setProjectDescription(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (projectName.trim() !== '') {
-      const newContent = {
+  
+    if (!projectName || !projectDescription) {
+      setErrorMessage('값을 입력하세요!');
+      return;
+    }
+  
+    try {
+      const response = await Axios.post("http://52.79.201.187:8080/projects/new", {
         projectName,
         projectDescription,
-      };
-      addContentToList([...contentList, newContent]);
+      });
+      if (projectName.trim() !== '') {
+        const newContent = {
+          projectName,
+          projectDescription,
+        };
+        addContentToList([...contentList, newContent]);
+        console.log('사이드바 전달 데이터', newContent);
+      }
+      
+  
+      console.log('프로젝트 서버 응답 데이터:', response.data);
+  
+      if (response.status === 200) {
+        console.log('프로젝트 등록 성공');
+        // 입력 필드를 초기화합니다.
+        setProjectName('');
+        setProjectDescription('');
+        close(); // 모달 닫기
+      } else {
+        console.error('프로젝트 등록 실패');
+      }
+    } catch (error) {
+      console.error('프로젝트 데이터 전송 오류:', error);
     }
-    // 입력 필드를 초기화합니다.
-    setProjectName('');
-    setProjectDescription('');
-    // 모달을 닫습니다.
-    close();
   };
 
-  const handleClose = () => {
-    close();
-  };
-
+ 
   const handleCloseModal = () => {
     close(); // Call the close function to close the modal
   };

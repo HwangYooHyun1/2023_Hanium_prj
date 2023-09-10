@@ -17,10 +17,8 @@ public class ReportApi {
     private final ReportService reportService;
 
     @GetMapping("/reports")
-    public CommonResponse<List<ReportDto>> getReports(@RequestParam String startDate,@RequestParam String endDate){
-//        LocalDateTime startDate = LocalDateTime.parse(request.getStartDate() + "T00:00:00");
-//        LocalDateTime endDate = LocalDateTime.parse(request.getEndDate() + "T23:59:59");
-        return CommonResponse.success(reportService.reports(LocalDateTime.parse(startDate+"T00:00:00"),
-                LocalDateTime.parse(endDate+"T23:59:59")));
+    public CommonResponse<List<ReportDto>> getReports(@ModelAttribute RequestDate requestDate){
+        return CommonResponse.success(reportService.reports(LocalDateTime.parse(requestDate.getStartDate()+"T00:00:00"),
+                LocalDateTime.parse(requestDate.getEndDate()+"T23:59:59")));
     }
 }

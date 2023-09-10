@@ -18,6 +18,7 @@ const getScoreColor = (score) => {
 
 const Alert = () => {
     const [scoreColor, setScoreColor] = useState("#8bc8fb");
+    const [isNotificationVisible, setNotificationVisible] = useState(false);
     const eventSource = new EventSource("http://52.79.201.187:8080/anomaly/subscribe");
     eventSource.onopen = () => {
         console.log('SSE connection opened.'); // 연결 성공 로그
@@ -63,6 +64,7 @@ const Alert = () => {
                     backgroundColor: scoreColor
                 }
             });
+            console.log('New data received:', eventData);
         } catch (error) {
             console.error('Error parsing event data:', error);
         }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class MlApi {
             result.get(i).setDetector(detectorMap.get(detector));
         }
 
-        return CommonResponse.success(new LogAnomalyResponse(result.size(), result.stream().sorted((a, b) -> (int) b.getTime() - (int) a.getTime()).collect(Collectors.toList())));
+        return CommonResponse.success(new LogAnomalyResponse(result.size(), result.stream().sorted(Comparator.comparingLong(LogResponseData::getTime).reversed()).collect(Collectors.toList())));
     }
 
     private List<LogResponseData> getLogResponseData() {
@@ -71,14 +72,6 @@ public class MlApi {
         result.addAll(LogAnomalyResponse.fromSourceIpRequest(lowRequest).getLogResponseData());
         return result;
     }
-
-//    @GetMapping("/loganomaliesV2")
-//    public CommonResponse<LogAnomalyResponse> logAnomaliesRequestV2() {
-//        LogAnomalyDto logAnomaliesFromElk = mlRequestService.getLogAnomaliesFromElk();
-//        LogAnomalyDto requestedData = mlRequestService.saveAllDifferenceInLogData(logAnomaliesFromElk);
-//        LogAnomalyResponse result = LogAnomalyResponse.fromDto(requestedData);
-//        return CommonResponse.success(result);
-//    }
 
     @GetMapping("/metricanomaly")
     public CommonResponse<MetricAnomalyResponse> metricAnomalyRequestV2() {

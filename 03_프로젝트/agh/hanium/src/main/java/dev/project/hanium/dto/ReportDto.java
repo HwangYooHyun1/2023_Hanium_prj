@@ -15,6 +15,7 @@ public class ReportDto {
     private LocalDateTime time;
     private double score;
     private String content;
+    private MetricResultAnomalyDto metricInfo;
 
     public static ReportDto fromMetric(MetricAnomaly metricAnomaly) {
         return ReportDto.builder()
@@ -33,10 +34,11 @@ public class ReportDto {
     }
 
     @Builder
-    public ReportDto(String detector, LocalDateTime time, double score, String content) {
+    public ReportDto(String detector, LocalDateTime time, double score, String content,MetricResultAnomalyDto metricInfo) {
         this.detector = detector;
         this.time = time;
         this.score = score;
         this.content = content;
+        this.metricInfo = metricInfo;
     }
 }
