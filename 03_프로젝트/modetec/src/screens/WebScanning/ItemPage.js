@@ -64,7 +64,7 @@ export const ItemPage = ({ selectedItem }) => {
     const handleSendData = () => {
         setLoading(true);
         const convertedIP = convertIP(selectedItem.nameValue);
-        console.log('Converted IP:', convertedIP); 
+        console.log('Converted IP:', convertedIP);
         fetch('http://52.79.201.187:8080/vulnerabilities', {
             method: 'POST',
             headers: {
@@ -81,7 +81,7 @@ export const ItemPage = ({ selectedItem }) => {
                 return response.json();
             })
             .then(data => {
-                console.log('Response Data:', data); 
+                console.log('Response Data:', data);
                 setResponseData(data);
                 sessionStorage.setItem(selectedItem.nameValue, JSON.stringify(data));
             })
