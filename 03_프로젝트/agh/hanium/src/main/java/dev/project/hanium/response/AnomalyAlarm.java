@@ -1,5 +1,6 @@
 package dev.project.hanium.response;
 
+import dev.project.hanium.domain.AnomalyEntity;
 import dev.project.hanium.domain.LogAnomaly;
 import dev.project.hanium.domain.MetricAnomaly;
 import lombok.Builder;
@@ -13,17 +14,10 @@ public class AnomalyAlarm {
     private String detector;
     private double score;
 
-    public static AnomalyAlarm fromLogEntity(LogAnomaly logAnomaly) {
+    public static AnomalyAlarm fromEntity(AnomalyEntity entity) {
         return AnomalyAlarm.builder()
-                .detector(logAnomaly.getDetector())
-                .score(logAnomaly.getScore())
-                .build();
-    }
-
-    public static AnomalyAlarm fromMetricEntity(MetricAnomaly metricAnomaly) {
-        return AnomalyAlarm.builder()
-                .detector(metricAnomaly.getDetector())
-                .score(metricAnomaly.getScore())
+                .detector(entity.detector())
+                .score(entity.score())
                 .build();
     }
 

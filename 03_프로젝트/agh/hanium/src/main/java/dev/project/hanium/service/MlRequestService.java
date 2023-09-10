@@ -1,5 +1,6 @@
 package dev.project.hanium.service;
 
+import dev.project.hanium.domain.AnomalyEntity;
 import dev.project.hanium.domain.LogAnomaly;
 import dev.project.hanium.domain.MetricAnomaly;
 import dev.project.hanium.dto.LogAnomalyDto;
@@ -35,6 +36,7 @@ import static java.util.stream.Collectors.*;
 @Transactional
 @Slf4j
 public class MlRequestService {
+    private final double MIN_ANOMALY_SCORE = 3.0;
     private final List<String> urlStringList;
 
     private final static String ANOMALY_NAME = "ANOMALY";
@@ -69,7 +71,7 @@ public class MlRequestService {
 
             if(db.isEmpty()) {
                 metricAnomalyRepository.saveAll(request);
-                sendMetricAnomaly(request,1);
+                sendAnomaly(request,1);
             } else{
                 for(MetricAnomaly x : request){
                     boolean flag = false;
@@ -83,7 +85,7 @@ public class MlRequestService {
                     if(!flag) tmp.add(x);
                 }
                 metricAnomalyRepository.saveAll(tmp);
-                sendMetricAnomaly(tmp,1);
+                sendAnomaly(tmp,1);
             }
         }
     }
@@ -97,7 +99,7 @@ public class MlRequestService {
             List<LogAnomaly> db = logAnomalyRepository.findAll();
             if(db.isEmpty()) {
                 logAnomalyRepository.saveAll(request);
-                sendLogAnomaly(request,1);
+                sendAnomaly(request,1);
             } else{
                 for(LogAnomaly x : request){
                     boolean flag = false;
@@ -107,33 +109,22 @@ public class MlRequestService {
                     if(!flag) tmp.add(x);
                 }
                 logAnomalyRepository.saveAll(tmp);
-                sendLogAnomaly(tmp,1);
+                sendAnomaly(tmp,1);
             }
         }
     }
 
-    public void sendLogAnomaly(List<LogAnomaly> list, Integer userId) {
+    public void sendAnomaly(List<? extends AnomalyEntity> list, Integer userId) {
         emitterRepository.get(userId).ifPresentOrElse(sseEmitter -> {
             try {
-                List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromLogEntity).collect(toList());
-//                List<AnomalyAlarm> anomalyList = list.stream().sorted(Comparator.comparing(LogAnomaly::getTime).reversed()).map(AnomalyAlarm::fromLogEntity).collect(toList());
-                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomaly.get(0)));
-            } catch (IOException e){
+                List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromEntity).collect(toList());
+                if (!anomaly.isEmpty() && anomaly.get(0).getScore() >= MIN_ANOMALY_SCORE) {
+                    sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomaly.get(0)));
+                }
+            } catch (IOException e) {
                 throw new HaniumException(ErrorCode.ANOMALY_CONNECT_ERROR);
             }
-        },() -> log.info("No emitter founded")); //서버에 저장된 브라우저가 아닌 경우
-    }
-
-    public void sendMetricAnomaly(List<MetricAnomaly> list, Integer userId) {
-        emitterRepository.get(userId).ifPresentOrElse(sseEmitter -> {
-            try {
-                List<AnomalyAlarm> anomaly = list.stream().map(AnomalyAlarm::fromMetricEntity).collect(toList());
-//                List<AnomalyAlarm> anomalyList = list.stream().sorted(Comparator.comparing(MetricAnomaly::getTime).reversed()).map(AnomalyAlarm::fromMetricEntity).collect(toList());
-                sseEmitter.send(SseEmitter.event().id(String.valueOf(userId)).name(ANOMALY_NAME).data(anomaly.get(0)));
-            } catch (IOException e){
-                throw new HaniumException(ErrorCode.ANOMALY_CONNECT_ERROR);
-            }
-        },() -> log.info("No emitter founded")); //서버에 저장된 브라우저가 아닌 경우
+        }, () -> log.info("No emitter founded"));
     }
 
     public SseEmitter connected(Integer userId) {

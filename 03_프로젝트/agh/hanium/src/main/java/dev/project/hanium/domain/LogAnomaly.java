@@ -13,7 +13,7 @@ import java.util.TimeZone;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
-public class LogAnomaly {
+public class LogAnomaly implements AnomalyEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,4 +43,14 @@ public class LogAnomaly {
                 TimeZone.getDefault().toZoneId());
     }
 
+
+    @Override
+    public double score() {
+        return getScore();
+    }
+
+    @Override
+    public String detector() {
+        return getDetector();
+    }
 }
