@@ -64,7 +64,8 @@ export const ItemPage = ({ selectedItem }) => {
     const handleSendData = () => {
         setLoading(true);
         const convertedIP = convertIP(selectedItem.nameValue);
-        fetch('http://210.110.39.163:8080/vulnerabilties', {
+        console.log('Converted IP:', convertedIP);
+        fetch('http://52.79.201.187:8080/vulnerabilities', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,8 +74,14 @@ export const ItemPage = ({ selectedItem }) => {
                 url: convertedIP
             }),
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('Response Data:', data);
                 setResponseData(data);
                 sessionStorage.setItem(selectedItem.nameValue, JSON.stringify(data));
             })
@@ -87,16 +94,20 @@ export const ItemPage = ({ selectedItem }) => {
             });
     };
 
+
+
     useEffect(() => {
         setLoading(true);
         const storedData = sessionStorage.getItem(selectedItem.nameValue);
         if (storedData) {
-            setResponseData(JSON.parse(storedData));
+            const parsedData = JSON.parse(storedData);
+            setResponseData(parsedData.info); // info 배열을 responseData로 설정
             setLoading(false);
         } else {
             handleSendData();
         }
     }, [selectedItem.nameValue]);
+
 
     return (
         <Container>
