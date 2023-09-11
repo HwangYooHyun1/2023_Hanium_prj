@@ -30,7 +30,7 @@ function BarChartComponent({ anomalyChartData, onImageGenerated }) {
         labels: ['Minimal', 'Low', 'Medium', 'High'],
         datasets: [
           {
-            label: 'Example Bar Chart',
+            label: '',
             data: [
               riskLevelCounts.Minimal, riskLevelCounts.Low, riskLevelCounts.Medium, riskLevelCounts.High
             ],
@@ -54,7 +54,6 @@ function BarChartComponent({ anomalyChartData, onImageGenerated }) {
       setChartData(newData);
     }
   }, [anomalyChartData]);
-
   const saveImageLocally = async () => {
     if (chartRef.current && chartData) {
       try {
@@ -82,13 +81,20 @@ function BarChartComponent({ anomalyChartData, onImageGenerated }) {
   return (
     <div className="Report">
       <div>
-        <p>Chart in PDF</p>
-        {chartData ? (
+
+        {chartData && (
           <div ref={chartRef}>
-            <Bar data={chartData} />
+            <Bar data={chartData} options={{
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Risk Levels'
+                  }
+                }
+              }
+            }} />
           </div>
-        ) : (
-          <p>No data available for chart.</p>
         )}
       </div>
     </div>

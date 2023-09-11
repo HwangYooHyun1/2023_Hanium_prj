@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
 function AnomalyDetection({ anomalyData, selectedRiskLevels }) {
   console.log('테이블 출력용 확인 로그 - ', anomalyData);
   console.log('선택된 체크박스 배열 확인 로그 - ', selectedRiskLevels);
+  console.log('이상탐지 추가 데이터 확인 로그', anomalyData.metricinfo);
+
 
 
   const getScoreColor = (score) => {
@@ -58,7 +60,24 @@ function AnomalyDetection({ anomalyData, selectedRiskLevels }) {
     }
   };
 
-  const infoData = anomalyData; // 데이터 배열
+  // 리스크 수준 개수 계산 함수
+function calculateRiskLevelCounts(data) {
+  const counts = {
+    High: 0,
+    Medium: 0,
+    Low: 0,
+    Minimal: 0,
+  };
+
+  data.forEach((item) => {
+    const riskLevel = getRiskLevel(item.score);
+    counts[riskLevel]++;
+  });
+
+  return counts;
+}
+
+const infoData = anomalyData; // 데이터 배열
 
   // Job에 따른 설명을 정의한 객체
 const jobDescriptions = {
@@ -140,6 +159,9 @@ const filteredData = selectedRiskLevels.length > 0
   ? infoData.filter(data => selectedRiskLevels.includes(getRiskLevel(data.score)))
   : infoData;
 
+ // 리스크 수준 개수 계산
+ const riskLevelCounts = calculateRiskLevelCounts(filteredData);
+
 return (
   <View style={styles.demoMetricsContainer}>
     {filteredData.map((data, index) => (
@@ -158,7 +180,7 @@ return (
                 <Text style={styles.tableCell}>Job</Text>
               </View>
 
-              <View style={styles.tableCol}>
+              <View style={{ ...styles.tableCol, width: '90%' }}>
                 <Text style={styles.tableCell}>{data.detector}</Text>
               </View>
             </View>
@@ -168,7 +190,7 @@ return (
                 <Text style={styles.tableCell}>Time</Text>
               </View>
 
-              <View style={styles.tableCol}>
+              <View style={{ ...styles.tableCol, width: '90%' }}>
                 <Text style={styles.tableCell}>{data.time}</Text>
               </View>
             </View>
@@ -178,7 +200,7 @@ return (
                 <Text style={styles.tableCell}>Score</Text>
               </View>
 
-              <View style={styles.tableCol}>
+              <View style={{ ...styles.tableCol, width: '90%' }}>
                 <Text style={styles.tableCell}>{data.score}</Text>
               </View>
             </View> 
@@ -187,7 +209,7 @@ return (
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>Risk Level</Text>
               </View>
-              <View style={styles.tableCol}>
+              <View style={{ ...styles.tableCol, width: '90%' }}>
                 <Text style={{ ...styles.tableCell, color: getScoreColor(data.score) }}>
                   {data.score >= 75 ? "High" : data.score >= 50 ? "Medium" : data.score >= 25 ? "Low" : "Minimal"}
                 </Text>
@@ -202,7 +224,7 @@ return (
                   </Text>
                 </View>
 
-                <View style={styles.tableCol}>
+                <View style={{ ...styles.tableCol, width: '90%' }}>
                   <Text style={styles.tableCell}>{data.content}</Text>
                 </View>
               </View>
@@ -214,7 +236,7 @@ return (
                 <Text style={styles.tableCell}>Classification</Text>
               </View>
 
-              <View style={styles.tableCol}>
+              <View style={{ ...styles.tableCol, width: '90%' }}>
                 <Text style={styles.tableCell}>
                   {data.detector.startsWith("system.") ? "Metric Anomaly" : "Nginx HTTP Access Logs"}
                 </Text>
@@ -226,7 +248,7 @@ return (
                 <Text style={styles.tableCell}>Classification Description</Text>
               </View>
 
-              <View style={styles.tableCol}>
+              <View style={{ ...styles.tableCol, width: '90%' }}>
                 {data.detector.startsWith("system.") ? 
                   <Text style={styles.tableCell}>
                     "Metric Anomaly" continuously monitors the health and performance of various system elements on the web server and detects when a system metric (CPU/Memory/Disk I/O/Network) is out of range.
@@ -246,18 +268,64 @@ return (
                 <Text style={styles.tableCell}>Job Description</Text>
               </View>
 
-              <View style={styles.tableCol}>
+              <View style={{ ...styles.tableCol, width: '90%' }}>
                 <Text style={styles.tableCell}>
                   {jobDescriptions[data.detector] || "Default Job Description (if applicable)"}
                 </Text>
               </View>
             </View>
 
+            <View style={styles.tableRow}>
+  <View style={styles.tableCol}>
+    <Text style={styles.tableCell}>Metric Info</Text>
+  </View>
+
+  <View style={{ ...styles.tableCol, width: '90%' }}>
+    {/* 표에 metricInfo 정보를 추가 */}
+    <Text style={styles.tableCell}>
+      CPU: {data.metricInfo.cpu} | Memory: {data.metricInfo.mem} | Net In: {data.metricInfo.netIn} | Net Out: {data.metricInfo.netOut}
+    </Text>
+  </View>
+</View>
+
 
           </View>
 
         </View>
       ))}
+
+      {/* 리스크 수준 개수 표시 테이블 */}
+      <View style={styles.table}>
+        <View style={styles.tableRow}>
+          <View style={styles.tableCol}>
+            <Text style={styles.tableCell}>Risk Level</Text>
+          </View>
+          <View style={styles.tableCol}>
+            <Text style={styles.tableCell}>Count</Text>
+          </View>
+        </View>
+        {Object.keys(riskLevelCounts).map((level) => (
+          <View style={styles.tableRow} key={level}>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{level}</Text>
+            </View>
+            <View style={styles.tableCol}>
+              <Text style={styles.tableCell}>{riskLevelCounts[level]}</Text>
+            </View>
+          </View>
+        ))}
+        {/* 총 개수 표시 */}
+        <View style={styles.tableRow}>
+          <View style={styles.tableCol}>
+            <Text style={styles.tableCell}>Total Count</Text>
+          </View>
+          <View style={styles.tableCol}>
+            <Text style={styles.tableCell}>{filteredData.length}</Text>
+          </View>
+        </View>
+      </View>
+
+
     </View>
   );
 }

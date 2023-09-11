@@ -5,6 +5,7 @@ import MetricsInfo from './MetricsInfo'; // Update the path accordingly
 import AnomalyDetection from './AnomalyDetection';
 
 import BarChartComponent from './BarChartComponent';
+import WebVulnerabilities from './WebVulnerabilities';
 
 
 
@@ -23,48 +24,65 @@ const styles = StyleSheet.create({
     width: '50%', // 섹션의 가로 크기 조절
   },
   image: {
-    width: 500,
-    height: 200,
+    width: 700,
+    height: 850,
   },
   centeredImageContainer: {
     display: 'flex',
     justifyContent: 'center', // 수평 가운데 정렬
     alignItems: 'center', // 수직 가운데 정렬
   },
+  downloadButton: {
+    backgroundColor: '#007bff',
+    color: '#fff',
+    padding: 12,
+    borderRadius: 6,
+    width: 120,
+    textAlign: 'center',
+    boxShadow: '2px 2px 5px rgba(0, 0, 0, 0.2)',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
 
+function DownloadButton() {
+  return (
+    <View style={styles.downloadButton}>
+      <Text style={styles.buttonText}>다운로드</Text>
+    </View>
+  );
+}
 
 
-
-function ReportPDF({ reportData, anomalyData, chartImage, pieChartImage, selectedRiskLevels, chartImageURL }) {
+function ReportPDF({ reportData, anomalyData, chartImage,selectedRiskLevels, WebVulnerabilityData}) {
   return (
     <PDFDownloadLink
-      document={
-        <ReportPDFDocument
-          reportData={reportData}
-          anomalyData={anomalyData}
-          chartImage={chartImage}
-          selectedRiskLevels={selectedRiskLevels}
-          chartImageURL={chartImageURL}
-          pieChartImage={pieChartImage}
-
-        />
-      }
-      fileName="report.pdf"
-    >
-      {({ blob, url, loading, error }) =>
-        loading ? '로딩 중...' : 'PDF 다운로드'}
-    </PDFDownloadLink>
+  document={
+    <ReportPDFDocument
+      reportData={reportData}
+      anomalyData={anomalyData}
+      chartImage={chartImage}
+      selectedRiskLevels={selectedRiskLevels}
+      WebVulnerabilityData={WebVulnerabilityData}
+    />
+  }
+  fileName="report.pdf"
+>
+  <DownloadButton /> {/* Use the custom styled button */}
+</PDFDownloadLink>
   );
 }
 
 
 
 
-function ReportPDFDocument({ reportData, anomalyData, chartImage,pieChartImage, selectedRiskLevels, chartImageURL}) {
+function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLevels, WebVulnerabilityData}) {
   console.log('reportData:', reportData); // reportData 로그 출력
   console.log('anomalyData:', anomalyData); // anomalyData 로그 출력
-  console.log('chartImage', chartImage, chartImageURL, pieChartImage);
+  console.log('chartImage', chartImage);
+  console.log('reportPDF-웹취약점 데이터 확인', WebVulnerabilityData.info);
 
   
 
@@ -74,37 +92,13 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage,pieChartImage, 
     <Document>
       {/* Page 1 */}
       <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text style={styles.text}>modetec report</Text>
-        </View>
-
-        <View style={styles.centeredImageContainer}>
-            <Image src="/image/reportLogo.png" style={styles.image} />
-          </View>
-        <View style={styles.section}>
-          <Text></Text>
-        </View>
+            <Image src="/image/001.png" style={styles.image} />
       </Page>
 
-      {/* Page 4 */}
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text>Bar Chart</Text>
-
-          {/* BarChartComponent에서 생성한 이미지 데이터 URL을 사용하여 이미지를 표시 */}
-          {chartImage && (
-            <Image src={chartImage} />
-          )}
-          {chartImageURL && (
-            <Image src={chartImageURL} />
-          )}
-        </View>
-      </Page>
-
-      
-
-      
       {/* Page 2 */}
+      <Page size="A4" style={styles.page}>
+        <Image src="/image/002.png" style={styles.image} />
+      </Page>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text>MetricsInfo</Text>
@@ -116,6 +110,24 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage,pieChartImage, 
 
       {/* Page 3 */}
       <Page size="A4" style={styles.page}>
+            <Image src="/image/004.png" style={styles.image} />
+      </Page>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.section}>
+          <Text>WebVulnerabilities Table</Text>
+          {WebVulnerabilityData.info && (
+            <WebVulnerabilities WebVulnerabilityData={WebVulnerabilityData.info}/>
+          )}
+        </View>
+      </Page>
+
+
+
+      {/* Page 4 */}
+      <Page size="A4" style={styles.page}>
+            <Image src="/image/003.png" style={styles.image} />
+      </Page>
+      <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           {/* Include the AnomalyDetection component here */}
           {anomalyData.info && (
@@ -124,27 +136,6 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage,pieChartImage, 
         </View>
       </Page>
 
-      
-
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text>Anomaly Detection Report</Text>
-          
-          {/* 다른 컴포넌트들 추가 */}
-        </View>
-      </Page>
-
-      {/* Page 4 */}
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text>Section #2</Text>
-          
-        </View>
-
-         
-        
-
-      </Page>
     </Document>
   );
 }

@@ -15,8 +15,8 @@ const NetworkPieChart = ({ networkData, onImageGenerated }) => {
     if (networkData) {
       // 필요한 데이터만 추출하여 사용
       const filteredData = {
-        avg_net_in: networkData.avg_net_in,
-        avg_net_out: networkData.avg_net_out,
+        avg_net_in: networkData.avgNetIn,
+        avg_net_out: networkData.avgNetOut,
       };
 
       const labels = Object.keys(filteredData);

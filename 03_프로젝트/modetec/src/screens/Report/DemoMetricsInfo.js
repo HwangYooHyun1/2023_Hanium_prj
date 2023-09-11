@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 function addUnit(metricName, metricValue) {
-  if (metricName === 'avg_net_in' || metricName === 'max_net_in' || metricName === 'avg_net_out' || metricName === 'max_net_out') {
+  if (metricName === 'avgNetIn' || metricName === 'maxNetIn' || metricName === 'avgNetOut' || metricName === 'maxNetOut') {
     return `${metricValue} MB`; // avg_net_in, max_net_in에는 MB 단위 추가
   } else {
     return `${metricValue}%`; // 나머지는 % 단위 추가

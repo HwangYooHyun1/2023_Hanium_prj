@@ -111,15 +111,8 @@ const ProjectModal = ({ close, addContentToList, contentList }) => {
         projectName,
         projectDescription,
       });
-      if (projectName.trim() !== '') {
-        const newContent = {
-          projectName,
-          projectDescription,
-        };
-        addContentToList([...contentList, newContent]);
-        console.log('사이드바 전달 데이터', newContent);
-      }
-      
+  
+      console.log('응답 상태 코드:', response.status);
   
       console.log('프로젝트 서버 응답 데이터:', response.data);
   
@@ -129,13 +122,15 @@ const ProjectModal = ({ close, addContentToList, contentList }) => {
         setProjectName('');
         setProjectDescription('');
         close(); // 모달 닫기
-      } else {
-        console.error('프로젝트 등록 실패');
-      }
+      } 
     } catch (error) {
-      console.error('프로젝트 데이터 전송 오류:', error);
+      console.log('프로젝트 중복 에러');
+        // 중복된 값이 서버에 이미 존재하는 경우 사용자에게 메시지 표시
+        setErrorMessage('중복된 프로젝트 이름입니다. 다른 값을 입력하세요.');
     }
   };
+  
+  
 
  
   const handleCloseModal = () => {
