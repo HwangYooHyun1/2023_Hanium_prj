@@ -55,43 +55,51 @@ export const ItemPage = ({ selectedItem }) => {
 
     const convertIP = (ip) => {
         const ipMap = {
-            'ip-172-31-12-240': '43.201.100.180',
-            'ip-172-31-15-63': '43.201.117.55',
+            'ip-172-31-12-240': '43.201.117.55',
+            'ip-172-31-15-63': '43.201.100.180',
         };
         return ipMap[ip];
     };
 
     const handleSendData = () => {
         setLoading(true);
-        const convertedIP = convertIP(selectedItem.nameValue);
-        console.log('Converted IP:', convertedIP);
-        fetch('http://52.79.201.187:8080/vulnerabilities', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                url: convertedIP
-            }),
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
+        const storedData = sessionStorage.getItem(selectedItem.nameValue);
+        if (storedData) {
+            const parsedData = JSON.parse(storedData);
+            setResponseData(parsedData.info);
+            setLoading(false);
+            setButtonText('Restart Scanning');
+        } else {
+            const convertedIP = convertIP(selectedItem.nameValue);
+            console.log('Converted IP:', convertedIP);
+            fetch('http://52.79.201.187:8080/vulnerabilities', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    url: convertedIP
+                }),
             })
-            .then(data => {
-                console.log('Response Data:', data);
-                setResponseData(data);
-                sessionStorage.setItem(selectedItem.nameValue, JSON.stringify(data));
-            })
-            .catch(error => {
-                console.error('Error sending data:', error);
-            })
-            .finally(() => {
-                setLoading(false);
-                setButtonText('Restart Scanning');
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Response Data:', data);
+                    setResponseData(data);
+                    sessionStorage.setItem(selectedItem.nameValue, JSON.stringify(data));
+                })
+                .catch(error => {
+                    console.error('Error sending data:', error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                    setButtonText('Restart Scanning');
+                });
+        }
     };
 
 
