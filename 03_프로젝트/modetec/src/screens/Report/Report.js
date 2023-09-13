@@ -6,7 +6,6 @@ import ReportPDF from './ReportPDF';
 import BarChartComponent from './BarChartComponent';
 import NetworkPieChart from "./NetworkPieChart";
 import GroupedBarChart from "./GroupedBarChart";
-import WebVulnerabilities from './WebVulnerabilities';
 import Styled from "styled-components";
 
 const Title = Styled.div`
@@ -104,7 +103,7 @@ function Report() {
 
   const [chartImage, setChartImage] = useState(null);
   const handleChartImageGenerated = (imageURL) => {
-    console.log('차트1 이미지 생성 확인 로그', imageURL);
+    console.log('서버 이미지 생성 확인 로그', imageURL);
     // 이미지 생성이 완료되었음을 알리는 콜백 함수
     setChartImage(imageURL);
     
@@ -222,16 +221,16 @@ function Report() {
     <div>
       <StyledText>보고서 생성 완료</StyledText>
 
-      {/* BarChartComponent */}
-      <ChartContainer>
-        <StyledHeader>Anomaly Detection Risk Level</StyledHeader>
-        <BarChartComponent anomalyChartData={anomalyData.info} onImageGenerated={handleChartImageGenerated} />
-      </ChartContainer>
-      
       {/* Metric Info */}
       <ChartContainer>
         <StyledHeader>Metric Info</StyledHeader>
-        <GroupedBarChart data={reportData.info} />
+        <GroupedBarChart data={reportData.info} onImageGenerated={handleChartImageGenerated}/>
+      </ChartContainer>
+
+      {/* BarChartComponent */}
+      <ChartContainer>
+        <StyledHeader>Anomaly Detection Risk Level</StyledHeader>
+        <BarChartComponent anomalyChartData={anomalyData.info}  />
       </ChartContainer>
       
       {/* Network Data Info */}
@@ -253,7 +252,6 @@ function Report() {
 </LeftContent>
 
   {/* Right Image */}
-  <RightImage src="/image/001.png" alt="Your Image" />
 </ReportContent>
     </div>
   );

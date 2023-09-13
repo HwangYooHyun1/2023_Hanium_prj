@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import CloseIcon from '@mui/icons-material/Close';
 import Axios from 'axios'; // Axios를 가져오기
 
-
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -23,9 +22,7 @@ const CustomTextField = styled(TextField)`
   margin-top: 8px;
 `;
 
-
 const ButtonWrapper = styled.div`
-
   display: flex;
   justify-content: center;
   width: 100%;
@@ -57,7 +54,6 @@ const CustomButton = styled.button`
   &:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
   }
-  
 `;
 
 const CloseButton = styled(CloseIcon)`
@@ -71,7 +67,6 @@ const CloseButton = styled(CloseIcon)`
   cursor: pointer;
 `;
 
-
 const ModalContent = styled.div`
   max-height: 100%;
   overflow: auto;
@@ -82,13 +77,12 @@ const AgentTitle = styled.h2`
   margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
   text-align: center; /* 가로 기준 가운데 정렬 */
-  `;
+`;
 
 const ProjectModal = ({ close, addContentToList, contentList }) => {
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
 
   const handleProjectNameChange = (e) => {
     setProjectName(e.target.value);
@@ -100,39 +94,42 @@ const ProjectModal = ({ close, addContentToList, contentList }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!projectName || !projectDescription) {
       setErrorMessage('값을 입력하세요!');
       return;
     }
-  
+
     try {
       const response = await Axios.post("http://52.79.201.187:8080/projects/new", {
         projectName,
         projectDescription,
       });
-  
+
       console.log('응답 상태 코드:', response.status);
-  
-      console.log('프로젝트 서버 응답 데이터:', response.data);
-  
+
       if (response.status === 200) {
-        console.log('프로젝트 등록 성공');
-        // 입력 필드를 초기화합니다.
-        setProjectName('');
-        setProjectDescription('');
-        close(); // 모달 닫기
-      } 
+        console.log('프로젝트 서버 응답 데이터:', response.data);
+
+        if (response.data.returnCode === 'DUPLICATED_PROJECT_NAME') {
+          console.log('프로젝트 중복 에러');
+          // 중복된 값이 서버에 이미 존재하는 경우 사용자에게 메시지 표시
+          setErrorMessage('중복된 프로젝트 이름입니다. 다른 값을 입력하세요.');
+        } else {
+          console.log('프로젝트 등록 성공');
+          // 입력 필드를 초기화합니다.
+          setProjectName('');
+          setProjectDescription('');
+          close(); // 모달 닫기
+        }
+      } else {
+        console.error('프로젝트 등록 실패');
+      }
     } catch (error) {
-      console.log('프로젝트 중복 에러');
-        // 중복된 값이 서버에 이미 존재하는 경우 사용자에게 메시지 표시
-        setErrorMessage('중복된 프로젝트 이름입니다. 다른 값을 입력하세요.');
+      console.error('프로젝트 데이터 전송 오류:', error);
     }
   };
-  
-  
 
- 
   const handleCloseModal = () => {
     close(); // Call the close function to close the modal
   };
@@ -161,6 +158,7 @@ const ProjectModal = ({ close, addContentToList, contentList }) => {
             rows={4}
           />
         </InputWrapper>
+        {errorMessage && <div>{errorMessage}</div>}
       </ModalContent>
       <ButtonWrapper>
         <CustomButton type="submit">등록</CustomButton>

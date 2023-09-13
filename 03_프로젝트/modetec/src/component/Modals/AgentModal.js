@@ -163,6 +163,7 @@ const AgentModal = ({ close }) => {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <CloseButton onClick={handleCloseModal} /> {/* 닫기 버튼 */}
+      <AgentTitle>Register Agent</AgentTitle>
       <InputWrapper>
         <CustomTextField
           select

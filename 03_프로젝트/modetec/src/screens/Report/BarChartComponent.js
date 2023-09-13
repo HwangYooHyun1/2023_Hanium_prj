@@ -5,8 +5,7 @@ import { Chart } from 'chart.js/auto';
 import { CategoryScale } from 'chart.js';
 Chart.register(CategoryScale);
 
-function BarChartComponent({ anomalyChartData, onImageGenerated }) {
-  const chartRef = useRef(null);
+function BarChartComponent({ anomalyChartData}) {
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
@@ -26,11 +25,12 @@ function BarChartComponent({ anomalyChartData, onImageGenerated }) {
         }
       });
 
+      const labels = ['Minimal', 'Low', 'Medium', 'High'];
       const newData = {
-        labels: ['Minimal', 'Low', 'Medium', 'High'],
+        labels: labels,
         datasets: [
           {
-            label: '',
+            label: 'Risk Levels', // 수정된 부분
             data: [
               riskLevelCounts.Minimal, riskLevelCounts.Low, riskLevelCounts.Medium, riskLevelCounts.High
             ],
@@ -54,47 +54,24 @@ function BarChartComponent({ anomalyChartData, onImageGenerated }) {
       setChartData(newData);
     }
   }, [anomalyChartData]);
-  const saveImageLocally = async () => {
-    if (chartRef.current && chartData) {
-      try {
-        const canvas = await html2canvas(chartRef.current);
-        const imageURL = canvas.toDataURL("image/png");
-
-        // 이미지 생성 완료 로그 출력
-        console.log('차트1 이미지 생성 완료');
-
-        // 이미지 생성이 완료되었음을 콜백 함수로 알립니다.
-        onImageGenerated(imageURL);
-      } catch (error) {
-        console.error('Error converting chart to image:', error);
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (chartData) {
-      // 이미지를 생성하고 콜백 함수를 통해 전달합니다.
-      saveImageLocally();
-    }
-  }, [chartData]);
+  
+  
 
   return (
     <div className="Report">
       <div>
 
         {chartData && (
-          <div ref={chartRef}>
             <Bar data={chartData} options={{
               scales: {
                 x: {
                   title: {
                     display: true,
-                    text: 'Risk Levels'
+                    text: ''
                   }
                 }
               }
             }} />
-          </div>
         )}
       </div>
     </div>
