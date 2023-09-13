@@ -1,11 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Pie } from 'react-chartjs-2';
-import html2canvas from 'html2canvas';
 import { Chart } from 'chart.js/auto';
 import { CategoryScale } from 'chart.js';
 Chart.register(CategoryScale);
 
-const NetworkPieChart = ({ networkData, onImageGenerated }) => {
+const NetworkPieChart = ({ networkData }) => {
   const chartRef = useRef(null);
   const [chartData, setChartData] = useState(null);
 
@@ -40,29 +39,9 @@ const NetworkPieChart = ({ networkData, onImageGenerated }) => {
     }
   }, [networkData]);
 
-  const saveImageLocally = async () => {
-    if (chartRef.current && chartData) {
-      try {
-        const canvas = await html2canvas(chartRef.current.chartInstance.canvas);
-        const imageURL = canvas.toDataURL("image/png");
-  
-        console.log('차트 3 이미지 생성 완료:', imageURL);
-  
-        // 이미지 생성이 완료되었음을 콜백 함수로 알립니다.
-        onImageGenerated(imageURL);
-      } catch (error) {
-        console.error('Error converting chart to image:', error);
-      }
-    }
-  };
-  
 
-  useEffect(() => {
-    if (chartData) {
-      // 이미지를 생성하고 콜백 함수를 통해 전달합니다.
-      saveImageLocally();
-    }
-  }, [chartData]);
+
+
 
   return (
     <div>
@@ -73,7 +52,6 @@ const NetworkPieChart = ({ networkData, onImageGenerated }) => {
             responsive: true,
             maintainAspectRatio: false,
           }}
-          ref={chartRef}
         />
       )}
     </div>

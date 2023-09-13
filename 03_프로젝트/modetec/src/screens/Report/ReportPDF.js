@@ -27,6 +27,10 @@ const styles = StyleSheet.create({
     width: 700,
     height: 850,
   },
+  chartImage: {
+    width: 350,
+    height: 850,
+  },
   centeredImageContainer: {
     display: 'flex',
     justifyContent: 'center', // 수평 가운데 정렬
@@ -99,11 +103,18 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLe
       <Page size="A4" style={styles.page}>
         <Image src="/image/002.png" style={styles.image} />
       </Page>
+
+      
+      
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <Text>MetricsInfo</Text>
           {reportData.info && (
             <DemoMetricsInfo metrics={reportData.info} />
+          )}
+
+          {chartImage && (
+            <Image src={chartImage} />
           )}
         </View>
       </Page>
