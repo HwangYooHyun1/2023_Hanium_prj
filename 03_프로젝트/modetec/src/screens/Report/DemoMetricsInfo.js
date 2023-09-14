@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRightWidth: 0,
     borderBottomWidth: 0,
+    marginLeft: 25,
+    marginRight: 20,
   },
   tableRow: {
     margin: 'auto',
@@ -34,8 +36,9 @@ const styles = StyleSheet.create({
   },
   tableCell: {
     margin: 'auto',
-    marginTop: 5,
-    fontSize: 10,
+    marginTop: 10, // 각 셀의 높이를 20으로 설정
+    marginBottom: 10,
+    fontSize: 14,
   },
 });
 
@@ -49,7 +52,7 @@ function addUnit(metricName, metricValue) {
 
 function DemoMetricsInfo({ metrics }) {
   return (
-    <View style={styles.table}>
+    <View wrap={false} style={styles.table}>
       {Object.entries(metrics).map(([metricName, metricValue], index) => (
         <View key={index} style={styles.tableRow}>
 

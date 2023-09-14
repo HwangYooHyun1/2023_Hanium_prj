@@ -1,11 +1,10 @@
-// WebVulnerabilities.js
-
 import React from 'react';
-import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   demoMetricsContainer: {
-    marginBottom: 10,
+    marginLeft: 20,
+    marginRight: 15,
   },
   demoMetricsTitle: {
     fontSize: 14,
@@ -21,7 +20,6 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1,
     borderBottomWidth: 0,
-    marginBottom: 3
   },
   tableRow: {
     flexDirection: 'row',
@@ -33,37 +31,142 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
   },
   tableCell: {
-    padding: 5, // 셀의 패딩을 추가하여 텍스트와 경계 사이의 간격 조정
+    padding: 5,
     fontSize: 10,
   },
   indexText: {
     fontSize: 12,
-    marginBottom: 5, // 추가된 부분: 인덱스 텍스트 아래 여백
-    color: '#666', // 인덱스 텍스트의 색상
+    marginBottom: 5,
+    color: '#666',
   },
   statusCell: {
     padding: 5,
     fontSize: 10,
   },
   riskStatus: {
-    backgroundColor: 'red', // 빨간색 네모
-    color: 'white', // 글씨색을 흰색으로 설정
+    backgroundColor: 'red',
+    color: 'white',
   },
   safeStatus: {
-    backgroundColor: 'green', // 초록색 네모
-    color: 'white', // 글씨색을 흰색으로 설정
+    backgroundColor: 'green',
+    color: 'white',
   },
+  image: {
+    width: 596,
+    height: 850,
+    position: 'absolute'
+  },
+  section: {
+    margin: 10,
+    padding: 10,
+    flexGrow: 1,
+  },
+  sectionTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginTop: 65,
+    marginLeft: 40,
+  },
+  
 });
 
+
+
 function WebVulnerabilities({ WebVulnerabilityData }) {
-  console.log('****웹취약점 데이터 넘어오는거 확인', WebVulnerabilityData);
-  console.log('****웹취약점 데이터 넘어오는거 확인', WebVulnerabilityData);
+  if (WebVulnerabilityData) {
+    const pages = WebVulnerabilityData.reduce((result, data, index) => {
+      if (index % 3 === 0) {
+        // 3의 배수일 때 새로운 페이지 생성
+        result.push(
+          <Page key={index} wrap size="A4" style={styles.page}>
 
+            <View>
+              <Image src="/image/background1.png" style={styles.image} />
+            </View>
 
-  return (
-    <View style={styles.demoMetricsContainer}>
-      {WebVulnerabilityData && WebVulnerabilityData.map((data, index) => (
-        <View key={index}>
+              <Text style={styles.sectionTitle}>WebVulnerability Table</Text>
+
+            <View style={styles.section}>
+
+              <View style={styles.demoMetricsContainer}>
+
+                <Text style={styles.demoMetricsTitle}>
+                  <Text>WebVulnerabilities</Text>
+                  <Text style={styles.indexText}>Index: {index}</Text>
+                </Text>
+
+                <View style={styles.table}>
+                  <View style={styles.tableRow}>
+                    <View style={styles.tableCol}>
+                      <Text style={styles.tableCell}>vulnerability</Text>
+                    </View>
+                    <View style={styles.tableCol}>
+                      <Text style={styles.tableCell}>{data.vulnerability}</Text>
+                    </View>
+                  </View>
+                <View style={styles.tableRow}>
+
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>description</Text>
+              </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{data.description}</Text>
+              </View>
+
+            </View>
+
+            <View style={styles.tableRow}>
+
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>security_threat</Text>
+              </View>
+
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{data.security_threat}</Text>
+              </View>
+
+            </View>
+
+            <View style={styles.tableRow}>
+
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>content</Text>
+              </View>
+
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>{data.content}</Text>
+              </View>
+
+            </View>
+
+            {/* status 값에 따라 배경색을 다르게 설정 */}
+            <View style={styles.tableRow}>
+
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>status</Text>
+              </View>
+
+              <View style={[styles.tableCol, styles.statusCell, data.status === 'Risk' ? styles.riskStatus : (data.status === 'Safe' ? styles.safeStatus : {})]}>
+                <Text style={styles.tableCell}>
+                  {data.status}
+                </Text>
+              </View>
+
+            </View>
+
+                </View>
+              </View>
+            </View>
+          </Page>
+        );
+      } else {
+        // 3의 배수가 아닌 경우 현재 페이지에 내용 추가
+        const currentPage = result[result.length - 1];
+        const newChildren = currentPage.props.children.concat( // Create a new array
+        <View key={index} style={styles.section}>
+
+          <View key={index} style={styles.demoMetricsContainer}>
+            {/* ... 내용 추가 ... */}
 
           <Text style={styles.demoMetricsTitle}>
             <Text>WebVulnerabilities</Text>
@@ -73,6 +176,7 @@ function WebVulnerabilities({ WebVulnerabilityData }) {
           <View style={styles.table}>
 
             <View style={styles.tableRow}>
+
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>vulnerability</Text>
               </View>
@@ -80,9 +184,11 @@ function WebVulnerabilities({ WebVulnerabilityData }) {
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{data.vulnerability}</Text>
               </View>
+
             </View>
             
             <View style={styles.tableRow}>
+
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>description</Text>
               </View>
@@ -90,9 +196,11 @@ function WebVulnerabilities({ WebVulnerabilityData }) {
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{data.description}</Text>
               </View>
+
             </View>
 
             <View style={styles.tableRow}>
+
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>security_threat</Text>
               </View>
@@ -100,9 +208,11 @@ function WebVulnerabilities({ WebVulnerabilityData }) {
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{data.security_threat}</Text>
               </View>
+
             </View>
 
             <View style={styles.tableRow}>
+
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>content</Text>
               </View>
@@ -110,26 +220,41 @@ function WebVulnerabilities({ WebVulnerabilityData }) {
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>{data.content}</Text>
               </View>
+
             </View>
 
             {/* status 값에 따라 배경색을 다르게 설정 */}
             <View style={styles.tableRow}>
+
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>status</Text>
               </View>
 
               <View style={[styles.tableCol, styles.statusCell, data.status === 'Risk' ? styles.riskStatus : (data.status === 'Safe' ? styles.safeStatus : {})]}>
-  <Text style={styles.tableCell}>
-    {data.status}
-  </Text>
-</View>
+                <Text style={styles.tableCell}>
+                  {data.status}
+                </Text>
+              </View>
+
             </View>
             
           </View>
         </View>
-          ))}
-    </View>
-  );
+
+          </View>
+        );
+        result[result.length - 1] = React.cloneElement(currentPage, { children: newChildren }); // Update the page with new children
+      }
+      return result;
+    }, []);
+
+    return <>{pages}</>;
+  }
+
+  return null; // WebVulnerabilityData가 없을 때 처리
 }
 
 export default WebVulnerabilities;
+
+
+

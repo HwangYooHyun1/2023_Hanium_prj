@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Document, Page, Text, View, StyleSheet, Image, PDFDownloadLink } from '@react-pdf/renderer';
 import DemoMetricsInfo from './DemoMetricsInfo'; // Update the path accordingly
-import MetricsInfo from './MetricsInfo'; // Update the path accordingly
 import AnomalyDetection from './AnomalyDetection';
-
-import BarChartComponent from './BarChartComponent';
+import RiskLevelCountTable from './RiskLevelCountTable';
 import WebVulnerabilities from './WebVulnerabilities';
 
 
@@ -24,12 +22,14 @@ const styles = StyleSheet.create({
     width: '50%', // 섹션의 가로 크기 조절
   },
   image: {
-    width: 700,
+    width: 596,
     height: 850,
+    position: 'absolute'
   },
   chartImage: {
-    width: 350,
-    height: 850,
+    width: 500,
+    height: 200,
+    marginTop: 20,
   },
   centeredImageContainer: {
     display: 'flex',
@@ -49,6 +49,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  sectionTitle: {
+    fontSize: 30, // 원하는 글꼴 크기로 조절
+    fontWeight: 'bold', // 원하는 글꼴 두껍게 설정
+    marginBottom: 20, // "MetricsInfo" 텍스트 아래의 간격 조절
+    marginTop:45,
+    marginLeft: 25,
+  },
+  text: {
+    position: "absolute",
+    left: '0px',
+    right: '0px',
+    marginHorizontal: 'auto',
+    textAlign: "left",
+    justifyContent: 'center',
+},
 });
 
 function DownloadButton() {
@@ -106,16 +121,25 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLe
 
       
       
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text>MetricsInfo</Text>
+
+
+      <Page wrap size="A4" style={styles.page}>
+        <View><Image src="/image/background1.png" style={styles.image}/></View>
+        <View wrap={false} style={styles.section}>
+          <Text style={{...styles.sectionTitle }}>
+            MetricsInfo
+            </Text> {/* 스타일 적용 */}
+
+
+
           {reportData.info && (
             <DemoMetricsInfo metrics={reportData.info} />
           )}
 
           {chartImage && (
-            <Image src={chartImage} />
+            <Image src={chartImage} style={styles.chartImage} />
           )}
+          {/* 아래 컴포넌트와의 간격을 조절 */}
         </View>
       </Page>
 
@@ -123,29 +147,42 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLe
       <Page size="A4" style={styles.page}>
             <Image src="/image/004.png" style={styles.image} />
       </Page>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text>WebVulnerabilities Table</Text>
-          {WebVulnerabilityData.info && (
+
+
+
+
+      {WebVulnerabilityData.info && (
             <WebVulnerabilities WebVulnerabilityData={WebVulnerabilityData.info}/>
           )}
-        </View>
-      </Page>
 
-
-
-      {/* Page 4 */}
+           {/* Page 3 */}
       <Page size="A4" style={styles.page}>
             <Image src="/image/003.png" style={styles.image} />
       </Page>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          {/* Include the AnomalyDetection component here */}
-          {anomalyData.info && (
+
+
+      {/* Include the AnomalyDetection component here */}
+      {anomalyData.info && (
             <AnomalyDetection anomalyData={anomalyData.info} selectedRiskLevels={selectedRiskLevels} />
           )}
+
+
+      <Page wrap size="A4" style={styles.page}>
+        <View><Image src="/image/background1.png" style={styles.image}/></View>
+        <View wrap={false} style={styles.section}>
+          <Text style={{...styles.sectionTitle }}>
+            Risk Level Count
+            </Text> {/* 스타일 적용 */}
+
+
+            {anomalyData.info && (
+            <RiskLevelCountTable anomalyData={anomalyData.info} selectedRiskLevels={selectedRiskLevels} />
+          )}
+
+
         </View>
       </Page>
+
 
     </Document>
   );
