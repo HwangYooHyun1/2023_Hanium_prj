@@ -5,7 +5,6 @@ import { CategoryScale } from 'chart.js';
 Chart.register(CategoryScale);
 
 const NetworkPieChart = ({ networkData }) => {
-  const chartRef = useRef(null);
   const [chartData, setChartData] = useState(null);
 
   console.log('차트3데이터전달', networkData);

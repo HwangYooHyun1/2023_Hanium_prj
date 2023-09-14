@@ -1,9 +1,10 @@
 import React from 'react';
-import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   demoMetricsContainer: {
-    marginBottom: 10,
+    marginLeft: 20,
+    marginRight:20,
   },
   demoMetricsTitle: {
     fontSize: 14,
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
   },
   tableCell: {
-    padding: 5, // 셀의 패딩을 추가하여 텍스트와 경계 사이의 간격 조정
+    padding: 2, // 셀의 패딩을 추가하여 텍스트와 경계 사이의 간격 조정
     fontSize: 10,
   },
   indexText: {
@@ -39,6 +40,23 @@ const styles = StyleSheet.create({
     marginBottom: 5, // 추가된 부분: 인덱스 텍스트 아래 여백
     color: '#666', // 인덱스 텍스트의 색상
   },
+  image: {
+    width: 596,
+    height: 850,
+    position: 'absolute'
+  },
+  section: {
+    margin: 10,
+    padding: 5,
+    flexGrow: 1,
+  },
+  sectionTitle: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginTop: 65,
+    marginLeft: 40,
+  },
+  
 });
 
 function AnomalyDetection({ anomalyData, selectedRiskLevels }) {
@@ -154,25 +172,40 @@ const getRiskLevel = (score) => {
     return "Minimal";
   }
 };
-
 const filteredData = selectedRiskLevels.length > 0
-  ? infoData.filter(data => selectedRiskLevels.includes(getRiskLevel(data.score)))
-  : infoData;
+? infoData.filter(data => selectedRiskLevels.includes(getRiskLevel(data.score)))
+: infoData;
 
- // 리스크 수준 개수 계산
- const riskLevelCounts = calculateRiskLevelCounts(filteredData);
+// 리스크 수준 개수 계산
+const riskLevelCounts = calculateRiskLevelCounts(filteredData);
 
-return (
-  <View style={styles.demoMetricsContainer}>
-    {filteredData.map((data, index) => (
-        <View key={index}>
-          {/* 조건에 따라 새로운 페이지 생성 */}
-          
+
+// 페이지 당 테이블 개수를 설정
+const tablesPerPage = 2;
+
+// 페이지 배열 생성
+const pages = [];
+for (let i = 0; i < filteredData.length; i += tablesPerPage) {
+const pageData = filteredData.slice(i, i + tablesPerPage);
+pages.push(
+  <Page key={i} wrap size="A4" style={styles.page}>
+    <View>
+      <Image src="/image/background1.png" style={styles.image} />
+    </View>
+    <Text style={{...styles.sectionTitle }}>
+            AnomalyDetection Table
+            </Text> {/* 스타일 적용 */}
+    {pageData.map((data, index) => (
+      <View key={index} style={styles.section}>
+        <View style={styles.demoMetricsContainer}>
 
           <Text style={styles.demoMetricsTitle}>
             <Text>Anomaly Data</Text>
-            <Text style={styles.indexText}>Index: {index}</Text> {/* 추가된 부분 */}
+            <Text style={styles.indexText}>Index: {i + index}</Text>
           </Text>
+          
+          {/* 테이블 내용을 여기에 추가 */}
+
           <View style={styles.table}>
 
             <View style={styles.tableRow}>
@@ -209,6 +242,7 @@ return (
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>Risk Level</Text>
               </View>
+
               <View style={{ ...styles.tableCol, width: '90%' }}>
                 <Text style={{ ...styles.tableCell, color: getScoreColor(data.score) }}>
                   {data.score >= 75 ? "High" : data.score >= 50 ? "Medium" : data.score >= 25 ? "Low" : "Minimal"}
@@ -259,8 +293,6 @@ return (
                   </Text>
                 }
               </View>
-
-
             </View> 
 
             <View style={styles.tableRow}>
@@ -276,26 +308,41 @@ return (
             </View>
 
             <View style={styles.tableRow}>
-  <View style={styles.tableCol}>
-    <Text style={styles.tableCell}>Metric Info</Text>
-  </View>
+              <View style={styles.tableCol}>
+                <Text style={styles.tableCell}>Metric Info</Text>
+              </View>
 
-  <View style={{ ...styles.tableCol, width: '90%' }}>
-    {/* 표에 metricInfo 정보를 추가 */}
-    <Text style={styles.tableCell}>
-      CPU: {data.metricInfo.cpu} | Memory: {data.metricInfo.mem} | Net In: {data.metricInfo.netIn} | Net Out: {data.metricInfo.netOut}
-    </Text>
-  </View>
-</View>
+              <View style={{ ...styles.tableCol, width: '90%' }}>
+                {/* 표에 metricInfo 정보를 추가 */}
+                <Text style={styles.tableCell}>
+                  CPU: {data.metricInfo.cpu} | Memory: {data.metricInfo.mem} | Net In: {data.metricInfo.netIn} | Net Out: {data.metricInfo.netOut}
+                </Text>
+              </View>
+            </View>
 
 
           </View>
 
         </View>
-      ))}
 
-      {/* 리스크 수준 개수 표시 테이블 */}
-      <View style={styles.table}>
+      
+
+
+      </View>
+      
+    ))}
+    
+  </Page>
+);
+<Page wrap size="A4" style={styles.page}>
+        <View><Image src="/image/000.png" style={styles.image}/></View>
+        <View style={styles.section}>
+          <Text style={{...styles.sectionTitle }}>
+            AnomalyDetection Table
+            </Text> {/* 스타일 적용 */}
+        </View>
+        {/* 리스크 수준 개수 표시 테이블 */}
+    <View style={styles.table}>
         <View style={styles.tableRow}>
           <View style={styles.tableCol}>
             <Text style={styles.tableCell}>Risk Level</Text>
@@ -324,10 +371,13 @@ return (
           </View>
         </View>
       </View>
+      </Page>
+}
 
 
-    </View>
-  );
+
+// 페이지 배열을 반환
+return <>{pages}</>;
 }
 
 

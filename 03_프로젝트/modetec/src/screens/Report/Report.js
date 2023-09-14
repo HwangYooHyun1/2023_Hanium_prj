@@ -90,8 +90,8 @@ function Report() {
   const [reportData, setReportData] = useState({});
   const [anomalyData, setAnamolalyData] = useState({});
   const [modalOpen, setModalOpen] = useState(false);
-  const [startData, setStartData] = useState({});
-  const [endData, setEndData] = useState({});
+  const [startDate, setStartDate] = useState({});
+  const [endDate, setEndDate] = useState({});
 
   const [selectedRiskLevels, setSelectedRiskLevels] = useState([]);
 
@@ -118,6 +118,8 @@ function Report() {
       const formattedStartDate = startDate.toISOString().split('T')[0];
       const formattedEndDate = endDate.toISOString().split('T')[0];
       console.log('전송 데이터 출력', formattedStartDate, formattedEndDate);
+      setStartDate(formattedStartDate);
+      setEndDate(formattedEndDate);
 
 
       const webVulnerabilityDataResponse = await axios.post("http://52.79.201.187:8080/vulnerabilities", {
@@ -152,8 +154,7 @@ function Report() {
       setAnamolalyData(anomalyResponse.data);
       setWebVulnerabilityData(webVulnerabilityDataResponse.data);
   
-      setStartData(formattedStartDate);
-      setEndData(formattedEndDate);
+
 
       console.log('받은 데이터-서버:', reportData);
       console.log('받은 데이터-이상탐지:', anomalyData);
@@ -174,10 +175,10 @@ function Report() {
     if ( chartImage) {
       generatePDF();
     }
-  }, [ chartImage, reportData.info, anomalyData.info, selectedRiskLevels,WebVulnerabilityData.info]);
+  }, [ chartImage, reportData.info, anomalyData.info, selectedRiskLevels,WebVulnerabilityData.info, startDate, endDate]);
 
   const generatePDF = () => {
-    if (reportGenerated && reportData.info && anomalyData.info  && chartImage && WebVulnerabilityData.info) {
+    if (reportGenerated && reportData.info && anomalyData.info  && chartImage && WebVulnerabilityData.info, startDate, endDate) {
       // PDF 생성 로직 실행
       const pdfContent = (
         <ReportPDF
@@ -186,6 +187,8 @@ function Report() {
           chartImage={chartImage}
           selectedRiskLevels={selectedRiskLevels}
           WebVulnerabilityData={WebVulnerabilityData}
+          startDate={startDate}
+          endDate={endDate}
         />
       );
   
@@ -209,8 +212,8 @@ function Report() {
       <ReportPDF
         reportData={reportData}
         anomalyData={anomalyData}
-        startDate={startData}
-        endDate={endData}
+        startDate={startDate}
+        endDate={endDate}
         selectedRiskLevels={selectedRiskLevels}
         chartImage={chartImage}
         WebVulnerabilityData={WebVulnerabilityData}
@@ -219,6 +222,7 @@ function Report() {
       <LeftContent>
   {reportGenerated ? (
     <div>
+      <StyledText>{`조회시간 : ${startDate} - ${endDate}`}</StyledText>
       <StyledText>보고서 생성 완료</StyledText>
 
       {/* Metric Info */}
@@ -240,7 +244,7 @@ function Report() {
       </ChartContainer>
     </div>
   ) : (
-    <StyledText>보고서 데이터 로딩 중...</StyledText>
+    <StyledText>보고서 생성중 ...</StyledText>    
   )}
   <DateRangeModal
     isOpen={modalOpen}
