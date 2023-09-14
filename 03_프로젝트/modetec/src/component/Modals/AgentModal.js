@@ -137,10 +137,12 @@ const AgentModal = ({ close }) => {
       if (response.status === 200) {
         const responseData = response.data;
         console.log('등록 서버 응답 데이터:', responseData);
+        console.log('등록 서버 응답 데이터:', responseData.returnCode);
+
 
         
   
-        if (responseData.returnCode === 'SUCCESS') {
+        if (responseData.returnCode === 'SUCCESS' || responseData.returnCode === 'DUPLICATED_PROJECT_NAME') {
           // 등록이 성공했을 때 한글로 알림을 표시합니다.
           window.alert(`프로젝트 : '${selectedProject}'\n에이전트 : '${name}'\n등록이 완료되었습니다!`);
           console.log('프로젝트 등록 성공');
