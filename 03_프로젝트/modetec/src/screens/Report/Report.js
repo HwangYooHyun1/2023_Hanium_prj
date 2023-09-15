@@ -222,7 +222,9 @@ function Report() {
       <LeftContent>
   {reportGenerated ? (
     <div>
-      <StyledText>{`조회시간 : ${startDate} - ${endDate}`}</StyledText>
+      <StyledText>{`조회기간 : ${startDate} - ${endDate}`}</StyledText>
+      <StyledText>{`선택된 위험도 : ${selectedRiskLevels}`}</StyledText>
+
       <StyledText>보고서 생성 완료</StyledText>
 
       {/* Metric Info */}

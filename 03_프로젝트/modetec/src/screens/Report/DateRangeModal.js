@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
+import { addDays } from 'date-fns'; // date-fns 라이브러리 import
 import 'react-datepicker/dist/react-datepicker.css';
 import styled from 'styled-components';
 
@@ -103,9 +104,14 @@ function DateRangeModal({ isOpen, onClose, onSubmit, selectedRiskLevels, onRiskL
   };
 
   const handleSubmit = () => {
-    onSubmit(startDate, endDate, selectedRiskLevels);
+    // 선택된 날짜에 1일 추가
+    const adjustedStartDate = startDate ? addDays(startDate, 1) : null;
+    const adjustedEndDate = endDate ? addDays(endDate, 1) : null;
+    
+    onSubmit(adjustedStartDate, adjustedEndDate, selectedRiskLevels);
     onClose();
   };
+
 
   return (
     <ModalWrapper isOpen={isOpen}>

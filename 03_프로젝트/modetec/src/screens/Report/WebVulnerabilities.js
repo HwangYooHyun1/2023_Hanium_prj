@@ -81,7 +81,7 @@ function WebVulnerabilities({ WebVulnerabilityData }) {
           <Page key={index} wrap size="A4" style={styles.page}>
 
             <View>
-              <Image src="/image/background1.png" style={styles.image} />
+              <Image src="/image/backgroundNoIcon.png" style={styles.image} />
             </View>
 
               <Text style={styles.sectionTitle}>WebVulnerability Table</Text>
