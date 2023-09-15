@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     width: 500,
     height: 200,
     marginTop: 20,
+    marginLeft: 20,
   },
   centeredImageContainer: {
     display: 'flex',
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 30, // 원하는 글꼴 크기로 조절
     fontWeight: 'bold', // 원하는 글꼴 두껍게 설정
-    marginBottom: 20, // "MetricsInfo" 텍스트 아래의 간격 조절
+    marginBottom: 10, // "MetricsInfo" 텍스트 아래의 간격 조절
     marginTop:45,
     marginLeft: 25,
   },
@@ -64,6 +65,19 @@ const styles = StyleSheet.create({
     textAlign: "left",
     justifyContent: 'center',
 },
+dateText:{
+  fontSize: 18,
+  marginLeft: 25,
+  marginBottom: 15,
+},
+riskLevelText:{
+  fontSize: 18,
+  marginLeft: 325,
+  marginTop: 600,
+  color: 'gray', // 텍스트 색상을 회색으로 설정합니다.
+  fontWeight: 'bold', // 텍스트를 진한 글괘로 설정합니다.
+}
+
 });
 
 function DownloadButton() {
@@ -75,7 +89,7 @@ function DownloadButton() {
 }
 
 
-function ReportPDF({ reportData, anomalyData, chartImage,selectedRiskLevels, WebVulnerabilityData}) {
+function ReportPDF({ reportData, anomalyData, chartImage,selectedRiskLevels, WebVulnerabilityData, startDate,  endDate}) {
   return (
     <PDFDownloadLink
   document={
@@ -85,6 +99,8 @@ function ReportPDF({ reportData, anomalyData, chartImage,selectedRiskLevels, Web
       chartImage={chartImage}
       selectedRiskLevels={selectedRiskLevels}
       WebVulnerabilityData={WebVulnerabilityData}
+      startDate={startDate}
+      endDate={endDate}
     />
   }
   fileName="report.pdf"
@@ -97,7 +113,7 @@ function ReportPDF({ reportData, anomalyData, chartImage,selectedRiskLevels, Web
 
 
 
-function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLevels, WebVulnerabilityData}) {
+function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLevels, WebVulnerabilityData, startDate, endDate}) {
   console.log('reportData:', reportData); // reportData 로그 출력
   console.log('anomalyData:', anomalyData); // anomalyData 로그 출력
   console.log('chartImage', chartImage);
@@ -111,7 +127,13 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLe
     <Document>
       {/* Page 1 */}
       <Page size="A4" style={styles.page}>
-            <Image src="/image/001.png" style={styles.image} />
+            <View><Image src="/image/001.png" style={styles.image} /></View>
+            <View wrap={false} style={styles.section}>
+              
+            <Text style={{...styles.riskLevelText }}>
+            {`duration : \n${startDate} ~ ${endDate}`}
+            </Text> {/* 스타일 적용 */}
+            </View>
       </Page>
 
       {/* Page 2 */}
@@ -124,11 +146,17 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLe
 
 
       <Page wrap size="A4" style={styles.page}>
-        <View><Image src="/image/background1.png" style={styles.image}/></View>
+        <View><Image src="/image/backgroundNoIcon.png" style={styles.image}/></View>
         <View wrap={false} style={styles.section}>
           <Text style={{...styles.sectionTitle }}>
             MetricsInfo
             </Text> {/* 스타일 적용 */}
+
+            <Text style={{...styles.dateText }}>
+            {`duration : ${startDate} ~ ${endDate}`}
+            </Text> {/* 스타일 적용 */}
+
+
 
 
 
@@ -157,7 +185,17 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLe
 
            {/* Page 3 */}
       <Page size="A4" style={styles.page}>
-            <Image src="/image/003.png" style={styles.image} />
+
+        <View><Image src="/image/003.png" style={styles.image} /></View>
+        <View wrap={false} style={styles.section}>
+        <Text style={{...styles.riskLevelText }}>
+            {`Selected Lisk Level: \n ${selectedRiskLevels}`}
+            </Text> {/* 스타일 적용 */}
+
+
+
+        </View>
+
       </Page>
 
 
@@ -168,7 +206,7 @@ function ReportPDFDocument({ reportData, anomalyData, chartImage, selectedRiskLe
 
 
       <Page wrap size="A4" style={styles.page}>
-        <View><Image src="/image/background1.png" style={styles.image}/></View>
+        <View><Image src="/image/backgroundNoIcon.png" style={styles.image}/></View>
         <View wrap={false} style={styles.section}>
           <Text style={{...styles.sectionTitle }}>
             Risk Level Count

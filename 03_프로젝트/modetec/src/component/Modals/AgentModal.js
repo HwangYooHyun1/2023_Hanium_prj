@@ -132,7 +132,7 @@ const AgentModal = ({ close }) => {
     };
   
     try {
-      const response = await axios.post("http://52.79.201.187:8080/projects/new", requestData);
+      const response = await axios.post("http://52.79.201.187:8080/agents/new", requestData);
   
       if (response.status === 200) {
         const responseData = response.data;

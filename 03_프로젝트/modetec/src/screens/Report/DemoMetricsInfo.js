@@ -2,17 +2,6 @@ import React from 'react';
 import { Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
-  demoMetricsContainer: {
-    marginBottom: 10,
-  },
-  demoMetricsTitle: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  demoMetricsText: {
-    fontSize: 12,
-    marginBottom: 3,
-  },
   table: {
     display: 'table',
     width: 'auto',
@@ -24,50 +13,121 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   tableRow: {
-    margin: 'auto',
     flexDirection: 'row',
   },
   tableCol: {
-    width: '50%', // 2열로 변경
+    width: '50%',
     borderStyle: 'solid',
     borderWidth: 1,
     borderLeftWidth: 0,
     borderTopWidth: 0,
   },
   tableCell: {
-    margin: 'auto',
-    marginTop: 10, // 각 셀의 높이를 20으로 설정
+    marginTop: 10,
     marginBottom: 10,
+    textAlign: 'center', // 가운데 정렬 추가
     fontSize: 14,
   },
 });
 
-function addUnit(metricName, metricValue) {
-  if (metricName === 'avgNetIn' || metricName === 'maxNetIn' || metricName === 'avgNetOut' || metricName === 'maxNetOut') {
-    return `${metricValue} MB`; // avg_net_in, max_net_in에는 MB 단위 추가
+function addUnit(metricValue, metricName) {
+  if (metricName.endsWith('NetIn') || metricName.endsWith('NetOut')) {
+    return `${metricValue} MB`;
   } else {
-    return `${metricValue}%`; // 나머지는 % 단위 추가
+    return `${metricValue}%`;
   }
 }
 
-function DemoMetricsInfo({ metrics }) {
+function DemoMetricsTable({ metrics }) {
   return (
     <View wrap={false} style={styles.table}>
-      {Object.entries(metrics).map(([metricName, metricValue], index) => (
-        <View key={index} style={styles.tableRow}>
 
-          <View style={styles.tableCol}>
-            <Text style={styles.tableCell}>{metricName}</Text>
-          </View>
+      <View style={styles.tableRow}>
 
-          <View style={styles.tableCol}>
-            <Text style={styles.tableCell}>{addUnit(metricName, metricValue)}</Text>
-          </View>
-          
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}></Text>
         </View>
-      ))}
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>AVG</Text>
+        </View>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>MAX</Text>
+        </View>
+
+      </View>
+
+      <View style={styles.tableRow}>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>Network In Bytes</Text>
+        </View>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>{addUnit(metrics.avgNetIn, 'avgNetIn')}</Text>
+        </View>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>{addUnit(metrics.maxNetIn, 'maxNetIn')}</Text>
+        </View>
+
+      </View>
+
+      <View style={styles.tableRow}>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>Network Out Bytes</Text>
+        </View>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>{addUnit(metrics.avgNetOut, 'avgNetOut')}</Text>
+        </View>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>{addUnit(metrics.maxNetOut, 'maxNetOut')}</Text>
+        </View>
+
+      </View>
+
+      <View style={styles.tableRow}>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>CPU_usage</Text>
+        </View>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>{addUnit(metrics.avgCpu, 'avgCpu')}</Text>
+        </View>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>{addUnit(metrics.maxCpu, 'maxCpu')}</Text>
+        </View>
+
+      </View>
+
+      <View style={styles.tableRow}>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>Memory_usage</Text>
+        </View>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>{addUnit(metrics.avgMem, 'avgMem')}</Text>
+        </View>
+
+        <View style={styles.tableCol}>
+          <Text style={styles.tableCell}>{addUnit(metrics.maxMem, 'maxMem')}</Text>
+        </View>
+
+      </View>
+
+
+
+    
+
     </View>
   );
 }
 
-export default DemoMetricsInfo;
+export default DemoMetricsTable;

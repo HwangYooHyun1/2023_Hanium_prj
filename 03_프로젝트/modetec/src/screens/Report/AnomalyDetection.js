@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   tableCell: {
     padding: 2, // 셀의 패딩을 추가하여 텍스트와 경계 사이의 간격 조정
     fontSize: 10,
+
   },
   indexText: {
     fontSize: 12,
@@ -190,7 +191,7 @@ const pageData = filteredData.slice(i, i + tablesPerPage);
 pages.push(
   <Page key={i} wrap size="A4" style={styles.page}>
     <View>
-      <Image src="/image/background1.png" style={styles.image} />
+      <Image src="/image/backgroundNoIcon.png" style={styles.image} />
     </View>
     <Text style={{...styles.sectionTitle }}>
             AnomalyDetection Table
@@ -333,51 +334,16 @@ pages.push(
     ))}
     
   </Page>
+  
 );
-<Page wrap size="A4" style={styles.page}>
-        <View><Image src="/image/000.png" style={styles.image}/></View>
-        <View style={styles.section}>
-          <Text style={{...styles.sectionTitle }}>
-            AnomalyDetection Table
-            </Text> {/* 스타일 적용 */}
-        </View>
-        {/* 리스크 수준 개수 표시 테이블 */}
-    <View style={styles.table}>
-        <View style={styles.tableRow}>
-          <View style={styles.tableCol}>
-            <Text style={styles.tableCell}>Risk Level</Text>
-          </View>
-          <View style={styles.tableCol}>
-            <Text style={styles.tableCell}>Count</Text>
-          </View>
-        </View>
-        {Object.keys(riskLevelCounts).map((level) => (
-          <View style={styles.tableRow} key={level}>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{level}</Text>
-            </View>
-            <View style={styles.tableCol}>
-              <Text style={styles.tableCell}>{riskLevelCounts[level]}</Text>
-            </View>
-          </View>
-        ))}
-        {/* 총 개수 표시 */}
-        <View style={styles.tableRow}>
-          <View style={styles.tableCol}>
-            <Text style={styles.tableCell}>Total Count</Text>
-          </View>
-          <View style={styles.tableCol}>
-            <Text style={styles.tableCell}>{filteredData.length}</Text>
-          </View>
-        </View>
-      </View>
-      </Page>
+
 }
 
 
 
 // 페이지 배열을 반환
 return <>{pages}</>;
+
 }
 
 
