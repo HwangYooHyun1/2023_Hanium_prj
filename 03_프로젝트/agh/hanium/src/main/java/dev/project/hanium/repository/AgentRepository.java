@@ -9,4 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface AgentRepository extends JpaRepository<Agent,Long> {
+    Optional<Agent> findByAgentNameAndProject(String agentName, Project project);
 }
