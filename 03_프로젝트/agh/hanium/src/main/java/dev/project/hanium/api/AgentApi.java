@@ -2,6 +2,7 @@ package dev.project.hanium.api;
 
 import dev.project.hanium.dto.agent.AgentDto;
 import dev.project.hanium.request.Agent.CreateAgentRequest;
+import dev.project.hanium.response.CommonResponse;
 import dev.project.hanium.service.AgentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,8 @@ public class AgentApi {
     private final AgentService agentService;
 
     @PostMapping("/agents/new")
-    public void createAgent(@RequestBody CreateAgentRequest request) {
+    public CommonResponse<Void> createAgent(@RequestBody CreateAgentRequest request) {
         agentService.create(AgentDto.fromCreateAgent(request));
+        return CommonResponse.success();
     }
 }
