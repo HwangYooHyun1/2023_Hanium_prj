@@ -63,7 +63,7 @@ const Title = () => {
   const location = useLocation();
   const handleLogoClick = () => {
     setUserId(null);
-    navigate('/login');
+    navigate('/');
   };
 
   useEffect(() => {

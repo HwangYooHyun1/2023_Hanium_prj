@@ -2,15 +2,18 @@
     background-color: black;
     width: 100vw;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
     z-index: 1000;
 }
 
 .logo {
     position: absolute;
-    width: 50%;
+    width: 37%;
     left: 50%;
-    top: 50%;
+    top: 25%;
     transform: translate(-50%, -50%);
 }
 
@@ -20,6 +23,27 @@
     opacity: 0.3;
     animation: rotate_image 6s linear infinite;
     transform-origin: 50% 50%;
+}
+
+.guide {
+    background-color: white;
+    /* 가이드 영역의 배경 색상을 하얀색으로 설정 */
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: calc(100vh - 380px);
+    /* 화면의 아래쪽까지 높이 계산 */
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.guide img {
+    border-radius: 12px;
+    width: 400px;
+    height: 410px;
+    margin-top: 30px;
 }
 
 @keyframes rotate_image {
@@ -33,7 +57,7 @@
     position: absolute;
     width: 100%;
     text-align: center;
-    top: calc(50% - 200px);
+    top: 130px;
     left: 0;
 }
 

@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { UserProvider } from "./component/UserContext";
-import Login from "./screens/Login/Login"
+import Splash from "./screens/Splash/Splash"
 import Resource from "./screens/Resource";
 import ResourceInfo from './screens/ResourceInfo/ResourceInfo'
 import WebAccess from "./screens/WebAccess";
@@ -26,8 +26,8 @@ const App = () => {
               <Sidebar2 />
             </div>
             <Routes className="dashboard">
-              <Route path="/" element={<Main />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/main" element={<Main />} />
+              <Route path="/" element={<Splash />} />
               <Route path="/resource" element={<Resource />} />
               <Route path="/resource_info" element={<ResourceInfo />} />
               <Route path="/webaccess" element={<WebAccess />} />
