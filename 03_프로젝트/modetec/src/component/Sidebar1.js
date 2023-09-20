@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import 'react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css';
 import Modal from './Modals/Modal';
 import ProjectModal from './Modals/ProjectModal';
 import AgentModal from './Modals/AgentModal';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import axios from 'axios';
 
 const Bar = styled.div`
   top: 200px;
@@ -25,11 +24,10 @@ const Bar = styled.div`
 const ContentListContainer = styled.div`
   max-height: 200px; 
   overflow-y: auto;
+  color: white;
   &::-webkit-scrollbar {
     width: 8px; 
   }
-
-  /* 스크롤바의 색상 설정 */
   &::-webkit-scrollbar-thumb {
     background-color: #888; 
     border-radius: 4px; 
@@ -50,11 +48,58 @@ const Title = styled.div`
   color: rgb(237, 237, 237);
 `;
 
+const StyledDiv = styled.div`
+  background-color: ${(props) => (props.clicked ? 'rgb(100, 100, 100)' : 'rgb(60,60,60)')};
+  cursor: pointer;
+  padding-left:15px;
+  transition: background-color 0.2s; /* 배경색 변화에 트랜지션 효과 추가 */
+`;
+
+
 const Sidebar = () => {
   const [projectModalOpen, setProjectModalOpen] = useState(false);
   const [agentModalOpen, setAgentModalOpen] = useState(false);
+  const [projectList, setProjectList] = useState([]);
+  const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
-  const [contentList, setContentList] = useState([]);
+  const [clickedItem, setClickedItem] = useState(null);
+
+  const handleItemClick = (item) => {
+    if (item === clickedItem) {
+      // 이미 클릭한 아이템을 다시 클릭하면 클릭 상태 해제
+      setClickedItem(null);
+    } else {
+      // 새로운 아이템을 클릭하면 클릭 상태 설정
+      setClickedItem(item);
+    }
+    navigate('/resource');
+  };
+
+  useEffect(() => {
+    async function fetchProjectList() {
+      try {
+        const response = await axios.get("http://52.79.201.187:8080/projects");
+
+        if (response.status === 200) {
+          const responseData = response.data;
+          console.log('프로젝트명 서버 응답 데이터:', responseData);
+
+          if (responseData.returnCode === 'SUCCESS') {
+            const projects = responseData.info.filter(project => project !== '');
+            setProjectList(projects);
+          } else {
+            console.error('프로젝트 목록 가져오기 실패');
+          }
+        } else {
+          console.error('GET 요청 실패');
+        }
+      } catch (error) {
+        console.error('GET 요청 오류:', error);
+      }
+    }
+
+    fetchProjectList();
+  }, []);
 
   const openProjectModal = () => {
     setProjectModalOpen(true);
@@ -117,22 +162,18 @@ const Sidebar = () => {
           <a>PROJECT LIST</a>
         </Title>
         <ContentListContainer>
-          {contentList.length > 0 && (
-            <ul>
-              {contentList.map((item, index) => (
-                <li key={index} style={{ color: 'white' }}>
-                  <Link to="/resource" style={{ textDecoration: 'none', color: 'white' }}>
-                    <strong >{item.projectName}</strong> : {item.projectDescription}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
+          {projectList.map((project, index) => (
+            <StyledDiv key={index} clicked={index === clickedItem}
+              onClick={() => handleItemClick(index)}
+            >
+              {project}
+            </StyledDiv>
+          ))}
         </ContentListContainer>
       </Bar>
 
       <Modal open={projectModalOpen} close={closeProjectModal} header="프로젝트 등록">
-        <ProjectModal close={handleNextStep} addContentToList={setContentList} contentList={contentList} />
+        <ProjectModal close={handleNextStep} />
       </Modal>
 
       <Modal open={agentModalOpen} close={closeAgentModal} header="에이전트 등록">

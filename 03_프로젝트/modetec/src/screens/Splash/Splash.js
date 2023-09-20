@@ -21,6 +21,7 @@ const StartButton = styled(Button)`
   top: -25px;
   display: flex;
   align-items: center; 
+  
   && {
     font-weight: bold;
   }
@@ -49,7 +50,13 @@ const Splash = (props) => {
           <button onClick={handleStartClick} style={{ border: "none", background: "none", padding: 0, cursor: "pointer" }}>
             <img src="/image/splash3.png" /></button>
         </div>
-        <StartButton color='error' size="large" onClick={handleStartClick} >START <PlayCircleOutlineIcon /></StartButton>
+        <StartButton color='error'
+          size="large"
+          onClick={handleStartClick}
+          sx={{
+            fontSize: '23px', // 원하는 크기로 조절
+            padding: '20px 40px', // 원하는 패딩 크기로 조절
+          }} >START <PlayCircleOutlineIcon /></StartButton>
         <div className='welcome'>
           <WelcomeText>WELCOME TO MODETEC</WelcomeText>
           <h5 style={{ textAlign: "center", color: 'white' }}>Modetec offers a variety of services as follows.<br />

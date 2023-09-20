@@ -8,6 +8,8 @@ import './RIStyle.css';
 const Title = Styled.div`
   padding-top: 40px;
   padding-left: 10px;
+  z-index: 1000;
+  position: relative;
 `;
 
 const Sidebar = Styled.div`

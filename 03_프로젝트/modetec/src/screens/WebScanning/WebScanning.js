@@ -34,6 +34,7 @@ const ContentWrapper = Styled.div`
   bottom: 10px;
   overflow: auto;
   margin-left: 10px;
+  
 `;
 
 export const WebScanning = () => {

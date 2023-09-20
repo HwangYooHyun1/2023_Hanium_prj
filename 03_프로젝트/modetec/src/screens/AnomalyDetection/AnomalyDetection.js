@@ -5,6 +5,9 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import MetricItem from './MetricItem';
 import AccessItem from './AccessItem';
+import InfoIcon from '@mui/icons-material/Info';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import './Style.css';
 
 
@@ -95,6 +98,9 @@ const AnomalyDetection = (props) => {
       <div className='Container'>
         <div className='Title'>
           <h5 style={{ fontWeight: 'bold' }}>Anomaly Detection</h5>
+          <Tooltip color="disabled" title={<Typography style={{ fontSize: 16 }}>Info Page</Typography>}>
+            <InfoIcon style={{ marginBottom: '3px', marginLeft: '10px' }} sx={{ fontSize: 28 }} />
+          </Tooltip>
         </div>
         <div className='Frame'>
           <iframe src="http://3.36.169.149:5601/app/dashboards#/view/9084b240-379e-11ee-9fc5-9ddfb64e9cde?embed=true&_g=(refreshInterval%3A(pause%3A!t%2Cvalue%3A60000)%2Ctime%3A(from%3Anow-24h%2Fh%2Cto%3Anow))&hide-filter-bar=true" height="100%" width="100%"></iframe>

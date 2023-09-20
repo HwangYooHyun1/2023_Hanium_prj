@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Styled from 'styled-components';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import InfoIcon from '@mui/icons-material/Info';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
 const Container = Styled.div`
   height: 100vh; 
@@ -16,8 +18,8 @@ const Title = Styled.div`
 `;
 
 const RefreshButton = Styled(RefreshIcon)`
-  margin-top: 5px;
-  margin-left : 8px;
+  margin-top: 4px;
+  margin-left : 5px;
   
 `;
 
@@ -34,7 +36,12 @@ const Resource = (props) => {
     <Container>
       <Title>
         <h5 style={{ fontWeight: 'bold', marginTop: '10px' }}>Resource Monitor</h5>
-        <RefreshButton sx={{ fontSize: 28 }} onClick={handleRefreshClick} />
+        <Tooltip color="disabled" title={<Typography style={{ fontSize: 16 }}>Info Page</Typography>}>
+          <InfoIcon style={{ marginTop: '4px', marginLeft: '10px' }} sx={{ fontSize: 28 }} />
+        </Tooltip>
+        <Tooltip title={<Typography style={{ fontSize: 16 }}>Reload Page</Typography>}>
+          <RefreshButton sx={{ fontSize: 28 }} onClick={handleRefreshClick} />
+        </Tooltip>
       </Title>
       {/* iframe 내부에 key prop을 사용하여 새로고침 이벤트를 감지하고 iframe을 다시 로드합니다. */}
       <iframe
