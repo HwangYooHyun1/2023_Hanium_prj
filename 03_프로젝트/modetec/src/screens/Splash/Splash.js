@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './SplashStyle.css';
 import styled from 'styled-components';
-import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import Button from '@mui/material/Button';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 const WelcomeText = styled.div`
   font-weight: 700;
@@ -14,23 +14,21 @@ const WelcomeText = styled.div`
 `;
 
 const StartButton = styled(Button)`
-  width: 200px;
-  height: 45px;
+  width: 250px;
+  height: 50px;
   font-weight: bold; 
   position: relative; 
-  top: -25px;
   display: flex;
   align-items: center; 
-  
+  border: 2px solid transparent;
   && {
     font-weight: bold;
   }
 `;
 
-const Splash = (props) => {
-  const navigate = useNavigate();
 
-  // 클릭 이벤트 핸들러 함수
+const Login = (props) => {
+  const navigate = useNavigate();
   const handleStartClick = () => {
     // navigate 함수를 호출하여 페이지 이동
     navigate('/main');
@@ -41,30 +39,27 @@ const Splash = (props) => {
       <div className='Background'>
         <div className='logo'>
           <img src='/image/modetec_logo3.png' alt="Logo" />
-        </div>
-        <div className="guide">
-          <button onClick={handleStartClick} style={{ border: "none", background: "none", padding: 0, cursor: "pointer" }}>
-            <img src="/image/splash1.png" /></button>
-          <button onClick={handleStartClick} style={{ border: "none", background: "none", padding: 0, cursor: "pointer" }}>
-            <img src="/image/splash2.png" /></button>
-          <button onClick={handleStartClick} style={{ border: "none", background: "none", padding: 0, cursor: "pointer" }}>
-            <img src="/image/splash3.png" /></button>
-        </div>
-        <StartButton color='error'
-          size="large"
-          onClick={handleStartClick}
-          sx={{
-            fontSize: '23px', // 원하는 크기로 조절
-            padding: '20px 40px', // 원하는 패딩 크기로 조절
-          }} >START <PlayCircleOutlineIcon /></StartButton>
-        <div className='welcome'>
-          <WelcomeText>WELCOME TO MODETEC</WelcomeText>
-          <h5 style={{ textAlign: "center", color: 'white' }}>Modetec offers a variety of services as follows.<br />
-            Start monitoring your server by running our service.</h5>
+          <div className='welcome'>
+            <WelcomeText>WELCOME TO MODETEC</WelcomeText>
+            <h4 style={{ textAlign: "center", color: 'white' }}>
+              Our service offers a monitoring system for server metrics and access logs,<br />
+              powered by ML to detect anomalies and send alerts.<br />
+              Additionally, it aids in identifying security vulnerabilities through web scanning and monitors server status.<br /></h4>
+            <h4 style={{ fontWeight: 'bold', color: 'white' }}>Get started with MODETEC below !</h4>
+
+            <StartButton color='error'
+              size="large"
+              variant="contained"
+              onClick={handleStartClick}
+              sx={{
+                fontSize: '25px',
+                margin: '30px',
+              }} >START <KeyboardArrowRightIcon fontSize="large" /></StartButton>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-export default Splash;
+export default Login;

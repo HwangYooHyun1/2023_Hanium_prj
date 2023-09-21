@@ -11,9 +11,9 @@
 
 .logo {
     position: absolute;
-    width: 37%;
+    width: 55%;
     left: 50%;
-    top: 25%;
+    top: 50%;
     transform: translate(-50%, -50%);
 }
 
@@ -57,7 +57,7 @@
     position: absolute;
     width: 100%;
     text-align: center;
-    top: 130px;
+    top: 30%;
     left: 0;
 }
 
